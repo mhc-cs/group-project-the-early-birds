@@ -134,6 +134,14 @@ public class GameplayScreenController {
         helpWindow.showAndWait(); //can't interact with window below until this is closed
     }
     
+    /**
+     * Quits the game and returns to the invite players screen.
+     */
+    public void quitGame() {
+        System.out.println("Quitting...");
+        //Here's where to add the code for the quit button
+    }
+    
     
 
     

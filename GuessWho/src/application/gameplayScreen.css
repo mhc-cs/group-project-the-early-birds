@@ -88,3 +88,16 @@ GridPane{
 #yourCard{
 	-fx-border-color: black;
 }
+
+#quit{
+	-fx-background-color: "#F34A72";
+	-fx-min-width: 35px;
+	-fx-min-height: 17px;
+	-fx-font-size: 13px;
+	-fx-background-radius: 0px;
+	-fx-translate-x: 200px;
+}
+
+#quit:hover{
+	-fx-background-color: "#f00f44";
+}
