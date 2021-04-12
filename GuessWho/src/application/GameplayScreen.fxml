@@ -22,7 +22,7 @@
      	 	</ImageView>
      	 	<Label id="yourCardLabel" text="YOUR CARD"/>
      	 	<Label fx:id="turn" id="turn" text="It is your turn &#10;to ask a question."/>
-     	 	<Button id="helpButton" text="?"/>
+     	 	<Button id="helpButton" text="?" onAction="#displayHelpWindow"/>
      	 	<VBox spacing="20">
      	 		<Button id="guess" text="Guess [name]'s card"/>
      	 		<Button id="endTurn" text="End your turn" onAction="#endTurn"/>
