@@ -3,9 +3,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.*?>
 <?import java.net.*?>
+<?import javafx.scene.control.TextArea?>
 
 <VBox alignment="CENTER" fx:controller="application.InvitePlayersController" xmlns:fx="http://javafx.com/fxml/1"
-	spacing = "7" minWidth="1000" prefHeight="800" stylesheets="@invitePlayers.css">
+	spacing = "7" prefWidth="500" prefHeight="600" stylesheets="@invitePlayers.css">
 	<Label id="welcome" text="Welcome to &#10; Guess Who!"/>
 	<Label id="enterName" text="Enter your name:"/>
 	<TextField></TextField>

@@ -11,6 +11,7 @@
 
 Button{
 	-fx-font-family: "Century Gothic";
+	-fx-background-radius: 10px;
 }
 
 TextField{
