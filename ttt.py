@@ -155,7 +155,8 @@ class TicTacToe (object):
           else:
             #size can be changed: host can specifies how big of a room (how many players) you want
             #maybe add another field indicates the gamecode
-            net.send(dict(TYPE="JOIN_GAME", size=2, allow_spectators=True, status=self.status, gamecode=self.gamecode))
+            #TODO fix this to have options for multiple roles
+            net.send(dict(TYPE="JOIN_GAME", size=2, allow_spectators=True, status=self.status, gamecode=self.gamecode, role='host'))
         elif msg['TYPE'] == 'DATA' or msg['TYPE'] == 'PRIV':
           data = msg['msg']
           spectator = msg['SPECTATOR']
@@ -431,6 +432,7 @@ def send_chat ():
     add_hist("")
     if(entrytext == "J"):
       add_hist("You choose to join an existing game. Please enter the gamecode.")
+      #process here is more complicated, need to check if code will work
     else:
       add_hist("You choose to start a new game. Please assign a gamecode.")
   elif not gs.gamecode:
@@ -477,7 +479,6 @@ Welcome to Tic-Tac-Toe.
 Start by entering your name in the chat entry
 box and pressing Enter.  Start your name with
 a question mark to spectate.
-
 When connected to the server, use arrow keys
 to select a square, and Enter to make a move.
 Press the Escape key twice to exit.

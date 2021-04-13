@@ -33,6 +33,9 @@ MAX_CONNECTIONS = 1024
 logging.basicConfig()
 log = logging.getLogger("main")
 log.setLevel(logging.DEBUG)
+#my add
+used_codes = []
+#my add
 
 
 def do_listen (bind_addr):
@@ -211,7 +214,8 @@ def get_all_rooms (gamename):
 
 
 class Room (object):
-  def __init__ (self, gamename, size, allow_spectators):
+    #my add (added code to init values)
+  def __init__ (self, gamename, size, allow_spectators, room_code):
     self.gamename = gamename
     waiting[gamename].add(self)
     self.members = set()
@@ -219,6 +223,9 @@ class Room (object):
     self.room_size = size
     self.allow_spectators = allow_spectators
     self.leaderstate = None
+    #my add
+    self.room_code = room_code
+    #my add
 
     self.seq = 0
     self.leader = None
@@ -457,9 +464,15 @@ class Connection (ConnectionBase):
     spectators_ok = msg.get("allow_spectators", False)
 
     gn = self.gamename
+    #my add (name may need to change depending on huiyun)
+    gc = msg.get('gamecode', None)
+
+    role = msg.get('role', None)
+    #my add
     wait_rooms = waiting[gn]
 
     size = msg['size']
+    #verifies that size is a valid entry
     if isinstance(size, str):
       size = size.split("-")
       if len(size) == 2:
@@ -474,33 +487,54 @@ class Connection (ConnectionBase):
       lo=hi=size
 
     def new_room ():
-      r = Room(gamename=self.gamename, size=lo, allow_spectators=spectators_ok)
+        #my add (added code = gc)
+      r = Room(gamename=self.gamename, size=lo, allow_spectators=spectators_ok, room_code=gc)
       log.info("Created new room (%s waiting rooms)", len(wait_rooms))
       r.join(self)
+
+     # if you are the host, you should always be placed in a new room
+    if role == 'host':
+        new_room()
+        used_codes.append(room_code)
+    # if you are not the host, you will need to join a room
+    # if there is no room with the room code you entered, it wil
+    # give an error
+    else:
+        for rooms in wait_rooms:
+            if room.room_code == gc:
+                r.join(self)
+    # need to add handling of case where room with entered
+    # room code does not exist
+
+
+
 
     if not wait_rooms:
       # No waiting rooms; create one of minimum size
       new_room()
       return
 
-    # Filter rooms
-    wait_rooms = [r for r in wait_rooms
-                  if r.room_size >= lo and r.room_size <= hi]
-    wait_rooms = [r for r in wait_rooms
-                  if r.allow_spectators == spectators_ok]
+    # # Filter rooms
+    # wait_rooms = [r for r in wait_rooms
+    #               if r.room_size >= lo and r.room_size <= hi]
+    # wait_rooms = [r for r in wait_rooms
+    #               if r.allow_spectators == spectators_ok]
+    #
+    # # Find rooms with minimum number of waiting players
+    # mpn = min(r.players_needed for r in wait_rooms)
+    # wait_rooms = [r for r in wait_rooms if r.players_needed == mpn]
+    #
+    # if not wait_rooms:
+    #   # No filters matched -- create a new room
+    #   new_room()
+    #   return
+    #
+    # # Pick a random room to join
+    # room = random.choice(wait_rooms)
+    # room.join(self)
 
-    # Find rooms with minimum number of waiting players
-    mpn = min(r.players_needed for r in wait_rooms)
-    wait_rooms = [r for r in wait_rooms if r.players_needed == mpn]
+    #Find room with matching code
 
-    if not wait_rooms:
-      # No filters matched -- create a new room
-      new_room()
-      return
-
-    # Pick a random room to join
-    room = random.choice(wait_rooms)
-    room.join(self)
 
   def _handle_SPECTATE_GAME (self, msg):
     if not self.name: raise ShortError("Say HELLO first")
