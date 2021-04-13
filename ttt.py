@@ -407,7 +407,7 @@ def send_chat ():
   """
   global entrytext
 
-  if not net.is_connected and gs.name and gs.status and gs.gamecode:
+  if not net.is_connected and gs.name and gs.status:
     net.connect()
     return
 
@@ -432,7 +432,9 @@ def send_chat ():
     add_hist("")
     if(entrytext == "J"):
       add_hist("You choose to join an existing game. Please enter the gamecode.")
-      #process here is more complicated, need to check if code will work
+      #use self.send(Msg("ERROR", ERR="BADCODE"))
+      #process here is complicated, need to send messages
+      #back and forth to check if code is unique
     else:
       add_hist("You choose to start a new game. Please assign a gamecode.")
   elif not gs.gamecode:
