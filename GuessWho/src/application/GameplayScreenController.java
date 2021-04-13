@@ -36,7 +36,7 @@ public class GameplayScreenController {
      * Initializes the grid with the cards that the players guess from.
      */
     public void initialize() {
-        int column = 0; //goes up to 7
+        int column = 0; //goes up to 7.
         int row = 0; //goes up to 2
         for(int i = 0; i < NUM_CARDS; i++) {
             ImageView imageView = new ImageView(getClass().getResource("defaultImages/default" + i + ".png").toExternalForm());

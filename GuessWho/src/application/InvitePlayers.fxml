@@ -14,3 +14,4 @@
 	<Button id="joinButton" text="Join a game" onAction="#joinGame"/>
 </VBox>
 
+
