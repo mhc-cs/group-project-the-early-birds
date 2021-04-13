@@ -1,11 +1,14 @@
 package application;
 
+import java.util.HashMap;
+
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -17,6 +20,13 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Provides the controls for the gameplay screen and the buttons, cards, and
+ * chat that are displayed on the screen.
+ * 
+ * @author Dani, Hannah, Anna
+ *
+ */
 public class GameplayScreenController {
     
     /**
@@ -25,6 +35,8 @@ public class GameplayScreenController {
     public static final int NUM_CARDS = 24;
     
     boolean isYourTurn = true;
+
+    HashMap<Integer, Boolean> greyedOutCards = new HashMap<>();
     
     @FXML
     private GridPane cardGrid;
@@ -39,9 +51,17 @@ public class GameplayScreenController {
         int column = 0; //goes up to 7.
         int row = 0; //goes up to 2
         for(int i = 0; i < NUM_CARDS; i++) {
+            // Wrapping in ImageView
             ImageView imageView = new ImageView(getClass().getResource("defaultImages/default" + i + ".png").toExternalForm());
             imageView.setFitWidth(95.0);
             imageView.setFitHeight(150.0);
+            
+            // When clicked on, can be greyed out (and un-greyed out)
+            final int imageId = i;
+            greyedOutCards.put(imageId, false);
+            imageView.setOnMouseClicked(e -> greyOut(imageView, imageId));
+            
+            // Adding to grid
             cardGrid.add(imageView, column, row);
             if(column == 7) {
                 row++;
@@ -52,6 +72,29 @@ public class GameplayScreenController {
         }
         cardGrid.setVgap(27.5);
         cardGrid.setHgap(7);
+    }
+    
+    /**
+     * Allows an image to be greyed out and returned to normal. This means the image
+     * is replaced with a gray box of the same size when clicked on, and then returned
+     * back to the original image when clicked on again.
+     * 
+     * @param image The image to be greyed out
+     * @param imageId The ID of the image to be greyed out
+     */
+    @SuppressWarnings("boxing")
+    public void greyOut(ImageView image, int imageId) {
+        if(greyedOutCards.get(imageId) == false) { //if it's not greyed out
+            //set image to be greyed out
+            image.setImage(new Image("application/defaultImages/grey.png"));
+            //set value for that key to indicate that it's greyed out
+            greyedOutCards.put(imageId, true);
+        } else { //if it's greyed out
+            //set image back
+            image.setImage(new Image("application/defaultImages/default" + imageId + ".png"));
+            //set value for that key to indicate that it's not greyed out
+            greyedOutCards.put(imageId, false);
+        }
     }
     
     /**
