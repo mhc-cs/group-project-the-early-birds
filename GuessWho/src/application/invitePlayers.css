@@ -1,0 +1,45 @@
+#welcome{
+	-fx-font-size: 60px;
+	-fx-padding: 10px;
+	-fx-font-family: "Imprint MT Shadow";
+}
+
+#enterName{
+	-fx-font-size: 20px;
+	-fx-font-family: "Century Gothic";
+}
+
+Button{
+	-fx-font-family: "Century Gothic";
+	-fx-background-radius: 10px;
+}
+
+TextField{
+	-fx-padding: 10px;
+	-fx-font-size: 20px;
+	-fx-max-width: 400px;
+	-fx-font-family: "Century Gothic";
+}
+
+#startButton{
+	-fx-background-color: "#4AF3CB";
+	-fx-padding: 20px 45px;
+	-fx-font-size: 25px;
+	-fx-margin: 30px;
+}
+
+#startButton:hover {
+    -fx-background-color: "#0ff0bb";
+}
+
+#joinButton{
+	-fx-background-color: "86BEFF";
+	-fx-padding: 30px 62px;
+	-fx-font-size: 30px;
+}
+
+#joinButton:hover {
+    -fx-background-color: "#66adff";
+}
+
+

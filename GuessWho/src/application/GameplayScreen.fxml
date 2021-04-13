@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.Label?>
+
+<HBox fx:controller="application.GameplayScreenController" xmlns:fx="http://javafx.com/fxml/1"
+	id="gameScreen" alignment="CENTER" prefWidth="1152" prefHeight="700" spacing = "10" stylesheets="@gameplayScreen.css">
+	<VBox spacing ="10">
+		<GridPane fx:id="cardGrid">
+		</GridPane>
+		<HBox alignment="CENTER" id="dashboard" spacing= "10">
+			<ImageView id="yourCard" fitHeight="140.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="false"
+     	 		 GridPane.rowIndex="1" GridPane.columnIndex="2">
+            	<Image url="@defaultImages/default0.png"/>
+     	 	</ImageView>
+     	 	<Label id="yourCardLabel" text="YOUR CARD"/>
+     	 	<Label fx:id="turn" id="turn" text="It is your turn &#10;to ask a question."/>
+     	 	<Button id="helpButton" text="?" onAction="#displayHelpWindow"/>
+     	 	<VBox spacing="20">
+     	 		<Button id="guess" text="Guess [name]'s card"/>
+     	 		<Button id="endTurn" text="End your turn" onAction="#endTurn"/>
+     	 	</VBox>
+		</HBox>
+	</VBox>
+	<VBox spacing="5">
+		<HBox>
+			<Label text="SCORES"/>
+			<Button id="quit" text="Quit" onAction="#quitGame"/>
+		</HBox>
+		<Label id="scoresBox" text="[name1] = [score] &#9; [name1] = [score]"/>
+		<Label text="CHAT"/>
+		<TextArea/>
+		<TextField/>
+	</VBox>
+</HBox>
+
+
