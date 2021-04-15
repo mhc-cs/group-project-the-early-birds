@@ -123,6 +123,7 @@ public class GameplayScreenController {
         // Makes it so you can't click on the window behind until this one is closed.
         helpWindow.initModality(Modality.APPLICATION_MODAL);
         helpWindow.setTitle("Guess Who Instructions");
+        helpWindow.getIcons().add(new Image("application/icon.png"));
         helpWindow.setResizable(false);
         
         //Adding Title
