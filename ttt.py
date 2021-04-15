@@ -144,7 +144,16 @@ class TicTacToe (object):
         elif msg['TYPE'] == 'ERROR':
           if msg.get("ERR") == "BADNAME":
             self.name = None
+            self.gamecode = None
+            self.status = None
             add_hist("That name isn't allowed.  Try another.")
+          elif msg.get("ERR") == "BADGAMECODE":
+            if self.status == 'J':
+              add_hist("This gamecode doesn't exist. Try another.")
+            else:
+              add_hist("This gamecode is already taken. Try another.")
+            self.status = None
+            self.gamecode = None
           else:
             add_hist("Disconnecting due to an error. (type: " +
                       str(msg.get('ERR', "Unknnown")) + ")")
@@ -407,7 +416,7 @@ def send_chat ():
   """
   global entrytext
 
-  if not net.is_connected and gs.name and gs.status:
+  if not net.is_connected and gs.name and gs.status and gs.gamecode:
     net.connect()
     return
 
@@ -426,15 +435,12 @@ def send_chat ():
       add_hist("")
       add_hist("Hello, " + n + "!")
       add_hist("Entering 'J' to join an existing game, or entering 'S' to start a new game.")
-      #net.connect()
   elif not gs.status:
     gs.status = entrytext
     add_hist("")
     if(entrytext == "J"):
       add_hist("You choose to join an existing game. Please enter the gamecode.")
-      #use self.send(Msg("ERROR", ERR="BADCODE"))
-      #process here is complicated, need to send messages
-      #back and forth to check if code is unique
+      #process here is more complicated, need to check if code will work
     else:
       add_hist("You choose to start a new game. Please assign a gamecode.")
   elif not gs.gamecode:
