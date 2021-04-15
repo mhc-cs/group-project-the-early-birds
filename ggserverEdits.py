@@ -197,6 +197,8 @@ def clean_waiting (gn=None):
     if gn in waiting and not waiting[gn]:
       log.info("Discarding waiting rooms for game %s", gn)
       waiting.pop(gn)
+      for room in waiting[gn]:
+          used_codes.remove(waiting[room].gamecode)
     return
 
   dead = []
@@ -205,6 +207,8 @@ def clean_waiting (gn=None):
       dead.append(gn)
   for gn in dead:
     waiting.pop(gn)
+    for room in waiting[gn]:
+        used_codes.remove(waiting[room].gamecode)
 
 
 def get_all_rooms (gamename):
@@ -430,6 +434,7 @@ class Connection (ConnectionBase):
     if not n: n = "UnknownUser"
     log.info("%s disconnected", n)
 
+
   def room_send (self, msg):
     if self.room is None: return
     self.room.send(data, ignore=self)
@@ -457,8 +462,18 @@ class Connection (ConnectionBase):
     self.gamename = gn
     self.send(Msg("WELCOME"))
     log.info("User %s joined from %s", self.name, self.sock.getpeername())
+  '''
+    Covers host cases:
+    - enters valid game code
+    - enters repeat game code
+    Covers guest cases:
+    - enters valid game code
+    - enters invalid gamecode
 
+    TODO: add case handling where no game code entered
+  '''
   def _handle_JOIN_GAME (self, msg):
+
     if not self.name: raise ShortError("Say HELLO first")
 
     spectators_ok = msg.get("allow_spectators", False)
@@ -489,25 +504,34 @@ class Connection (ConnectionBase):
     def new_room ():
         #my add (added code = gc)
       r = Room(gamename=self.gamename, size=lo, allow_spectators=spectators_ok, room_code=gc)
-      log.info("Created new room (%s waiting rooms)", len(wait_rooms))
+      log.info("Created new room (code is %s )", gc)
       r.join(self)
 
      # if you are the host, you should always be placed in a new room
     if role == 'host':
+        if gc in used_codes:
+            self.send(Msg('ERROR', ERR='REPEATCODE'))
+            return
         new_room()
-        used_codes.append(room_code)
+        used_codes.append(gc)
+    else:
+        if gc not in used_codes:
+            self.send(Msg('ERROR', ERR='BADCODE'))
+            return
+        else:
+            for room in wait_rooms:
+                if room.room_code == gc:
+                    room.join(self)
+
     # if you are not the host, you will need to join a room
     # if there is no room with the room code you entered, it wil
     # give an error
-    else:
-        for rooms in wait_rooms:
-            if room.room_code == gc:
-                r.join(self)
+    # else:
+    #     for rooms in wait_rooms:
+    #         if room.room_code == gc:
+    #             r.join(self)
     # need to add handling of case where room with entered
     # room code does not exist
-
-
-
 
     if not wait_rooms:
       # No waiting rooms; create one of minimum size

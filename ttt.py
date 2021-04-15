@@ -30,7 +30,7 @@ class TicTacToe (object):
     self.name = None # No name set yet
     self.spectate = False
     #start a new game or join an existing game
-    self.status = None
+    self.role = None
     self.gamecode = None
 
     self.board = B * 9
@@ -156,7 +156,15 @@ class TicTacToe (object):
             #size can be changed: host can specifies how big of a room (how many players) you want
             #maybe add another field indicates the gamecode
             #TODO fix this to have options for multiple roles
-            net.send(dict(TYPE="JOIN_GAME", size=2, allow_spectators=True, status=self.status, gamecode=self.gamecode, role='host'))
+            net.send(dict(TYPE="JOIN_GAME", size=2, allow_spectators=True, gamecode=self.gamecode, role=self.role))
+        elif msg['TYPE'] == 'ERROR':
+            if msg.get('ERR') == 'REPEATCODE':
+                self.gamecode = None
+                add_hist("That game code has already been used, pick another.")
+            if msg.get('ERR') == 'BADCODE':
+                self.gamecode = None
+                self.role = None
+                add_hist("No room with that code exists or is accepting players.")
         elif msg['TYPE'] == 'DATA' or msg['TYPE'] == 'PRIV':
           data = msg['msg']
           spectator = msg['SPECTATOR']
@@ -281,6 +289,7 @@ class Network (object):
     except Exception:
       pass
     self.sock = None
+    gs = TicTacToe()
 
   def do_communication (self):
     if not self.sock: return []
@@ -407,7 +416,7 @@ def send_chat ():
   """
   global entrytext
 
-  if not net.is_connected and gs.name and gs.status:
+  if not net.is_connected and gs.name and gs.gamecode:
     net.connect()
     return
 
@@ -426,17 +435,22 @@ def send_chat ():
       add_hist("")
       add_hist("Hello, " + n + "!")
       add_hist("Entering 'J' to join an existing game, or entering 'S' to start a new game.")
+
       #net.connect()
-  elif not gs.status:
-    gs.status = entrytext
-    add_hist("")
-    if(entrytext == "J"):
-      add_hist("You choose to join an existing game. Please enter the gamecode.")
-      #use self.send(Msg("ERROR", ERR="BADCODE"))
-      #process here is complicated, need to send messages
-      #back and forth to check if code is unique
-    else:
-      add_hist("You choose to start a new game. Please assign a gamecode.")
+  elif not gs.role:
+      add_hist(entrytext)
+      if(entrytext == "J" or entrytext == "j"):
+          add_hist("You choose to join an existing game. Please enter the gamecode.")
+          gs.role = 'guest'
+          #use self.send(Msg("ERROR", ERR="BADCODE"))
+          #process here is complicated, need to send messages
+          #back and forth to check if code is unique
+      elif (entrytext == 'S'or entrytext == "s"):
+          add_hist("You choose to start a new game. Please assign a gamecode.")
+          gs.role = 'host'
+      else:
+          add_hist("Please enter J or S")
+
   elif not gs.gamecode:
     gs.gamecode = entrytext
     add_hist("The gamecode you entered is " + entrytext + ".")
