@@ -9,7 +9,7 @@
 	spacing = "7" prefWidth="500" prefHeight="600" stylesheets="@invitePlayers.css">
 	<Label id="welcome" text="Welcome to &#10; Guess Who!"/>
 	<Label id="enterName" text="Enter your name:"/>
-	<TextField></TextField>
+	<TextField fx:id="playerName"></TextField>
 	<Button id="startButton" text="Start a new game" onAction="#startGame"/>
 	<Button id="joinButton" text="Join a game" onAction="#joinGame"/>
 </VBox>
