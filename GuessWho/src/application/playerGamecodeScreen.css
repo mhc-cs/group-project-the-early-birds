@@ -1,0 +1,41 @@
+TextField{
+	-fx-max-width: 400px;
+	-fx-padding: 20px;
+	-fx-border-color: black;
+	-fx-font-size: 26px;
+	-fx-font-family: "Century Gothic";
+}
+
+Button{
+	-fx-max-width: 159px;
+	-fx-max-height: 35px;
+	-fx-font-family: "Century Gothic";
+	-fx-font-size: 23px;
+	-fx-background-radius: 10px;
+	-fx-translate-y: 70px;
+}
+
+Label{
+	-fx-translate-y: -20px;
+}
+
+#title{
+	-fx-font-family: "Century Gothic";
+	-fx-font-size: 48px;
+}
+
+#continue{
+	-fx-background-color: "#86BEFF";
+}
+
+#continue:hover{
+	-fx-background-color: "#66adff";
+}
+
+#back{
+	-fx-background-color: "#F34A72";
+}
+
+#back:hover{
+	-fx-background-color: "#f00f44";
+}

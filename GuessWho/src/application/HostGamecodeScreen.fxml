@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.TextArea?>
+
+<VBox alignment="CENTER" fx:controller="application.HostGamecodeScreenController" xmlns:fx="http://javafx.com/fxml/1"
+	spacing = "10" prefWidth="500" prefHeight="600" stylesheets="@hostGamecodeScreen.css">
+	<Label id="title" text="Please choose a game code." wrapText="true" textAlignment="CENTER"/>
+	<Label id="subtitle" text="Use this code to send to the other &#10;player so they can join your game."
+		textAlignment="CENTER"/>
+	<Label id="subtitle" text="You can leave the box blank to generate a random code." 
+		wrapText="true" textAlignment="CENTER"/>
+	
+	<TextField fx:id="gamecode"></TextField>
+	<Button id="continue" text="Continue" onAction="#hostContinue"/>
+	<Button id="back" text="Go back" onAction="#goBack"/>
+</VBox>
+

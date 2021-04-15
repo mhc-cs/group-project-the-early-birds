@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.TextArea?>
+
+<VBox alignment="CENTER" fx:controller="application.PlayerGamecodeScreenController" xmlns:fx="http://javafx.com/fxml/1"
+	spacing = "10" prefWidth="500" prefHeight="600" stylesheets="@playerGamecodeScreen.css">
+	<Label id="title" text="Please enter your game code." wrapText="true" textAlignment="CENTER"/>
+	<TextField fx:id="gamecode"></TextField>
+	<Button id="continue" text="Continue" onAction="#playerContinue"/>
+	<Button id="back" text="Go back" onAction="#goBack"/>
+</VBox>
