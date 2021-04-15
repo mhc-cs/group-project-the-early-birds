@@ -455,8 +455,8 @@ def send_chat ():
     elif (entrytext == 'S'or entrytext == "s"):
       add_hist("You choose to start a new game. Please assign a gamecode.")
       gs.status = entrytext
-        else:
-            add_hist("Please enter J or S")
+    else:
+        add_hist("Please enter J or S")
 
   elif not gs.gamecode:
     gs.gamecode = entrytext

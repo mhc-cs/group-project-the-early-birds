@@ -487,25 +487,6 @@ class Connection (ConnectionBase):
     #my add
     wait_rooms = waiting[gn]
 
-    #Error handling:
-    if status == 'S':
-      #code already exist
-      for code in used_codes:
-        if code == gc:
-          self.send(Msg("ERROR", ERR="BADGAMECODE"))
-    elif status == 'J':
-      #code not found
-      codeExist = False
-      for room in wait_rooms:
-        if room.room_code == gc:
-          codeExist = True
-          break
-      if(codeExist == False):
-        self.send(Msg("ERROR", ERR="BADGAMECODE"))
-    else:
-      status = 'S'
-
-
     size = msg['size']
     #verifies that size is a valid entry
     if isinstance(size, str):
@@ -528,21 +509,18 @@ class Connection (ConnectionBase):
       r.join(self)
 
      # if you are the host, you should always be placed in a new room
-<<<<<<< HEAD
-    if role == 'host':
+    if status == 'S':
         if gc in used_codes:
             self.send(Msg('ERROR', ERR='REPEATCODE'))
             return
         new_room()
         used_codes.append(gc)
-    else:
-        if gc not in used_codes:
+    elif status == 'J':
+        for room in wait_rooms:
+            if room.room_code == gc:
+                room.join(self)
+                break
             self.send(Msg('ERROR', ERR='BADCODE'))
-            return
-        else:
-            for room in wait_rooms:
-                if room.room_code == gc:
-                    room.join(self)
 
     # if you are not the host, you will need to join a room
     # if there is no room with the room code you entered, it wil
@@ -554,23 +532,19 @@ class Connection (ConnectionBase):
     # need to add handling of case where room with entered
     # room code does not exist
 
-    if not wait_rooms:
-      # No waiting rooms; create one of minimum size
-      new_room()
-      return
-=======
-    if status == 'S':
-        new_room()
-        used_codes.append(gc)
+    # if not wait_rooms:
+    #   # No waiting rooms; create one of minimum size
+    #   new_room()
+    #   return
     # if you are not the host, you will need to join a room
     # if there is no room with the room code you entered, it wil
     # give an error
-    else:
-        for room in wait_rooms:
-            if room.room_code == gc:
-              print("Find room: " + str(room.room_code))
-              room.join(self)
-              break;
+    # else:
+    #     for room in wait_rooms:
+    #         if room.room_code == gc:
+    #           print("Find room: " + str(room.room_code))
+    #           room.join(self)
+    #           break;
     # need to add handling of case where room with entered
     # room code does not exist
 
@@ -581,23 +555,22 @@ class Connection (ConnectionBase):
     #   # No waiting rooms; create one of minimum size
     #   new_room()
     #   return
->>>>>>> 8dcd2888a64d2fd59b3f654ceb3712c52dc1281a
 
     # # Filter rooms
     # wait_rooms = [r for r in wait_rooms
     #               if r.room_size >= lo and r.room_size <= hi]
     # wait_rooms = [r for r in wait_rooms
     #               if r.allow_spectators == spectators_ok]
-    
+
     # # Find rooms with minimum number of waiting players
     # mpn = min(r.players_needed for r in wait_rooms)
     # wait_rooms = [r for r in wait_rooms if r.players_needed == mpn]
-    
+
     # if not wait_rooms:
     #   # No filters matched -- create a new room
     #   new_room()
     #   return
-    
+
     # # Pick a random room to join
     # room = random.choice(wait_rooms)
     # room.join(self)
