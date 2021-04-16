@@ -36,7 +36,7 @@
 		</HBox>
 		<Label id="scoresBox" text="[name1] = [score] &#9; [name1] = [score]"/>
 		<Label text="CHAT"/>
-		<TextArea/>
+		<TextArea editable="false"/>
 		<TextField/>
 	</VBox>
 </HBox>

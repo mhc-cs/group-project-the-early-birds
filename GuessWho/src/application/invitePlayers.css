@@ -12,6 +12,7 @@
 Button{
 	-fx-font-family: "Century Gothic";
 	-fx-background-radius: 10px;
+	-fx-translate-y: 25px;
 }
 
 TextField{
@@ -40,6 +41,12 @@ TextField{
 
 #joinButton:hover {
     -fx-background-color: "#66adff";
+}
+
+#warning{
+	-fx-font-size: 20px;
+	-fx-font-family: "Century Gothic";
+	-fx-text-background-color: "#F34A72";
 }
 
 
