@@ -26,7 +26,7 @@ public class Card {
 	public Card(String name) {
 		cardName = name;
 		grey = false;
-		imagePath = "defaultImages/defaultNoImage.png";
+		imagePath = "application/defaultImages/defaultNoImage.png";
 	}
 	
 	/**
