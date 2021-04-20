@@ -1,5 +1,6 @@
 package guesswho;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,31 +17,31 @@ public class Deck {
     private int size;
     
     //the list of cards in the deck
-    ArrayList<Card> deck;
+    private ArrayList<Card> deck;
+    
+    private String[] defaultNames = {"Samuel","Pepe","Pablo","Jorge","Felipe","Clara","Anita","Alfredo","Susana","Ricardo","Paco","Manuel","German","David","Bernardo","Alejandro","Tomas","Roberto","Pedro","Maria","Guillermo","Erneseto","Carlos","Ana"};
     
     /**
-     * Deck constructor
+     * Default Deck constructor
      * The size of the deck is the default 24.
      */
     public Deck() {
         size = 24;
-        deck = new ArrayList<Card>();
-        for(int i = 0; i < 24; i++) { //fill the deck until 24 cards
-            //What should we do about names here?
-            deck.add(new Card("", "application/defaultImages/default" + i + ".png"));
+        deck = new ArrayList<Card>(size);
+        for(int i = 0; i < size; i++) { //fill the deck until 24 cards
+            deck.add(new Card((String)Array.get(defaultNames, i-1), "application/defaultImages/default" + i + ".png"));
         }
     }
     
     /**
-     * Deck constructor
+     * Custom Deck constructor
      * @param deckSize number of cards in deck
      */
     public Deck(int deckSize) {
         size = deckSize;
-        deck = new ArrayList<Card>();
+        deck = new ArrayList<Card>(size);
         for(int i = 0; i < size; i++) { //fill the deck until (size) cards
-          //What should we do about names here?
-            deck.add(new Card(""));
+            deck.add(new Card("Card #"+size,"applicatoin/defaultImages/defaultNoImage.png"));
         }
     }
     
@@ -50,17 +51,19 @@ public class Deck {
      * 
      * @param card the card to add to the deck
      */
-    public void addCard(Card card) {
-        deck.add(card);
+    public void addCard() {
+    	size++;
+        deck.add(new Card("Card #"+size,"applicatoin/defaultImages/defaultNoImage.png"));
     }
     
     /**
      * Removes a card from the deck
      * 
-     * @param card the card to remove from the deck
+     * @param index of the card to remove from the deck
      */
-    public void removeCard(Card card) {
-        deck.remove(card);
+    public void removeCard(int index) {
+        deck.remove(index);
+        size--;
     }
     
     /**
@@ -71,6 +74,15 @@ public class Deck {
         Random rand = new Random();
         int randomIndex = rand.nextInt(size);
         return deck.get(randomIndex);
+    }
+    
+    /**
+     * Returns a specified card from the deck
+     * @param index of card
+     * @return card from deck
+     */
+    public Card getCard(int index) {
+    	return deck.get(index);
     }
     
     /**
