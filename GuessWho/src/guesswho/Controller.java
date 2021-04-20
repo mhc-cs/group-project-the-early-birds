@@ -6,11 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.stage.Stage;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
 
 
 public class Controller extends Application {
@@ -19,7 +14,7 @@ public class Controller extends Application {
         try {
             // load in the page here. Right now I'm hardcoding it to the page I'm working on, but I'll
             // have to un-hardcode it later. 
-            Parent root = FXMLLoader.load(getClass().getResource("/application/GameplayScreen.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/application/InvitePlayers.fxml"));
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/application/application.css").toExternalForm());
             

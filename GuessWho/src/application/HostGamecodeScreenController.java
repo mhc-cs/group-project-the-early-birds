@@ -16,9 +16,22 @@ public class HostGamecodeScreenController {
     @FXML
     private TextField gamecode;
     
-    public void hostContinue() {
-        String code = gamecode.getText();
+    private String code;
+    
+    /**
+     * Sets the gamecode
+     */
+    public void setHostCode() {
+        code = gamecode.getText();
         System.out.println(code);
+    }
+    
+    /**
+     * Returns the gamecode the host entered
+     * @return gamecode the host entered
+     */
+    public String getHostCode() {
+        return code;
     }
     
     /**
