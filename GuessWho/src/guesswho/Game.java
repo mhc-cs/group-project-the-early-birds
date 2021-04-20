@@ -29,8 +29,10 @@ public class Game {
 	    int chance = r.nextInt(2);
 	    if (chance == 1) {
 	    	player1.setTurn(true);
+	    	player2.setTurn(false);
 	    } else {
 	    	player2.setTurn(true);
+	    	player1.setTurn(false);
 	    }
 	}
 	
@@ -39,5 +41,27 @@ public class Game {
 		c.toggleGrey();
 	}
 	
+	public void endTurn() {
+		player1.toggleTurn();
+		player2.toggleTurn();
+	}
+	
+	public void guess(Card c) {
+		if (player1.getTurn()){
+			if(c==player2.getCard()) {
+				player1.incScore();
+				//announce winner player1?
+			}else {
+				endTurn();
+			}
+		}else {
+			if(c==player1.getCard()) {
+				player2.incScore();
+				//announce winner player2?
+			}else {
+				endTurn();
+			}
+		}
+	}
 	
 }
