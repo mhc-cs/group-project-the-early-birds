@@ -14,7 +14,7 @@
 		wrapText="true" textAlignment="CENTER"/>
 	
 	<TextField fx:id="gamecode"></TextField>
-	<Button id="continue" text="Continue" onAction="#hostContinue"/>
+	<Button id="continue" text="Continue" onAction="#setHostCode"/>
 	<Button id="back" text="Go back" onAction="#goBack"/>
 </VBox>
 

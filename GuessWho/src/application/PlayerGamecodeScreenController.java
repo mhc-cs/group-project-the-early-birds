@@ -16,9 +16,22 @@ public class PlayerGamecodeScreenController {
     @FXML
     private TextField gamecode;
     
-    public void playerContinue() {
-        String code = gamecode.getText();
+    private String code;
+    
+    /**
+     * Sets the gamecode that the player entered
+     */
+    public void setPlayerCode() {
+        code = gamecode.getText();
         System.out.println(code);
+    }
+    
+    /**
+     * Gets the gamecode that the player entered
+     * @return gamecode the player entered
+     */
+    public String getPlayerCode() {
+        return code;
     }
     
     /**
