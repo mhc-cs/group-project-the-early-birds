@@ -21,6 +21,10 @@ public class InvitePlayersController {
     @FXML
     private Label warning;
     
+    private static String name;
+    
+    private static boolean isHost;
+    
     /**
      * Goes to the screen where the host chooses the game code.
      * 
@@ -28,10 +32,12 @@ public class InvitePlayersController {
      * button press came from, and therefore which scene the program came from.
      */
     public void startGame(ActionEvent event) {
+        isHost = true;
         if(playerName.getText().isEmpty()) {
             warning.setText("Please enter a name.");
         } else {
-            System.out.println("Name: " + playerName.getText());
+            name = playerName.getText();
+            System.out.println("Name: " + name);
             try {
                 //Loads the new screen
                 Parent startGameParent = FXMLLoader.load(getClass().getResource("HostGamecodeScreen.fxml"));
@@ -58,10 +64,12 @@ public class InvitePlayersController {
      * button press came from, and therefore which scene the program came from.
      */
     public void joinGame(ActionEvent event) {
+        isHost = false;
         if(playerName.getText().isEmpty()) {
             warning.setText("Please enter a name.");
         } else {
-            System.out.println("Name: " + playerName.getText());
+            name = playerName.getText();
+            System.out.println("Name: " + name);
             try {
                 //Loads the new screen
                 Parent startGameParent = FXMLLoader.load(getClass().getResource("PlayerGamecodeScreen.fxml"));
@@ -78,6 +86,21 @@ public class InvitePlayersController {
                 e.printStackTrace();
             }
         }
-
+    }
+    
+    /**
+     * Returns the player's name.
+     * @return player name
+     */
+    public static String getName() {
+        return name;
+    }
+    
+    /**
+     * Returns whether the player is the host.
+     * @return whether true if the player is the host, false otherwise.
+     */
+    public static boolean isHost() {
+        return isHost;
     }
 }
