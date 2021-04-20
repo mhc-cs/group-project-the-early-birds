@@ -16,7 +16,7 @@ public class HostGamecodeScreenController {
     @FXML
     private TextField gamecode;
     
-    private String code;
+    private static String code;
     
     /**
      * Sets the gamecode
@@ -30,7 +30,7 @@ public class HostGamecodeScreenController {
      * Returns the gamecode the host entered
      * @return gamecode the host entered
      */
-    public String getHostCode() {
+    public static String getHostCode() {
         return code;
     }
     

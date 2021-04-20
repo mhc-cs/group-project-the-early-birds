@@ -16,7 +16,7 @@ public class PlayerGamecodeScreenController {
     @FXML
     private TextField gamecode;
     
-    private String code;
+    private static String code;
     
     /**
      * Sets the gamecode that the player entered
@@ -30,7 +30,7 @@ public class PlayerGamecodeScreenController {
      * Gets the gamecode that the player entered
      * @return gamecode the player entered
      */
-    public String getPlayerCode() {
+    public static String getPlayerCode() {
         return code;
     }
     
