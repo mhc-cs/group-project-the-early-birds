@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.ListIterator;
 
@@ -7,9 +8,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -101,6 +104,7 @@ public class GameplayScreenController {
                 } 
             } else {
                 //Action that the guess button takes if guessing is in action
+                int id = 0;
                 guessing = false;
                 guessButton.setText("Guess [name]'s card");
                 
@@ -108,7 +112,8 @@ public class GameplayScreenController {
                 ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
                 while(iterator.hasNext()) {
                     //calls stopGuessing on every image
-                    stopGuessing(iterator.next());
+                    stopGuessing((ImageView) iterator.next(), id);
+                    id++;
                 }
             }
         });
@@ -164,6 +169,15 @@ public class GameplayScreenController {
      * @param imageId the index, or ID, of one of the images in the card grid
      */
     public void guess(Node image, int imageId) {
+        if(!greyedOutCards.get(imageId)) {
+            image.setOnMouseClicked(e -> {
+                try {
+                    openConfirmationWindow();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            });
+        }
         image.hoverProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean hovering) -> {
             //checking that the mouse is hovering over and that the card isn't greyed out
             if(hovering && !greyedOutCards.get(imageId)) {
@@ -180,10 +194,34 @@ public class GameplayScreenController {
      * @param image one of the images in the card grid
      * @param imageId the index, or ID, of one of the images in the card grid
      */
-    public void stopGuessing(Node image) {
+    public void stopGuessing(ImageView image, int imageId) {
+        //Now when you click, it's back to just greying out
+        image.setOnMouseClicked(e -> greyOut(image, imageId));
+        
+        //sets hover property back to nothing
         image.hoverProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean hovering) -> {
             image.setEffect(null);
         });
+    }
+    
+    /**
+     * Opens the guessing confirmation window. This asks the player
+     * if they are sure if they would like to choose that card. They
+     * can press "yes" and choose the card or "cancel" and exit the window.
+     * 
+     * @throws IOException if the file to make the window is not found.
+     */
+    public void openConfirmationWindow() throws IOException {
+        Stage confirmationWindow = new Stage();
+        confirmationWindow.initModality(Modality.APPLICATION_MODAL);
+        confirmationWindow.setTitle("Are you sure?");
+        confirmationWindow.getIcons().add(new Image("application/icon.png"));
+        confirmationWindow.setResizable(false);
+        
+        Parent root = FXMLLoader.load(getClass().getResource("ConfirmationMenu.fxml"));
+        Scene scene = new Scene(root);
+        confirmationWindow.setScene(scene);
+        confirmationWindow.showAndWait(); 
     }
   
     
@@ -260,6 +298,5 @@ public class GameplayScreenController {
         System.out.println("Quitting...");
         //Here's where to add the code for the quit button
     }
-
-    
+   
 }
