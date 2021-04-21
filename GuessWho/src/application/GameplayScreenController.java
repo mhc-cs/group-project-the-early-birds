@@ -1,13 +1,16 @@
 package application;
 
 import java.util.HashMap;
+import java.util.ListIterator;
 
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -35,6 +38,8 @@ public class GameplayScreenController {
     public static final int NUM_CARDS = 24;
     
     boolean isYourTurn = true;
+    
+    boolean canBeGreyed = true;
 
     HashMap<Integer, Boolean> greyedOutCards = new HashMap<>();
     
@@ -43,6 +48,9 @@ public class GameplayScreenController {
     
     @FXML
     private Label turn;
+    
+    @FXML
+    private Button guessButton;
     
     /**
      * Initializes the grid with the cards that the players guess from.
@@ -59,7 +67,7 @@ public class GameplayScreenController {
             // When clicked on, can be greyed out (and un-greyed out)
             final int imageId = i;
             greyedOutCards.put(imageId, false);
-            imageView.setOnMouseClicked(e -> greyOut(imageView, imageId));
+            imageView.setOnMouseClicked(e -> greyOut(imageView, imageId));    
             
             // Adding to grid
             cardGrid.add(imageView, column, row);
@@ -72,6 +80,18 @@ public class GameplayScreenController {
         }
         cardGrid.setVgap(27.5);
         cardGrid.setHgap(7);
+        
+        //Passes every image in the grid to guess button when guess button is pressed
+        guessButton.setOnAction(e -> {
+            int id = 0;
+            //iterates through each image
+            ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
+            while(iterator.hasNext()) {
+                //calls guess on every image
+                guess((ImageView) iterator.next(), id);
+                id++;
+            } 
+        });
     }
     
     /**
@@ -84,16 +104,18 @@ public class GameplayScreenController {
      */
     @SuppressWarnings("boxing")
     public void greyOut(ImageView image, int imageId) {
-        if(greyedOutCards.get(imageId) == false) { //if it's not greyed out
-            //set image to be greyed out
-            image.setImage(new Image("application/defaultImages/grey.png"));
-            //set value for that key to indicate that it's greyed out
-            greyedOutCards.put(imageId, true);
-        } else { //if it's greyed out
-            //set image back
-            image.setImage(new Image("application/defaultImages/default" + imageId + ".png"));
-            //set value for that key to indicate that it's not greyed out
-            greyedOutCards.put(imageId, false);
+        if(canBeGreyed) {
+            if(greyedOutCards.get(imageId) == false) { //if it's not greyed out
+                //set image to be greyed out
+                image.setImage(new Image("application/defaultImages/grey.png"));
+                //set value for that key to indicate that it's greyed out
+                greyedOutCards.put(imageId, true);
+            } else { //if it's greyed out
+                //set image back
+                image.setImage(new Image("application/defaultImages/default" + imageId + ".png"));
+                //set value for that key to indicate that it's not greyed out
+                greyedOutCards.put(imageId, false);
+            }
         }
     }
     
@@ -111,6 +133,28 @@ public class GameplayScreenController {
         }
         
     }
+    
+    /**
+     * Allows the player to guess which card is the other player's.
+     * When pressed, the cards that are not greyed out have a drop shadow when
+     * hovered over to show that they can be selected. A confirmation menu will open
+     * when the player chooses a card.
+     * 
+     * @param image one of the images in the card grid
+     * @param imageId the index, or ID, of one of the images in the card grid
+     */
+    public void guess(ImageView image, int imageId) {
+        canBeGreyed = false;
+        image.hoverProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean hovering) -> {
+            //checking that the mouse is hovering over and that the card isn't greyed out
+            if(hovering && !greyedOutCards.get(imageId)) {
+                image.setEffect(new DropShadow());
+            } else {
+                image.setEffect(null);
+            }
+        });
+    }
+  
     
     /**
      * Displays the help window with instructions on how to play guess who.
@@ -185,8 +229,6 @@ public class GameplayScreenController {
         System.out.println("Quitting...");
         //Here's where to add the code for the quit button
     }
-    
-    
 
     
 }
