@@ -3,10 +3,13 @@ package application;
 import java.util.HashMap;
 import java.util.ListIterator;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -39,7 +42,7 @@ public class GameplayScreenController {
     
     boolean isYourTurn = true;
     
-    boolean canBeGreyed = true;
+    boolean guessing = false;
 
     HashMap<Integer, Boolean> greyedOutCards = new HashMap<>();
     
@@ -83,14 +86,31 @@ public class GameplayScreenController {
         
         //Passes every image in the grid to guess button when guess button is pressed
         guessButton.setOnAction(e -> {
-            int id = 0;
-            //iterates through each image
-            ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
-            while(iterator.hasNext()) {
-                //calls guess on every image
-                guess((ImageView) iterator.next(), id);
-                id++;
-            } 
+            //Action that the guess button takes if guessing is not in action
+            if(guessing == false) {
+                int id = 0;
+                guessing = true;
+                guessButton.setText("Stop guessing");
+                
+                //iterates through each image
+                ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
+                while(iterator.hasNext()) {
+                    //calls guess on every image
+                    guess(iterator.next(), id);
+                    id++;
+                } 
+            } else {
+                //Action that the guess button takes if guessing is in action
+                guessing = false;
+                guessButton.setText("Guess [name]'s card");
+                
+                //iterates through each image
+                ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
+                while(iterator.hasNext()) {
+                    //calls stopGuessing on every image
+                    stopGuessing(iterator.next());
+                }
+            }
         });
     }
     
@@ -104,7 +124,7 @@ public class GameplayScreenController {
      */
     @SuppressWarnings("boxing")
     public void greyOut(ImageView image, int imageId) {
-        if(canBeGreyed) {
+        if(!guessing) {
             if(greyedOutCards.get(imageId) == false) { //if it's not greyed out
                 //set image to be greyed out
                 image.setImage(new Image("application/defaultImages/grey.png"));
@@ -143,8 +163,7 @@ public class GameplayScreenController {
      * @param image one of the images in the card grid
      * @param imageId the index, or ID, of one of the images in the card grid
      */
-    public void guess(ImageView image, int imageId) {
-        canBeGreyed = false;
+    public void guess(Node image, int imageId) {
         image.hoverProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean hovering) -> {
             //checking that the mouse is hovering over and that the card isn't greyed out
             if(hovering && !greyedOutCards.get(imageId)) {
@@ -152,6 +171,18 @@ public class GameplayScreenController {
             } else {
                 image.setEffect(null);
             }
+        });
+    }
+    
+    /**
+     * Removes the hover effect when the player is no longer guessing.
+     * 
+     * @param image one of the images in the card grid
+     * @param imageId the index, or ID, of one of the images in the card grid
+     */
+    public void stopGuessing(Node image) {
+        image.hoverProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean hovering) -> {
+            image.setEffect(null);
         });
     }
   
