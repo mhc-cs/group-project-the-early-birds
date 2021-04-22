@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+
+<VBox alignment="CENTER" fx:controller="application.ConfirmationMenuController" xmlns:fx="http://javafx.com/fxml/1"
+	spacing = "30" prefWidth="500" prefHeight="170" stylesheets="@confirmationMenu.css">
+	<Label text="Are you sure you want to guess &#10;this card?" textAlignment="CENTER"/>
+	<HBox alignment="CENTER" spacing = "95">
+		<Button id="yes" text="Yes"/>
+		<Button fx:id="cancel" id="cancel" text="Cancel" onAction="#close"/>
+	</HBox>
+</VBox>
+

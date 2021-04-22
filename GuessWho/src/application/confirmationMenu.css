@@ -1,0 +1,28 @@
+Label{
+	-fx-font-family: "Century Gothic";
+	-fx-font-size: 24px;
+}
+
+Button{
+	-fx-font-family: "Century Gothic";
+	-fx-font-size: 20px;
+	-fx-background-radius: 10px;
+	-fx-min-width: 133px;
+	-fx-max-height: 38px;
+}
+
+#yes{
+	-fx-background-color: "#86BEFF";
+}
+
+#yes:hover{
+	-fx-background-color: "#66adff";
+}
+
+#cancel{
+	-fx-background-color: "#F34A72";
+}
+
+#cancel:hover{
+	-fx-background-color: "#f00f44";
+}
