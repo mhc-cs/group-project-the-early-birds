@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.ListIterator;
 
+import guesswho.Controller;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,12 +35,7 @@ import javafx.stage.Stage;
  * @author Dani, Hannah, Anna
  *
  */
-public class GameplayScreenController {
-    
-    /**
-     * The total number of cards in the game that the players guess from.
-     */
-    public static final int NUM_CARDS = 24;
+public class GameplayScreenController extends Controller {
     
     boolean isYourTurn = true;
     
@@ -62,15 +58,16 @@ public class GameplayScreenController {
     public void initialize() {
         int column = 0; //goes up to 7.
         int row = 0; //goes up to 2
-        for(int i = 0; i < NUM_CARDS; i++) {
+        
+        for(int i = 0; i < deck.getSize(); i++) {
             // Wrapping in ImageView
-            ImageView imageView = new ImageView(getClass().getResource("defaultImages/default" + i + ".png").toExternalForm());
+            ImageView imageView = new ImageView(getClass().getResource(deck.getCard(i).getImagePath()).toExternalForm());
             imageView.setFitWidth(95.0);
             imageView.setFitHeight(150.0);
             
             // When clicked on, can be greyed out (and un-greyed out)
             final int imageId = i;
-            greyedOutCards.put(imageId, false);
+            greyedOutCards.put(imageId, deck.getCard(i).getGrey());
             imageView.setOnMouseClicked(e -> greyOut(imageView, imageId));    
             
             // Adding to grid
@@ -132,12 +129,14 @@ public class GameplayScreenController {
                 //set image to be greyed out
                 image.setImage(new Image("application/defaultImages/grey.png"));
                 //set value for that key to indicate that it's greyed out
-                greyedOutCards.put(imageId, true);
+                deck.getCard(imageId).toggleGrey(); //set it to true
+                greyedOutCards.put(imageId, deck.getCard(imageId).getGrey());
             } else { //if it's greyed out
                 //set image back
                 image.setImage(new Image("application/defaultImages/default" + imageId + ".png"));
                 //set value for that key to indicate that it's not greyed out
-                greyedOutCards.put(imageId, false);
+                deck.getCard(imageId).resetGrey(); //set it to false
+                greyedOutCards.put(imageId, deck.getCard(imageId).getGrey());
             }
         }
     }

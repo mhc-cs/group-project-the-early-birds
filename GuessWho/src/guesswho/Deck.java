@@ -29,7 +29,7 @@ public class Deck {
         size = 24;
         deck = new ArrayList<Card>(size);
         for(int i = 0; i < size; i++) { //fill the deck until 24 cards
-            deck.add(new Card((String)Array.get(defaultNames, i-1), "application/defaultImages/default" + i + ".png"));
+            deck.add(new Card((String)Array.get(defaultNames, i), "defaultImages/default" + i + ".png"));
         }
     }
     
@@ -41,7 +41,7 @@ public class Deck {
         size = deckSize;
         deck = new ArrayList<Card>(size);
         for(int i = 0; i < size; i++) { //fill the deck until (size) cards
-            deck.add(new Card("Card #"+size,"applicatoin/defaultImages/defaultNoImage.png"));
+            deck.add(new Card("Card #"+size,"defaultImages/defaultNoImage.png"));
         }
     }
     
@@ -53,7 +53,7 @@ public class Deck {
      */
     public void addCard() {
     	size++;
-        deck.add(new Card("Card #"+size,"applicatoin/defaultImages/defaultNoImage.png"));
+        deck.add(new Card("Card #"+size,"defaultImages/defaultNoImage.png"));
     }
     
     /**

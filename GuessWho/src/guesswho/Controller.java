@@ -9,6 +9,12 @@ import javafx.application.Application;
 
 
 public class Controller extends Application {
+    
+    /**
+     * The deck of Guess Who that the players will use.
+     */
+    protected static Deck deck = new Deck();
+    
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -32,5 +38,6 @@ public class Controller extends Application {
     
     public static void main(String[] args) {
         launch(args);
+        System.out.println(deck.getSize());
     }
 }
