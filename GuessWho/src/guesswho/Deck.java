@@ -19,7 +19,7 @@ public class Deck {
     //the list of cards in the deck
     private ArrayList<Card> deck;
     
-    private String[] defaultNames = {"Samuel","Pepe","Pablo","Jorge","Felipe","Clara","Anita","Alfredo","Susana","Ricardo","Paco","Manuel","German","David","Bernardo","Alejandro","Tomas","Roberto","Pedro","Maria","Guillermo","Erneseto","Carlos","Ana"};
+    private String[] defaultNames = {"Susana","Pepe","Samuel","Pablo","Jorge","Felipe","Clara","Anita","Alfredo","Ricardo","Paco","Manuel","German","David","Bernardo","Alejandro","Tomas","Roberto","Pedro","Maria","Guillermo","Erneseto","Carlos","Ana"};
     
     /**
      * Default Deck constructor

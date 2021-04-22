@@ -15,6 +15,11 @@ public class Controller extends Application {
      */
     protected static Deck deck = new Deck();
     
+    //change this later to get name and isHost from server
+    protected static Player player = new Player("Name", true);
+    
+    protected static Game game = new Game(deck, player);
+    
     @Override
     public void start(Stage primaryStage) {
         try {

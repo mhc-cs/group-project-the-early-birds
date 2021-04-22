@@ -37,9 +37,7 @@ import javafx.stage.Stage;
  *
  */
 public class GameplayScreenController extends Controller {
-    
-    boolean isYourTurn = true;
-    
+        
     boolean guessing = false;
 
     HashMap<Integer, Boolean> greyedOutCards = new HashMap<>();
@@ -163,12 +161,13 @@ public class GameplayScreenController extends Controller {
      * let them know whose turn it is.
      */
     public void endTurn() {
-        if(isYourTurn) {
+        if(player.getTurn()) {
             turn.setText("It is the other \nplayer's turn to \nask a question.");
-            isYourTurn = false;
+            game.endTurn();
         } else {
+        	// this case should be when receiving a message from the server
             turn.setText("It is your turn \nto ask a question.");
-            isYourTurn = true;
+            //set players turn to true? this might go in a different file
         }
         
     }
