@@ -13,22 +13,17 @@ public class Game {
 	//deck of cards for game
 	private Deck deck;
 	
-	//one player in game
+	//player represents self
 	private Player player1;
-	
-	//second player in game
-	private Player player2;
 	
 	/**
 	 * Game constructor
 	 * @param d deck of cards
-	 * @param p1 first player
-	 * @param p2 second player
+	 * @param p1 self
 	 */
 	public Game(Deck d, Player p1, Player p2) {
 		deck = d;
 		player1 = p1;
-		player2 = p2;	
 	}
 	
 	/*
@@ -49,15 +44,17 @@ public class Game {
 	 * randomly assign which player goes first
 	 */
 	public void assignFirstTurn() {
-		Random r = new Random();
-	    int chance = r.nextInt(2);
-	    if (chance == 1) {
-	    	player1.setTurn(true);
-	    	player2.setTurn(false);
-	    } else {
-	    	player2.setTurn(true);
-	    	player1.setTurn(false);
-	    }
+		if (player1.getHost()){
+			Random r = new Random();
+		    int chance = r.nextInt(2);
+		    if (chance == 1) {
+		    	player1.setTurn(true);
+		    	//tell other player to set turn false
+		    } else {
+		    	//tell other player to set turn true
+		    	player1.setTurn(false);
+		    }
+		}
 	}
 	
 	/**
@@ -74,7 +71,7 @@ public class Game {
 	 */
 	public void endTurn() {
 		player1.toggleTurn();
-		player2.toggleTurn();
+		//tell other player to set turn true
 	}
 	
 	/**
@@ -86,16 +83,11 @@ public class Game {
 	 */
 	public void guess(Card c) {
 		if (player1.getTurn()){
-			if(c==player2.getCard()) {
+			//get other players card
+			Card pc = null; // store other players card?
+			if(c==pc) {
 				player1.incScore();
-				//announce winner player1?
-			}else {
-				endTurn();
-			}
-		}else {
-			if(c==player1.getCard()) {
-				player2.incScore();
-				//announce winner player2?
+				//send message that score updated and player wins
 			}else {
 				endTurn();
 			}
