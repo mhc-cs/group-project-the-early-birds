@@ -16,6 +16,9 @@ public class Game {
 	//player represents self
 	private Player player1;
 	
+	//store other players card
+	private Card player2Card = null;
+	
 	/**
 	 * Game constructor
 	 * @param d deck of cards
@@ -32,12 +35,13 @@ public class Game {
 	 */
 	public void drawCards() {
 		Card c1 = deck.drawRandomCard();
-		Card c2 = deck.drawRandomCard();
-		while( c1 == c2){
-			c1 = deck.drawRandomCard();
+		//send to other player
+		//receive other players card
+		player2Card = null; //store other players card
+		while( c1 == player2Card){
+			drawCards(); //I think this will work??
 		}
 		player1.setCard(c1);
-		player2.setCard(c2);
 	}
 	
 	/**
@@ -83,9 +87,7 @@ public class Game {
 	 */
 	public void guess(Card c) {
 		if (player1.getTurn()){
-			//get other players card
-			Card pc = null; // store other players card?
-			if(c==pc) {
+			if(c==player2Card) {
 				player1.incScore();
 				//send message that score updated and player wins
 			}else {
