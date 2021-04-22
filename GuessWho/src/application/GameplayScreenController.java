@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.ListIterator;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -169,6 +167,7 @@ public class GameplayScreenController {
      * @param imageId the index, or ID, of one of the images in the card grid
      */
     public void guess(Node image, int imageId) {
+        //Opens confirmation menu if the card is cicked on and isn't greyed out
         if(!greyedOutCards.get(imageId)) {
             image.setOnMouseClicked(e -> {
                 try {
@@ -178,6 +177,7 @@ public class GameplayScreenController {
                 }
             });
         }
+        //Adds hover property to card if it isn't greyed out
         image.hoverProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean hovering) -> {
             //checking that the mouse is hovering over and that the card isn't greyed out
             if(hovering && !greyedOutCards.get(imageId)) {
@@ -195,7 +195,7 @@ public class GameplayScreenController {
      * @param imageId the index, or ID, of one of the images in the card grid
      */
     public void stopGuessing(ImageView image, int imageId) {
-        //Now when you click, it's back to just greying out
+        //Now when you click, it's back to just greying out, instead of opening the menu
         image.setOnMouseClicked(e -> greyOut(image, imageId));
         
         //sets hover property back to nothing
