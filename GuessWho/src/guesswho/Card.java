@@ -82,11 +82,18 @@ public class Card {
 	}
 	
 	/**
-	 * set grey
-	 * @param status of grey boolean
+	 * toggle grey
+	 * if true becomes false and vice versa
 	 */
-	public void setGrey(boolean status) {
-		grey = status;
+	public void toggleGrey() {
+		grey ^= true;
+	}
+	
+	/**
+	 * reset grey to false
+	 */
+	public void resetGrey() {
+		grey = false;
 	}
 	
 }

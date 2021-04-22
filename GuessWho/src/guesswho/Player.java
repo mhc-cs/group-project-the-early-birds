@@ -22,6 +22,9 @@ public class Player {
 	//if the player is the host
 	private boolean isHost;
 	
+	//players score
+	private int score;
+	
 	/**
 	 * Player Constructor
 	 * @param name of player
@@ -32,6 +35,7 @@ public class Player {
 		playerCard = null;
 		isTurn = false;
 		isHost = host;
+		score = 0;
 	}
 	
 	/**
@@ -75,10 +79,43 @@ public class Player {
 	}
 	
 	/**
+	 * toggle turn
+	 * if true becomes flase and vice versa
+	 */
+	public void toggleTurn() {
+		isTurn ^= true;
+	}
+	
+	/**
 	 * get host
 	 * @return boolean if is host
 	 */
 	public boolean getHost() {
 		return isHost;
+	}
+	
+	/**
+	 * get score
+	 * @return players score
+	 */
+	public int getScore() {
+		return score;
+	}
+	
+	/**
+	 * increase score by 1
+	 */
+	public void incScore() {
+		score++;
+	}
+	
+	/**
+	 * reset player
+	 * clear score and card
+	 */
+	public void reset() {
+		playerCard = null;
+		score = 0;
+		isTurn = false;
 	}
 }
