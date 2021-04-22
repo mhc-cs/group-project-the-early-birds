@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.ListIterator;
 
+import guesswho.Controller;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -34,12 +36,7 @@ import javafx.stage.Stage;
  * @author Dani, Hannah, Anna
  *
  */
-public class GameplayScreenController {
-    
-    /**
-     * The total number of cards in the game that the players guess from.
-     */
-    public static final int NUM_CARDS = 24;
+public class GameplayScreenController extends Controller {
     
     boolean isYourTurn = true;
     
@@ -60,29 +57,40 @@ public class GameplayScreenController {
      * Initializes the grid with the cards that the players guess from.
      */
     public void initialize() {
-        int column = 0; //goes up to 7.
+        int column = 0; //goes up to 7
         int row = 0; //goes up to 2
-        for(int i = 0; i < NUM_CARDS; i++) {
+        
+        for(int i = 0; i < deck.getSize(); i++) {
             // Wrapping in ImageView
-            ImageView imageView = new ImageView(getClass().getResource("defaultImages/default" + i + ".png").toExternalForm());
+            ImageView imageView = new ImageView(getClass().getResource(deck.getCard(i).getImagePath()).toExternalForm());
             imageView.setFitWidth(95.0);
             imageView.setFitHeight(150.0);
             
+            //Displaying names
+            Label name = new Label();
+            name.getStyleClass().remove(name);
+            name.setText(deck.getCard(i).getName());
+            name.setFont(Font.font("Century Gothic", 13));
+            GridPane.setHalignment(name, HPos.CENTER);
+            
             // When clicked on, can be greyed out (and un-greyed out)
             final int imageId = i;
-            greyedOutCards.put(imageId, false);
+            greyedOutCards.put(imageId, deck.getCard(i).getGrey());
             imageView.setOnMouseClicked(e -> greyOut(imageView, imageId));    
             
             // Adding to grid
             cardGrid.add(imageView, column, row);
+            cardGrid.add(name, column, row + 1);
             if(column == 7) {
-                row++;
+                row += 2;
                 column = 0;
             } else {
                 column++;
             }
+            
         }
-        cardGrid.setVgap(27.5);
+        //cardGrid.setVgap(27.5);
+        cardGrid.setVgap(2);
         cardGrid.setHgap(7);
         
         //Passes every image in the grid to guess button when guess button is pressed
@@ -97,8 +105,11 @@ public class GameplayScreenController {
                 ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
                 while(iterator.hasNext()) {
                     //calls guess on every image
-                    guess(iterator.next(), id);
-                    id++;
+                    Node next = iterator.next();
+                    if(next instanceof ImageView) {
+                        guess(next, id);
+                        id++;
+                    }
                 } 
             } else {
                 //Action that the guess button takes if guessing is in action
@@ -110,8 +121,11 @@ public class GameplayScreenController {
                 ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
                 while(iterator.hasNext()) {
                     //calls stopGuessing on every image
-                    stopGuessing((ImageView) iterator.next(), id);
-                    id++;
+                    Node next = iterator.next();
+                    if(next instanceof ImageView) {
+                        stopGuessing((ImageView) next, id);
+                        id++; 
+                    }
                 }
             }
         });
@@ -132,12 +146,14 @@ public class GameplayScreenController {
                 //set image to be greyed out
                 image.setImage(new Image("application/defaultImages/grey.png"));
                 //set value for that key to indicate that it's greyed out
-                greyedOutCards.put(imageId, true);
+                deck.getCard(imageId).toggleGrey(); //set it to true
+                greyedOutCards.put(imageId, deck.getCard(imageId).getGrey());
             } else { //if it's greyed out
                 //set image back
                 image.setImage(new Image("application/defaultImages/default" + imageId + ".png"));
                 //set value for that key to indicate that it's not greyed out
-                greyedOutCards.put(imageId, false);
+                deck.getCard(imageId).resetGrey(); //set it to false
+                greyedOutCards.put(imageId, deck.getCard(imageId).getGrey());
             }
         }
     }

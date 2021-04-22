@@ -9,6 +9,12 @@ import javafx.application.Application;
 
 
 public class Controller extends Application {
+    
+    /**
+     * The deck of Guess Who that the players will use.
+     */
+    protected static Deck deck = new Deck();
+    
     @Override
     public void start(Stage primaryStage) {
         try {

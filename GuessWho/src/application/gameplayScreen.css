@@ -5,7 +5,6 @@
 
 Label{
 	-fx-font-family: "Century Gothic";
-	-fx-font-size: 18px;
 }
 
 Button{
@@ -47,6 +46,7 @@ GridPane{
 #yourCardLabel{
 	-fx-rotate: -90;
 	-fx-translate-x: -40px;
+	-fx-font-size: 18px;
 }
 
 #turn{
@@ -88,6 +88,14 @@ GridPane{
 
 #yourCard{
 	-fx-border-color: black;
+}
+
+#scores{
+	-fx-font-size: 18px;
+}
+
+#chat{
+	-fx-font-size: 18px;
 }
 
 #quit{
