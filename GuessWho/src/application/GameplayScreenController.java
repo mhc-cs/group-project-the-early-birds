@@ -8,6 +8,7 @@ import guesswho.Controller;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -56,7 +57,7 @@ public class GameplayScreenController extends Controller {
      * Initializes the grid with the cards that the players guess from.
      */
     public void initialize() {
-        int column = 0; //goes up to 7.
+        int column = 0; //goes up to 7
         int row = 0; //goes up to 2
         
         for(int i = 0; i < deck.getSize(); i++) {
@@ -65,6 +66,13 @@ public class GameplayScreenController extends Controller {
             imageView.setFitWidth(95.0);
             imageView.setFitHeight(150.0);
             
+            //Displaying names
+            Label name = new Label();
+            name.getStyleClass().remove(name);
+            name.setText(deck.getCard(i).getName());
+            name.setFont(Font.font("Century Gothic", 13));
+            GridPane.setHalignment(name, HPos.CENTER);
+            
             // When clicked on, can be greyed out (and un-greyed out)
             final int imageId = i;
             greyedOutCards.put(imageId, deck.getCard(i).getGrey());
@@ -72,14 +80,17 @@ public class GameplayScreenController extends Controller {
             
             // Adding to grid
             cardGrid.add(imageView, column, row);
+            cardGrid.add(name, column, row + 1);
             if(column == 7) {
-                row++;
+                row += 2;
                 column = 0;
             } else {
                 column++;
             }
+            
         }
-        cardGrid.setVgap(27.5);
+        //cardGrid.setVgap(27.5);
+        cardGrid.setVgap(2);
         cardGrid.setHgap(7);
         
         //Passes every image in the grid to guess button when guess button is pressed
@@ -94,8 +105,11 @@ public class GameplayScreenController extends Controller {
                 ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
                 while(iterator.hasNext()) {
                     //calls guess on every image
-                    guess(iterator.next(), id);
-                    id++;
+                    Node next = iterator.next();
+                    if(next instanceof ImageView) {
+                        guess(next, id);
+                        id++;
+                    }
                 } 
             } else {
                 //Action that the guess button takes if guessing is in action
@@ -107,8 +121,11 @@ public class GameplayScreenController extends Controller {
                 ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
                 while(iterator.hasNext()) {
                     //calls stopGuessing on every image
-                    stopGuessing((ImageView) iterator.next(), id);
-                    id++;
+                    Node next = iterator.next();
+                    if(next instanceof ImageView) {
+                        stopGuessing((ImageView) next, id);
+                        id++; 
+                    }
                 }
             }
         });

@@ -31,11 +31,11 @@
 	</VBox>
 	<VBox spacing="5">
 		<HBox>
-			<Label text="SCORES"/>
+			<Label id="scores" text="SCORES"/>
 			<Button id="quit" text="Quit" onAction="#quitGame"/>
 		</HBox>
 		<Label id="scoresBox" text="[name1] = [score] &#9; [name1] = [score]"/>
-		<Label text="CHAT"/>
+		<Label id="chat" text="CHAT"/>
 		<TextArea editable="false"/>
 		<TextField/>
 	</VBox>
