@@ -3,6 +3,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.control.*?>
 <?import java.net.*?>
 <?import javafx.scene.control.TextArea?>
@@ -34,7 +35,9 @@
 			<Label id="scores" text="SCORES"/>
 			<Button id="quit" text="Quit" onAction="#quitGame"/>
 		</HBox>
-		<Label fx:id="scoresBox" id="scoresBox" text="[name1] = [score] &#9; [name1] = [score]"/>
+		<FlowPane maxWidth="315">
+			<Label fx:id="scoresBox" id="scoresBox"/>
+		</FlowPane>
 		<Label id="chat" text="CHAT"/>
 		<TextArea editable="false"/>
 		<TextField/>
