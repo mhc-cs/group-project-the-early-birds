@@ -7,7 +7,7 @@ import java.util.Random;
 
 /**
  * Game
- * has a deck and two players with functions for game actions
+ * has a deck and player with functions for game actions
  * @author Hannah, Dani, Anna
  *
  */
@@ -27,7 +27,7 @@ public class Game {
 	 * @param d deck of cards
 	 * @param p1 self
 	 */
-	public Game(Deck d, Player p1, Player p2) {
+	public Game(Deck d, Player p1) {
 		deck = d;
 		player1 = p1;
 	}
