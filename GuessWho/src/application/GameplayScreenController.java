@@ -51,6 +51,9 @@ public class GameplayScreenController extends Controller {
     @FXML
     private Button guessButton;
     
+    @FXML
+    private Label scoresBox;
+    
     /**
      * Initializes the grid with the cards that the players guess from.
      */
@@ -92,6 +95,7 @@ public class GameplayScreenController extends Controller {
         cardGrid.setHgap(7);
         
         //Passes every image in the grid to guess button when guess button is pressed
+        guessButton.setText("Guess "+game.getPlayer2Name()+"'s card");
         guessButton.setOnAction(e -> {
             //Action that the guess button takes if guessing is not in action
             if(guessing == false) {
@@ -113,7 +117,7 @@ public class GameplayScreenController extends Controller {
                 //Action that the guess button takes if guessing is in action
                 int id = 0;
                 guessing = false;
-                guessButton.setText("Guess [name]'s card");
+                guessButton.setText("Guess "+game.getPlayer2Name()+"'s card");
                 
                 //iterates through each image
                 ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
@@ -127,6 +131,9 @@ public class GameplayScreenController extends Controller {
                 }
             }
         });
+        
+        //setting scores text
+        scoresBox.setText(player.getName()+" = "+player.getScore()+" \t "+game.getPlayer2Name()+" = "+game.getPlayer2Score());
     }
     
     /**
@@ -143,16 +150,13 @@ public class GameplayScreenController extends Controller {
             if(greyedOutCards.get(imageId) == false) { //if it's not greyed out
                 //set image to be greyed out
                 image.setImage(new Image("application/defaultImages/grey.png"));
-                //set value for that key to indicate that it's greyed out
-                deck.getCard(imageId).toggleGrey(); //set it to true
-                greyedOutCards.put(imageId, deck.getCard(imageId).getGrey());
             } else { //if it's greyed out
                 //set image back
-                image.setImage(new Image("application/defaultImages/default" + imageId + ".png"));
-                //set value for that key to indicate that it's not greyed out
-                deck.getCard(imageId).resetGrey(); //set it to false
-                greyedOutCards.put(imageId, deck.getCard(imageId).getGrey());
+                image.setImage(new Image("application/"+deck.getCard(imageId).getImagePath()));
             }
+            //set value for that key to indicate if it is greyed out
+            deck.getCard(imageId).toggleGrey();
+            greyedOutCards.put(imageId, deck.getCard(imageId).getGrey());
         }
     }
     
@@ -165,6 +169,7 @@ public class GameplayScreenController extends Controller {
             turn.setText("It is the other \nplayer's turn to \nask a question.");
             game.endTurn();
         } else {
+        	//TODO
         	// this case should be when receiving a message from the server
             turn.setText("It is your turn \nto ask a question.");
             //set players turn to true? this might go in a different file

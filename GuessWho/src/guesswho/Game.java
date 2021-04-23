@@ -22,6 +22,12 @@ public class Game {
 	//store other players card
 	private Card player2Card = null;
 	
+	//TODO
+	//store other players name? might go in dif file?
+	private String player2Name = "[NAME]";
+	//same thing with score
+	private int player2Score = 3;
+	
 	/**
 	 * Game constructor
 	 * @param d deck of cards
@@ -97,6 +103,22 @@ public class Game {
 				endTurn();
 			}
 		}
+	}
+	
+	/**
+	 * get player2 name
+	 * @return name
+	 */
+	public String getPlayer2Name() {
+		return player2Name;
+	}
+	
+	/**
+	 * get player2 score
+	 * @return score
+	 */
+	public int getPlayer2Score() {
+		return player2Score;
 	}
 	
 	/**

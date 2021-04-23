@@ -34,7 +34,7 @@
 			<Label id="scores" text="SCORES"/>
 			<Button id="quit" text="Quit" onAction="#quitGame"/>
 		</HBox>
-		<Label id="scoresBox" text="[name1] = [score] &#9; [name1] = [score]"/>
+		<Label fx:id="scoresBox" id="scoresBox" text="[name1] = [score] &#9; [name1] = [score]"/>
 		<Label id="chat" text="CHAT"/>
 		<TextArea editable="false"/>
 		<TextField/>
