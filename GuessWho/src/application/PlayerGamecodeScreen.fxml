@@ -9,6 +9,6 @@
 	spacing = "10" prefWidth="500" prefHeight="600" stylesheets="@playerGamecodeScreen.css">
 	<Label id="title" text="Please enter your game code." wrapText="true" textAlignment="CENTER"/>
 	<TextField fx:id="gamecode"></TextField>
-	<Button id="continue" text="Continue" onAction="#setPlayerCode"/>
+	<Button id="continue" text="Continue" onAction="#continueButton"/>
 	<Button id="back" text="Go back" onAction="#goBack"/>
 </VBox>
