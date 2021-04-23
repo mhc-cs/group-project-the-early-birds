@@ -63,6 +63,14 @@ public class Player {
 	}
 	
 	/**
+	 * set name
+	 * @param name the name to change to
+	 */
+	public void setName(String name) {
+	    playerName = name;
+	}
+	
+	/**
 	 * get turn
 	 * @return boolean if is turn
 	 */
@@ -92,6 +100,14 @@ public class Player {
 	 */
 	public boolean getHost() {
 		return isHost;
+	}
+	
+	/**
+	 * set host
+	 * @param host if they're the host
+	 */
+	public void setHost(boolean host) {
+	    isHost = host;
 	}
 	
 	/**
