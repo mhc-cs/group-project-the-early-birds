@@ -148,7 +148,7 @@ public class GameplayScreenController extends Controller {
                 greyedOutCards.put(imageId, deck.getCard(imageId).getGrey());
             } else { //if it's greyed out
                 //set image back
-                image.setImage(new Image("application/defaultImages/default" + imageId + ".png"));
+                image.setImage(new Image("application/"+deck.getCard(imageId).getImagePath()));
                 //set value for that key to indicate that it's not greyed out
                 deck.getCard(imageId).resetGrey(); //set it to false
                 greyedOutCards.put(imageId, deck.getCard(imageId).getGrey());
