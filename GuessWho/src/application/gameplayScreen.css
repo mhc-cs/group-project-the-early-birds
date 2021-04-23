@@ -37,8 +37,12 @@ GridPane{
 	-fx-border-color: black;
 }
 
-#scoresBox{
+FlowPane{
 	-fx-border-color: black;
+	-fx-max-width: 315px;
+}
+
+#scoresBox{
 	-fx-padding: 5px;
 	-fx-font-size: 15px;
 }
