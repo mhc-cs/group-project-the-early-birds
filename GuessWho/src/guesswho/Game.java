@@ -25,6 +25,8 @@ public class Game {
 	//TODO
 	//store other players name? might go in dif file?
 	private String player2Name = "[NAME]";
+	//same thing with score
+	private int player2Score = 3;
 	
 	/**
 	 * Game constructor
@@ -109,6 +111,14 @@ public class Game {
 	 */
 	public String getPlayer2Name() {
 		return player2Name;
+	}
+	
+	/**
+	 * get player2 score
+	 * @return score
+	 */
+	public int getPlayer2Score() {
+		return player2Score;
 	}
 	
 	/**

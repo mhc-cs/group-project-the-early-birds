@@ -51,6 +51,9 @@ public class GameplayScreenController extends Controller {
     @FXML
     private Button guessButton;
     
+    @FXML
+    private Label scoresBox;
+    
     /**
      * Initializes the grid with the cards that the players guess from.
      */
@@ -92,6 +95,7 @@ public class GameplayScreenController extends Controller {
         cardGrid.setHgap(7);
         
         //Passes every image in the grid to guess button when guess button is pressed
+        guessButton.setText("Guess "+game.getPlayer2Name()+"'s card");
         guessButton.setOnAction(e -> {
             //Action that the guess button takes if guessing is not in action
             if(guessing == false) {
@@ -127,6 +131,9 @@ public class GameplayScreenController extends Controller {
                 }
             }
         });
+        
+        //setting scores text
+        scoresBox.setText(player.getName()+" = "+player.getScore()+" \t "+game.getPlayer2Name()+" = "+game.getPlayer2Score());
     }
     
     /**
