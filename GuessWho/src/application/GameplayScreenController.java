@@ -54,12 +54,18 @@ public class GameplayScreenController extends Controller {
     @FXML
     private Label scoresBox;
     
+    @FXML
+    private ImageView yourCard;
+    
+    @FXML
+    private Label yourCardName;
+    
     /**
      * Initializes the grid with the cards that the players guess from.
      */
     public void initialize() {
         int column = 0; //goes up to 7
-        int row = 0; //goes up to 2
+        int row = 0; //3 rows of faces
         
         for(int i = 0; i < deck.getSize(); i++) {
             // Wrapping in ImageView
@@ -90,7 +96,6 @@ public class GameplayScreenController extends Controller {
             }
             
         }
-        //cardGrid.setVgap(27.5);
         cardGrid.setVgap(2);
         cardGrid.setHgap(7);
         
@@ -134,6 +139,16 @@ public class GameplayScreenController extends Controller {
         
         //setting scores text
         scoresBox.setText(player.getName()+" = "+player.getScore()+" \t "+game.getPlayer2Name()+" = "+game.getPlayer2Score());
+        
+        //set player's card
+        game.drawCards();
+        String cardPath = "application/" + player.getCard().getImagePath();
+        System.out.println(cardPath);
+        Image image = new Image(cardPath);
+        yourCard.setImage(image);
+        
+        //set player's card name
+        yourCardName.setText(player.getCard().getName());
     }
     
     /**
@@ -317,6 +332,7 @@ public class GameplayScreenController extends Controller {
     public void quitGame() {
         System.out.println("Quitting...");
         //Here's where to add the code for the quit button
+        //TODO close connection to server
     }
    
 }
