@@ -1,5 +1,8 @@
 package guesswho;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -94,6 +97,42 @@ public class Game {
 				endTurn();
 			}
 		}
+	}
+	
+	/**
+	 * Still under contruction
+	 * This method handles incoming messages from the other player
+	 * such as messages that should go in the chat
+	 * @param privateMsg true if message only to one person, not to group
+	 * @param sender Name of sender
+	 * @param spectactor True if sender is spectator, false otherwise
+	 * @param kind Type of message
+	 * @param msg Content of the message
+	 */
+	public void handle_msg (boolean privateMsg, String sender, boolean spectactor, String kind, HashMap<String,String> msg) {
+		if (kind == "CHAT") {
+			Network.add_hist(sender + ": " + msg.get("msg"));
+		}
+		//will need to write handlers for all kinds of messages we send between games
+	}
+	
+	/*
+	 * Under construction
+	 * This will process incoming messages from the server that handle connection process
+	 */
+	public void process(HashMap<String,String> msgs) {
+		// this code is not right yet, needs to iterate through messages 
+		// handle each one
+//		for (Map.Entry<String,String> msg : msgs.entrySet()) {
+//			try {
+//				if( msgs.get("TYPE") == "CONNECT") {
+//					
+//				}
+//			}
+//			catch (IOException e) {
+//				System.out.print("temp");
+//			}
+//		}
 	}
 	
 }

@@ -21,7 +21,7 @@ public class InvitePlayersController {
     @FXML
     private Label warning;
     
-    private static String name;
+    static String name;
     
     private static boolean isHost;
     
