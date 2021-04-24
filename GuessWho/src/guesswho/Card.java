@@ -86,7 +86,7 @@ public class Card {
 	 * if true becomes false and vice versa
 	 */
 	public void toggleGrey() {
-		grey = true;
+		grey ^= true;
 	}
 	
 	/**

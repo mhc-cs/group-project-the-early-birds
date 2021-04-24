@@ -6,6 +6,7 @@ import java.util.ListIterator;
 
 import guesswho.Controller;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
@@ -336,11 +337,31 @@ public class GameplayScreenController extends Controller {
     
     /**
      * Quits the game and returns to the invite players screen.
+     * @param event The event that the button is pressed. Lets us know what screen
+     * the button was on and therefore what screen to close.
      */
-    public void quitGame() {
+    public void quitGame(ActionEvent event) {
         System.out.println("Quitting...");
-        //Here's where to add the code for the quit button
         //TODO close connection to server
+        
+        //Going to invite players screen
+        try {
+            //Loads the new screen
+            Parent startGameParent = FXMLLoader.load(getClass().getResource("InvitePlayers.fxml"));
+            Scene startGameScene = new Scene(startGameParent);
+            
+            //Finds the previous screen and switches off of it
+            Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            appStage.setScene(startGameScene);
+            appStage.centerOnScreen();
+            
+            //Shows the new screen
+            appStage.show();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        
+        }
     }
     
     public void chat() {
