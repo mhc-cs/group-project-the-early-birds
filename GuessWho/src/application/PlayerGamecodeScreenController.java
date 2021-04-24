@@ -39,6 +39,7 @@ public class PlayerGamecodeScreenController {
             //Finds the previous screen and switches off of it
             Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             appStage.setScene(startGameScene);
+            appStage.centerOnScreen();
             
             //Shows the new screen
             appStage.show();
