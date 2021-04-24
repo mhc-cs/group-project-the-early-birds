@@ -41,7 +41,7 @@
 		</FlowPane>
 		<Label id="chat" text="CHAT"/>
 		<TextArea editable="false"/>
-		<TextField/>
+		<TextField fx:id="chatInput"/>
 	</VBox>
 </HBox>
 

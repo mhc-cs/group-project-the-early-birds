@@ -16,6 +16,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -59,6 +61,12 @@ public class GameplayScreenController extends Controller {
     
     @FXML
     private Label yourCardName;
+    
+    @FXML
+    private TextField chatInput;
+    
+    @FXML
+    private TextArea chatArea;
     
     /**
      * Initializes the grid with the cards that the players guess from.
@@ -334,5 +342,11 @@ public class GameplayScreenController extends Controller {
         //Here's where to add the code for the quit button
         //TODO close connection to server
     }
+    
+    public void chat() {
+        //TODO implement chat using chatInput and chatArea
+        //chatInput.getText() gets the text that's typed into the chat
+    }
+        
    
 }

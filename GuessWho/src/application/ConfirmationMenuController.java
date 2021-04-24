@@ -20,4 +20,13 @@ public class ConfirmationMenuController {
         Stage stage = (Stage) cancel.getScene().getWindow();
         stage.close();
     }
+    
+    /**
+     * Checks that the guess is correct.
+     * Happens when the "yes" button is pressed in the confirmation
+     * menu. 
+     */
+    public void confirm() {
+        //TODO implement
+    }
 }
