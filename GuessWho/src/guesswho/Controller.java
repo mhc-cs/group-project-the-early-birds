@@ -45,8 +45,15 @@ public class Controller extends Application {
         }
     }
     
+    public static Game getGame() {
+    	return game;
+    }
+    
     public static void main(String[] args) {
         launch(args);
+        while (true) {
+        	game.process(Network.do_communication());
+        }
         //testing
         System.out.println(player.getName());
         System.out.println(player.getHost());

@@ -2,6 +2,8 @@ package application;
 
 import java.io.IOException;
 
+import guesswho.Controller;
+import guesswho.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +28,10 @@ public class HostGamecodeScreenController {
     public void continueButton(ActionEvent event) {
         code = gamecode.getText();
         System.out.println(code);
+
+        Controller.getGame().setGameCode(code);
+        Controller.getGame().setStatus("S");
+        
         //TODO connect players with gamecode
         
         //Going to gameplay screen

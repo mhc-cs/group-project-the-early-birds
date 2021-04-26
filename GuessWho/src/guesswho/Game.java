@@ -1,9 +1,12 @@
 package guesswho;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import application.InvitePlayersController;
 
 /**
  * Game
@@ -21,6 +24,12 @@ public class Game {
 	
 	//store other players card
 	private Card player2Card = null;
+	
+	//stores whether or not player is hosting or joining a game
+	private String status;
+	
+	//stores gamecode
+	private String gamecode;
 	
 	//TODO
 	//store other players name? might go in dif file?
@@ -99,13 +108,30 @@ public class Game {
 			if(c==player2Card) {
 				player1.incScore();
 				//send message that score updated and player wins
-			}else {
+			}
+			else {
 				endTurn();
 			}
 		}
 	}
 	
 	/**
+	 * Setter for gamecode
+	 * @param gamecode String representation of gamecode
+	 */
+	public void setGameCode(String gamecode) {
+		this.gamecode = gamecode;
+	}
+	
+	/**
+	 * Setter for status. Status will either be J (join) or S (start new game/host)
+	 * @param status String representation of whether gamecode is used to start a 
+	 * new room or join an existing one
+	 */
+	public void setStatus(String status) {
+		this.status = status;
+
+  /**
 	 * get player2 name
 	 * @return name
 	 */
@@ -119,6 +145,7 @@ public class Game {
 	 */
 	public int getPlayer2Score() {
 		return player2Score;
+
 	}
 	
 	/**
@@ -135,6 +162,7 @@ public class Game {
 		if (kind == "CHAT") {
 			Network.add_hist(sender + ": " + msg.get("msg"));
 		}
+		
 		//will need to write handlers for all kinds of messages we send between games
 	}
 	
@@ -142,7 +170,29 @@ public class Game {
 	 * Under construction
 	 * This will process incoming messages from the server that handle connection process
 	 */
-	public void process(HashMap<String,String> msgs) {
+	public void process(ArrayList<HashMap<String,String>> msgs) {
+		for (int i =0; i < msgs.size(); i++ ) {
+			HashMap<String,String> msg = msgs.get(i);
+			if (msg.get("TYPE") == "HELLO" ) {
+				HashMap<String,String> newMsg = new HashMap<String,String>();
+				msg.put("TYPE", "HELLO");
+				msg.put("name", InvitePlayersController.getName());
+				msg.put("gamename", "guesswho");
+				Network.send(newMsg);
+			}
+			if (msg.get("TYPE") == "WELCOME" ) {
+				HashMap<String,String> newMsg = new HashMap<String,String>();
+				msg.put("TYPE", "JOIN_GAME");
+				//this is going to create an issue because 2 needs to be a number
+				msg.put("size", "2");
+				msg.put("allow_spectators", "False");
+				msg.put("status", status);
+				msg.put("gamecode", gamecode);
+				
+				Network.send(newMsg);
+			}
+		}
+		
 		// this code is not right yet, needs to iterate through messages 
 		// handle each one
 //		for (Map.Entry<String,String> msg : msgs.entrySet()) {

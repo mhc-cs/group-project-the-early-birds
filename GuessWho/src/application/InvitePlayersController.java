@@ -1,7 +1,7 @@
 package application;
 
 import java.io.IOException;
-
+import guesswho.Network;
 import guesswho.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,6 +33,9 @@ public class InvitePlayersController extends Controller {
         if(playerName.getText().isEmpty()) {
             warning.setText("Please enter a name.");
         } else {
+            name = playerName.getText();
+            System.out.println("Name: " + name);
+            Network.connect();
             player.setName(playerName.getText());
             try {
                 //Loads the new screen
@@ -64,6 +67,9 @@ public class InvitePlayersController extends Controller {
         if(playerName.getText().isEmpty()) {
             warning.setText("Please enter a name.");
         } else {
+            name = playerName.getText();
+            System.out.println("Name: " + name);
+            Network.connect();
             player.setName(playerName.getText());
             try {
                 //Loads the new screen
