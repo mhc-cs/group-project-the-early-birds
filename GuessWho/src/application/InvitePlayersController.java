@@ -30,11 +30,10 @@ public class InvitePlayersController extends Controller {
      */
     public void startGame(ActionEvent event) {
         player.setHost(true);
+        player.setName(playerName.getText());
         if(playerName.getText().isEmpty()) {
             warning.setText("Please enter a name.");
         } else {
-            name = playerName.getText();
-            System.out.println("Name: " + name);
             Network.connect();
             player.setName(playerName.getText());
             try {
@@ -64,11 +63,10 @@ public class InvitePlayersController extends Controller {
      */
     public void joinGame(ActionEvent event) {
         player.setHost(false);
+        player.setName(playerName.getText());
         if(playerName.getText().isEmpty()) {
             warning.setText("Please enter a name.");
         } else {
-            name = playerName.getText();
-            System.out.println("Name: " + name);
             Network.connect();
             player.setName(playerName.getText());
             try {

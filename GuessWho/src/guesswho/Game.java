@@ -130,6 +130,7 @@ public class Game {
 	 */
 	public void setStatus(String status) {
 		this.status = status;
+	}
 
   /**
 	 * get player2 name
@@ -176,7 +177,7 @@ public class Game {
 			if (msg.get("TYPE") == "HELLO" ) {
 				HashMap<String,String> newMsg = new HashMap<String,String>();
 				msg.put("TYPE", "HELLO");
-				msg.put("name", InvitePlayersController.getName());
+				//msg.put("name", InvitePlayersController.getName());
 				msg.put("gamename", "guesswho");
 				Network.send(newMsg);
 			}
