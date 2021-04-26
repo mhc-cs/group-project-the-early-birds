@@ -14,17 +14,21 @@ public class Controller extends Application {
      * The deck of Guess Who that the players will use.
      */
     protected static Deck deck = new Deck();
-    
-    //change this later to get name and isHost from server
+
+    /**
+     * The player using this computer.
+     */
     protected static Player player = new Player("Name", true);
     
+    /**
+     * The game of Guess Who.
+     */
     protected static Game game = new Game(deck, player);
     
     @Override
     public void start(Stage primaryStage) {
         try {
-            // load in the page here. Right now I'm hardcoding it to the page I'm working on, but I'll
-            // have to un-hardcode it later. 
+            // load in the page here.
             Parent root = FXMLLoader.load(getClass().getResource("/application/InvitePlayers.fxml"));
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/application/application.css").toExternalForm());
@@ -50,5 +54,8 @@ public class Controller extends Application {
         while (true) {
         	game.process(Network.do_communication());
         }
+        //testing
+        System.out.println(player.getName());
+        System.out.println(player.getHost());
     }
 }

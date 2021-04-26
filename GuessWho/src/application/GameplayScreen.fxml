@@ -3,6 +3,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.control.*?>
 <?import java.net.*?>
 <?import javafx.scene.control.TextArea?>
@@ -16,10 +17,11 @@
 		<GridPane fx:id="cardGrid">
 		</GridPane>
 		<HBox alignment="CENTER" id="dashboard" spacing= "10">
-			<ImageView id="yourCard" fitHeight="140.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="false"
-     	 		 GridPane.rowIndex="1" GridPane.columnIndex="2">
-            	<Image url="@defaultImages/default0.png"/>
-     	 	</ImageView>
+			<VBox alignment="CENTER">
+				<ImageView fx:id="yourCard" id="yourCard" fitHeight="125.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="false"
+     	 		 GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+     	 		<Label fx:id="yourCardName"/>
+			</VBox>
      	 	<Label id="yourCardLabel" text="YOUR CARD"/>
      	 	<Label fx:id="turn" id="turn" text="It is your turn &#10;to ask a question."/>
      	 	<Button id="helpButton" text="?" onAction="#displayHelpWindow"/>
@@ -34,10 +36,12 @@
 			<Label id="scores" text="SCORES"/>
 			<Button id="quit" text="Quit" onAction="#quitGame"/>
 		</HBox>
-		<Label id="scoresBox" text="[name1] = [score] &#9; [name1] = [score]"/>
+		<FlowPane maxWidth="315">
+			<Label fx:id="scoresBox" id="scoresBox"/>
+		</FlowPane>
 		<Label id="chat" text="CHAT"/>
 		<TextArea editable="false"/>
-		<TextField/>
+		<TextField fx:id="chatInput"/>
 	</VBox>
 </HBox>
 

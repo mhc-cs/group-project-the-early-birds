@@ -6,6 +6,7 @@ import java.util.ListIterator;
 
 import guesswho.Controller;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
@@ -16,6 +17,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -51,12 +54,27 @@ public class GameplayScreenController extends Controller {
     @FXML
     private Button guessButton;
     
+    @FXML
+    private Label scoresBox;
+    
+    @FXML
+    private ImageView yourCard;
+    
+    @FXML
+    private Label yourCardName;
+    
+    @FXML
+    private TextField chatInput;
+    
+    @FXML
+    private TextArea chatArea;
+    
     /**
      * Initializes the grid with the cards that the players guess from.
      */
     public void initialize() {
         int column = 0; //goes up to 7
-        int row = 0; //goes up to 2
+        int row = 0; //3 rows of faces
         
         for(int i = 0; i < deck.getSize(); i++) {
             // Wrapping in ImageView
@@ -87,11 +105,11 @@ public class GameplayScreenController extends Controller {
             }
             
         }
-        //cardGrid.setVgap(27.5);
         cardGrid.setVgap(2);
         cardGrid.setHgap(7);
         
         //Passes every image in the grid to guess button when guess button is pressed
+        guessButton.setText("Guess "+game.getPlayer2Name()+"'s card");
         guessButton.setOnAction(e -> {
             //Action that the guess button takes if guessing is not in action
             if(guessing == false) {
@@ -113,7 +131,7 @@ public class GameplayScreenController extends Controller {
                 //Action that the guess button takes if guessing is in action
                 int id = 0;
                 guessing = false;
-                guessButton.setText("Guess [name]'s card");
+                guessButton.setText("Guess "+game.getPlayer2Name()+"'s card");
                 
                 //iterates through each image
                 ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
@@ -127,6 +145,19 @@ public class GameplayScreenController extends Controller {
                 }
             }
         });
+        
+        //setting scores text
+        scoresBox.setText(player.getName()+" = "+player.getScore()+" \t "+game.getPlayer2Name()+" = "+game.getPlayer2Score());
+        
+        //set player's card
+        game.drawCards();
+        String cardPath = "application/" + player.getCard().getImagePath();
+        System.out.println(cardPath);
+        Image image = new Image(cardPath);
+        yourCard.setImage(image);
+        
+        //set player's card name
+        yourCardName.setText(player.getCard().getName());
     }
     
     /**
@@ -143,16 +174,13 @@ public class GameplayScreenController extends Controller {
             if(greyedOutCards.get(imageId) == false) { //if it's not greyed out
                 //set image to be greyed out
                 image.setImage(new Image("application/defaultImages/grey.png"));
-                //set value for that key to indicate that it's greyed out
-                deck.getCard(imageId).toggleGrey(); //set it to true
-                greyedOutCards.put(imageId, deck.getCard(imageId).getGrey());
             } else { //if it's greyed out
                 //set image back
-                image.setImage(new Image("application/defaultImages/default" + imageId + ".png"));
-                //set value for that key to indicate that it's not greyed out
-                deck.getCard(imageId).resetGrey(); //set it to false
-                greyedOutCards.put(imageId, deck.getCard(imageId).getGrey());
+                image.setImage(new Image("application/"+deck.getCard(imageId).getImagePath()));
             }
+            //set value for that key to indicate if it is greyed out
+            deck.getCard(imageId).toggleGrey();
+            greyedOutCards.put(imageId, deck.getCard(imageId).getGrey());
         }
     }
     
@@ -165,6 +193,7 @@ public class GameplayScreenController extends Controller {
             turn.setText("It is the other \nplayer's turn to \nask a question.");
             game.endTurn();
         } else {
+        	//TODO
         	// this case should be when receiving a message from the server
             turn.setText("It is your turn \nto ask a question.");
             //set players turn to true? this might go in a different file
@@ -308,10 +337,37 @@ public class GameplayScreenController extends Controller {
     
     /**
      * Quits the game and returns to the invite players screen.
+     * @param event The event that the button is pressed. Lets us know what screen
+     * the button was on and therefore what screen to close.
      */
-    public void quitGame() {
+    public void quitGame(ActionEvent event) {
         System.out.println("Quitting...");
-        //Here's where to add the code for the quit button
+        //TODO close connection to server
+        
+        //Going to invite players screen
+        try {
+            //Loads the new screen
+            Parent startGameParent = FXMLLoader.load(getClass().getResource("InvitePlayers.fxml"));
+            Scene startGameScene = new Scene(startGameParent);
+            
+            //Finds the previous screen and switches off of it
+            Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            appStage.setScene(startGameScene);
+            appStage.centerOnScreen();
+            
+            //Shows the new screen
+            appStage.show();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        
+        }
     }
+    
+    public void chat() {
+        //TODO implement chat using chatInput and chatArea
+        //chatInput.getText() gets the text that's typed into the chat
+    }
+        
    
 }

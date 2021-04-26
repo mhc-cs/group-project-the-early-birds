@@ -19,11 +19,35 @@ public class PlayerGamecodeScreenController {
     private static String code;
     
     /**
-     * Sets the gamecode that the player entered
+     * Sets the gamecode that the player entered.
+     * Happens when continue button is pressed.
+     * 
+     * @param event The action of pressing the button. Allows us to know where the
+     * button press came from, and therefore which scene the program came from.
      */
-    public void setPlayerCode() {
+    public void continueButton(ActionEvent event) {
         code = gamecode.getText();
         System.out.println(code);
+        //TODO connect players with gamecode
+        
+        //Going to gameplay screen
+        try {
+            //Loads the new screen
+            Parent startGameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
+            Scene startGameScene = new Scene(startGameParent);
+            
+            //Finds the previous screen and switches off of it
+            Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            appStage.setScene(startGameScene);
+            appStage.centerOnScreen();
+            
+            //Shows the new screen
+            appStage.show();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        
+        }
     }
     
     /**

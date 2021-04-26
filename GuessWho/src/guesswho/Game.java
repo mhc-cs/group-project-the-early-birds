@@ -31,6 +31,11 @@ public class Game {
 	//stores gamecode
 	private String gamecode;
 	
+	//TODO
+	//store other players name? might go in dif file?
+	private String player2Name = "[NAME]";
+	//same thing with score
+	private int player2Score = 3;
 	
 	/**
 	 * Game constructor
@@ -118,13 +123,29 @@ public class Game {
 		this.gamecode = gamecode;
 	}
 	
-	/*
+	/**
 	 * Setter for status. Status will either be J (join) or S (start new game/host)
 	 * @param status String representation of whether gamecode is used to start a 
 	 * new room or join an existing one
 	 */
 	public void setStatus(String status) {
 		this.status = status;
+
+  /**
+	 * get player2 name
+	 * @return name
+	 */
+	public String getPlayer2Name() {
+		return player2Name;
+	}
+	
+	/**
+	 * get player2 score
+	 * @return score
+	 */
+	public int getPlayer2Score() {
+		return player2Score;
+
 	}
 	
 	/**
