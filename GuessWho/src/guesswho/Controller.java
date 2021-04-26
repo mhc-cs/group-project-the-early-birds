@@ -41,7 +41,14 @@ public class Controller extends Application {
         }
     }
     
+    public static Game getGame() {
+    	return game;
+    }
+    
     public static void main(String[] args) {
         launch(args);
+        while (true) {
+        	game.process(Network.do_communication());
+        }
     }
 }

@@ -1,9 +1,14 @@
 package guesswho;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 //import java.net.InetAddress;
 
 /*
@@ -16,7 +21,7 @@ public class Network {
 	static ByteArrayOutputStream outbuf;
 	static ByteArrayInputStream inbuf;
 	//Fix types later
-	static HashMap<String,String> msgs;
+	static ArrayList<HashMap<String,String>> msgs;
 	static byte[] buf;
 	
 	
@@ -27,31 +32,37 @@ public class Network {
 //		this.SERVER_ADDRESS = new InetAddress();
 		outbuf = new ByteArrayOutputStream();
 		inbuf = new ByteArrayInputStream(buf);
-		msgs = new HashMap<String,String>();
+		msgs = new ArrayList<HashMap<String,String>>();
 	}
 	
-	/**
-	 * Adds data to be sent to the out buffer
-	 */
-	public static void send(HashMap<String, String> data) {
-		
-	}
+	
 	
 	/*
 	 * Connects to the game server
 	 */
-	public static void connnect() {
+	public static void connect() {
 		close();
 		//add ability to connect to a different game server?
+		   System.out.println("Attempting to connect...");
 		try {
 			sock = new Socket("127.0.0.1", 9876);
 			//add a message of type CONNECT
 		} 
 		catch (IOException e) {
-			add_hist("Couldn't connect.");
+			System.out.println("Couldn't connect.");
 			close();
 		}
 		
+	}
+	
+	
+	/**
+	 * Adds data to be sent to the out buffer
+	 */
+	public static void send(HashMap<String, String> data) {
+//		ByteArrayOutputStream encodedData = 
+				
+//		outbuf += encodedData;
 	}
 	
 	/*
@@ -63,10 +74,19 @@ public class Network {
 	
 	/**
 	 * Sends data from the outbuffer
-	 * and handles confirmation messages from the 
-	 * server when data is recieved
+	 * and inputs data from the server to inbuf,
+	 * then decodes inbuf to messages
 	 */
-	public static void do_communication() {
+	public static ArrayList<HashMap<String,String>> do_communication() {
+		//needs to send data from out buf to server
+//		sock.send("ehll");
+		// needs to decode inbuf to messages
+		if (sock == null) {
+			return new ArrayList<HashMap<String,String>>();
+		}
+		
+		return new ArrayList<HashMap<String,String>>();
+		
 		
 	}
 	

@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 
+import guesswho.Network;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,6 +39,7 @@ public class InvitePlayersController {
         } else {
             name = playerName.getText();
             System.out.println("Name: " + name);
+            Network.connect();
             try {
                 //Loads the new screen
                 Parent startGameParent = FXMLLoader.load(getClass().getResource("HostGamecodeScreen.fxml"));
@@ -70,6 +72,8 @@ public class InvitePlayersController {
         } else {
             name = playerName.getText();
             System.out.println("Name: " + name);
+            Network.connect();
+         
             try {
                 //Loads the new screen
                 Parent startGameParent = FXMLLoader.load(getClass().getResource("PlayerGamecodeScreen.fxml"));
