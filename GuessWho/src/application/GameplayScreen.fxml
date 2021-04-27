@@ -27,7 +27,7 @@
      	 	<Button id="helpButton" text="?" onAction="#displayHelpWindow"/>
      	 	<VBox spacing="20">
      	 		<Button fx:id="guessButton" id="guess" text="Guess [name]'s card"/>
-     	 		<Button id="endTurn" text="End your turn" onAction="#endTurn"/>
+     	 		<Button fx:id="endTurn" id="endTurn" text="End your turn" onAction="#endTurn"/>
      	 	</VBox>
 		</HBox>
 	</VBox>
