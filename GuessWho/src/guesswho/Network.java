@@ -17,6 +17,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import Messages.Message;
 //import java.net.InetAddress;
 
 /*
@@ -52,7 +54,7 @@ public class Network {
 	 * Connects to the game server
 	 */
 	public static void connect() {
-		close();
+//		close();
 		//add ability to connect to a different game server?
 		   System.out.println("Attempting to connect...");
 		try {
@@ -78,10 +80,9 @@ public class Network {
 	/**
 	 * Adds data to be sent to the out buffer
 	 */
-	public static void send(HashMap<String, String> data) {
-//		ByteArrayOutputStream encodedData = 
-				
-//		outbuf += encodedData;
+	public static void send(Message data) {
+		Gson gson = new Gson();
+		outbuf += gson.toJson(data);
 	}
 	
 	/*
@@ -158,20 +159,5 @@ public class Network {
 		
 	}
 	
-	/*
-	 * Handles text from the chat, 
-	 * we may not actually need this
-	 */
-	public static void send_chat() {
-		
-	}
-	
-	/**
-	 * Adds messages to the chat log/history
-	 * @param msg
-	 */
-	public static void add_hist(String msg) {
-		
-	}
 
 }
