@@ -346,12 +346,22 @@ public class GameplayScreenController extends Controller {
     }
     
     /**
-     * Quits the game and returns to the invite players screen.
+     * Quits the game and returns to the invite players screen. Also resets the data
+     * for this screen, like which cards are greyed out and the player score.
+     * 
      * @param event The event that the button is pressed. Lets us know what screen
      * the button was on and therefore what screen to close.
      */
     public void quitGame(ActionEvent event) {
         System.out.println("Quitting...");
+        
+        //Resetting player data and hashmap
+        player.reset();
+        for(Integer key : greyedOutCards.keySet()) {
+            deck.getCard(key.intValue()).resetGrey();
+            greyedOutCards.put(key, deck.getCard(key).getGrey());
+        }        
+        
         //TODO close connection to server
         
         //Going to invite players screen
@@ -370,8 +380,9 @@ public class GameplayScreenController extends Controller {
             
         } catch (IOException e) {
             e.printStackTrace();
-        
         }
+        
+        
     }
     
     /**
