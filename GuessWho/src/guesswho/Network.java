@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 import Messages.Message;
 //import java.net.InetAddress;
@@ -106,18 +107,15 @@ public class Network {
 	 * and inputs data from the server to inbuf,
 	 * then decodes inbuf to messages
 	 */
-	public static ArrayList<JsonObject> do_communication() {
-		//needs to send data from out buf to server
-//		sock.send("ehll");
-		// needs to decode inbuf to messages
-		
-		//only need this is not all of each message is sent in each
+	public static ArrayList<JsonObject> do_communication() {		
+		//only need this is not all of each message is sent in each?
 //		ArrayList<JsonObject> oldMsgs = msgs;
-//		msgs = null;
-		
-		
+		msgs = null;
+		System.out.println("Do Communication is running");
+		if (sock == null) {
+			return msgs;
+		}
 
-		
 		//send message to server
 		if (!outbuf.isEmpty()) {
 			try {
@@ -125,6 +123,7 @@ public class Network {
 				 //remember how much is sent, then make the outbuffer the remainder
 		        dataOutputStream.writeBytes(outbuf);
 		        dataOutputStream.flush();
+		        System.out.println("Sent to server");
 			} 
 			catch (SocketException e) {
 				System.out.print(e);
@@ -135,8 +134,6 @@ public class Network {
 			
 			
 		}
-		
-		
 		//recieve message from server
 		try {
 			// get the input stream from the connected socket
@@ -144,15 +141,30 @@ public class Network {
 	        // create a DataInputStream so we can read data from it.
 	        DataInputStream dataInputStream = new DataInputStream(inputStream);
 			inbuf = dataInputStream.readUTF();
+			//need to add processing for string to become JSONObjects
+//			try (JsonReader jsonReader = new JsonReader(dataInputStream)) {
+//	            jsonReader.beginObject();
+//	            while (jsonReader.hasNext()) {
+//	                String name = jsonReader.nextName();
+//	                if (name.equals("filter_level")) {
+//	                    System.out.println(jsonReader.nextString());
+//	                } else if (name.equals("text")) {
+//	                    System.out.println("text: " + jsonReader.nextString());
+//	                } else {
+//	                    jsonReader.skipValue();
+//	                }
+//	            }
+//	            jsonReader.endObject();
+//	            jsonReader.close();
+//	        }
+			
 			System.out.print("Inbuf: " + inbuf);
+			System.out.println("Recived from server");
 		}
 		catch (Exception e) {
 			
 		}
 		
-		if (sock == null) {
-			return msgs;
-		}
 		
 		return new ArrayList<JsonObject>();
 		

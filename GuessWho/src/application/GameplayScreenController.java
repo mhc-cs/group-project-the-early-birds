@@ -367,9 +367,10 @@ public class GameplayScreenController extends Controller {
     /**
      * 
      */
-    public void chat() {
+    public void chat(String msg) {
         //TODO implement chat using chatInput and chatArea
         //chatInput.getText() gets the text that's typed into the chat
+    	//Is this used to add text to the chat? (Asked by Anna)
     }
         
    

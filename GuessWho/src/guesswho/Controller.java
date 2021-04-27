@@ -52,11 +52,10 @@ public class Controller extends Application {
     public static void main(String[] args) {
         launch(args);
         //testing
+       
         System.out.println(player.getName());
         System.out.println(player.getHost());
-        while (true) {
-        	game.process(Network.do_communication());
-        }
+       
         
     }
 }

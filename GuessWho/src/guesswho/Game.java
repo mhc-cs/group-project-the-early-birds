@@ -8,6 +8,7 @@ import java.util.Random;
 
 import com.google.gson.*;
 
+import application.GameplayScreenController;
 import application.InvitePlayersController;
 
 /**
@@ -163,15 +164,17 @@ public class Game {
 	 */
 	public void handle_msg (boolean privateMsg, String sender, boolean spectactor, String kind, HashMap<String,String> msg) {
 		if (kind == "CHAT") {
-			Network.add_hist(sender + ": " + msg.get("msg"));
+			//needs to add message to chat
+//			GameplayScreenController.chat(sender + ": " + msg.get("msg"));
 		}
 		
 		//will need to write handlers for all kinds of messages we send between games
 	}
 	
-	/*
+	/**
 	 * Under construction
 	 * This will process incoming messages from the server that handle parts of the connection process
+	 * @param msgs ArrayList of incoming message
 	 */
 	public void process(ArrayList<JsonObject> msgs) {
 		for (int i =0; i < msgs.size(); i++ ) {
@@ -198,18 +201,6 @@ public class Game {
 			}
 		}
 		
-		// this code is not right yet, needs to iterate through messages 
-		// handle each one
-//		for (Map.Entry<String,String> msg : msgs.entrySet()) {
-//			try {
-//				if( msgs.get("TYPE") == "CONNECT") {
-//					
-//				}
-//			}
-//			catch (IOException e) {
-//				System.out.print("temp");
-//			}
-//		}
 	}
 	
 }
