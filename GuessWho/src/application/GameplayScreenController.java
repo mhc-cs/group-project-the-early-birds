@@ -55,6 +55,9 @@ public class GameplayScreenController extends Controller {
     private Button guessButton;
     
     @FXML
+    private Button endTurn;
+    
+    @FXML
     private Label scoresBox;
     
     @FXML
@@ -110,41 +113,7 @@ public class GameplayScreenController extends Controller {
         
         //Passes every image in the grid to guess button when guess button is pressed
         guessButton.setText("Guess "+game.getPlayer2Name()+"'s card");
-        guessButton.setOnAction(e -> {
-            //Action that the guess button takes if guessing is not in action
-            if(guessing == false) {
-                int id = 0;
-                guessing = true;
-                guessButton.setText("Stop guessing");
-                
-                //iterates through each image
-                ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
-                while(iterator.hasNext()) {
-                    //calls guess on every image
-                    Node next = iterator.next();
-                    if(next instanceof ImageView) {
-                        guess(next, id);
-                        id++;
-                    }
-                } 
-            } else {
-                //Action that the guess button takes if guessing is in action
-                int id = 0;
-                guessing = false;
-                guessButton.setText("Guess "+game.getPlayer2Name()+"'s card");
-                
-                //iterates through each image
-                ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
-                while(iterator.hasNext()) {
-                    //calls stopGuessing on every image
-                    Node next = iterator.next();
-                    if(next instanceof ImageView) {
-                        stopGuessing((ImageView) next, id);
-                        id++; 
-                    }
-                }
-            }
-        });
+        guessButton.setOnAction(e -> guessButtonPressed());
         
         //setting scores text
         scoresBox.setText(player.getName()+" = "+player.getScore()+" \t "+game.getPlayer2Name()+" = "+game.getPlayer2Score());
@@ -169,7 +138,7 @@ public class GameplayScreenController extends Controller {
      * @param imageId The ID of the image to be greyed out
      */
     @SuppressWarnings("boxing")
-    public void greyOut(ImageView image, int imageId) {
+    private void greyOut(ImageView image, int imageId) {
         if(!guessing) {
             if(greyedOutCards.get(imageId) == false) { //if it's not greyed out
                 //set image to be greyed out
@@ -190,15 +159,56 @@ public class GameplayScreenController extends Controller {
      */
     public void endTurn() {
         if(player.getTurn()) {
-            turn.setText("It is the other \nplayer's turn to \nask a question.");
+            turn.setText("It is your turn \nto ask a question.");
+            enableButtons();
             game.endTurn();
         } else {
         	//TODO
         	// this case should be when receiving a message from the server
-            turn.setText("It is your turn \nto ask a question.");
+            turn.setText("It is the other \nplayer's turn to \nask a question.");
+            disableButtons();
             //set players turn to true? this might go in a different file
         }
         
+    }
+    
+    /**
+     * The action that is taken if the guess button is pressed.
+     */
+    public void guessButtonPressed() {
+      //Action that the guess button takes if guessing is not in action
+        if(guessing == false) {
+            int id = 0;
+            guessing = true;
+            guessButton.setText("Stop guessing");
+            
+            //iterates through each image
+            ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
+            while(iterator.hasNext()) {
+                //calls guess on every image
+                Node next = iterator.next();
+                if(next instanceof ImageView) {
+                    guess(next, id);
+                    id++;
+                }
+            } 
+        } else {
+            //Action that the guess button takes if guessing is in action
+            int id = 0;
+            guessing = false;
+            guessButton.setText("Guess "+game.getPlayer2Name()+"'s card");
+            
+            //iterates through each image
+            ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
+            while(iterator.hasNext()) {
+                //calls stopGuessing on every image
+                Node next = iterator.next();
+                if(next instanceof ImageView) {
+                    stopGuessing((ImageView) next, id);
+                    id++; 
+                }
+            }
+        }
     }
     
     /**
@@ -210,7 +220,7 @@ public class GameplayScreenController extends Controller {
      * @param image one of the images in the card grid
      * @param imageId the index, or ID, of one of the images in the card grid
      */
-    public void guess(Node image, int imageId) {
+    private void guess(Node image, int imageId) {
         //Opens confirmation menu if the card is cicked on and isn't greyed out
         if(!greyedOutCards.get(imageId)) {
             image.setOnMouseClicked(e -> {
@@ -238,7 +248,7 @@ public class GameplayScreenController extends Controller {
      * @param image one of the images in the card grid
      * @param imageId the index, or ID, of one of the images in the card grid
      */
-    public void stopGuessing(ImageView image, int imageId) {
+    private void stopGuessing(ImageView image, int imageId) {
         //Now when you click, it's back to just greying out, instead of opening the menu
         image.setOnMouseClicked(e -> greyOut(image, imageId));
         
@@ -255,7 +265,7 @@ public class GameplayScreenController extends Controller {
      * 
      * @throws IOException if the file to make the window is not found.
      */
-    public void openConfirmationWindow() throws IOException {
+    private void openConfirmationWindow() throws IOException {
         Stage confirmationWindow = new Stage();
         confirmationWindow.initModality(Modality.APPLICATION_MODAL);
         confirmationWindow.setTitle("Are you sure?");
@@ -362,6 +372,24 @@ public class GameplayScreenController extends Controller {
             e.printStackTrace();
         
         }
+    }
+    
+    /**
+     * Enables the guess and endTurn buttons to be used
+     * again when it is the player's turn.
+     */
+    private void enableButtons() {
+        guessButton.setDisable(false);
+        endTurn.setDisable(false);
+    }
+    
+    /**
+     * Disables the guess and endTurn buttons when it is not the
+     * player's turn.
+     */
+    private void disableButtons() {
+        guessButton.setDisable(true);
+        endTurn.setDisable(true);
     }
     
     /**
