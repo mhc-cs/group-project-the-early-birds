@@ -74,8 +74,6 @@ public class GameplayScreenController extends Controller {
     @FXML
     private TextArea chatArea;
     
-    private Stage waitingWindow;
-    
     /**
      * Initializes the grid with the cards that the players guess from.
      */
@@ -133,8 +131,10 @@ public class GameplayScreenController extends Controller {
         yourCardName.setText(player.getCard().getName());
         
         //Opening waiting for players screen
-        //waitingForPlayer(); //COMMENTED OUT FOR NOW. OPENS WAITING FOR PLAYER DIALOG
-        //TODO Call closeWaitingWindow when the other player has connected to the game.
+        Stage window = new Stage();
+        //waitingForPlayer(window); //COMMENTED OUT FOR NOW. OPENS WAITING FOR PLAYER DIALOG
+        
+        //TODO Call closeWaitingWindow(window) when the other player has connected to the game.
     }
     
     /**
@@ -395,8 +395,8 @@ public class GameplayScreenController extends Controller {
      * Waiting for player screen. This shows when one player is in
      * the room and the other has not joined yet.
      */
-    private void waitingForPlayer() {
-        waitingWindow = new Stage();
+    private void waitingForPlayer(Stage waitingWindow) {
+        //waitingWindow = new Stage();
         
         // Makes it so you can't click on the window behind until this one is closed.
         waitingWindow.initModality(Modality.APPLICATION_MODAL);
@@ -416,6 +416,7 @@ public class GameplayScreenController extends Controller {
         root.getChildren().addAll(text, progress);
         root.setAlignment(Pos.CENTER);
         root.setStyle("-fx-background-color: white; -fx-border-color: black");
+
         
         // Display the scene
         Scene scene = new Scene(root, 350, 200);
@@ -426,7 +427,7 @@ public class GameplayScreenController extends Controller {
     /**
      * Closes the waiting window dialog.
      */
-    private void closeWaitingWindow() {
+    private void closeWaitingWindow(Stage waitingWindow) {
         waitingWindow.close();
     }
     
