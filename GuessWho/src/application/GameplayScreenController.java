@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -31,6 +32,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * Provides the controls for the gameplay screen and the buttons, cards, and
@@ -71,6 +73,8 @@ public class GameplayScreenController extends Controller {
     
     @FXML
     private TextArea chatArea;
+    
+    private Stage waitingWindow;
     
     /**
      * Initializes the grid with the cards that the players guess from.
@@ -127,6 +131,10 @@ public class GameplayScreenController extends Controller {
         
         //set player's card name
         yourCardName.setText(player.getCard().getName());
+        
+        //Opening waiting for players screen
+        //waitingForPlayer(); //COMMENTED OUT FOR NOW. OPENS WAITING FOR PLAYER DIALOG
+        //TODO Call closeWaitingWindow when the other player has connected to the game.
     }
     
     /**
@@ -381,8 +389,45 @@ public class GameplayScreenController extends Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * Waiting for player screen. This shows when one player is in
+     * the room and the other has not joined yet.
+     */
+    private void waitingForPlayer() {
+        waitingWindow = new Stage();
         
+        // Makes it so you can't click on the window behind until this one is closed.
+        waitingWindow.initModality(Modality.APPLICATION_MODAL);
+        waitingWindow.setResizable(false);
+        waitingWindow.initStyle(StageStyle.UNDECORATED);
         
+        //Adding Title
+        Label text = new Label();
+        text.setText("Waiting for other player...");
+        text.setFont(Font.font("Century Gothic", 23));
+        text.setPadding(new Insets(15,0,0,0));
+
+        //Progress wheel
+        ProgressIndicator progress = new ProgressIndicator();
+        
+        VBox root = new VBox(25);
+        root.getChildren().addAll(text, progress);
+        root.setAlignment(Pos.CENTER);
+        root.setStyle("-fx-background-color: white; -fx-border-color: black");
+        
+        // Display the scene
+        Scene scene = new Scene(root, 350, 200);
+        waitingWindow.setScene(scene);
+        waitingWindow.show(); //change to showAndWait if wanting to stop at invite screen
+    }
+    
+    /**
+     * Closes the waiting window dialog.
+     */
+    private void closeWaitingWindow() {
+        waitingWindow.close();
     }
     
     /**
