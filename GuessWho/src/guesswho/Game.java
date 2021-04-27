@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import com.google.gson.*;
+
 import application.InvitePlayersController;
 
 /**
@@ -169,28 +171,30 @@ public class Game {
 	
 	/*
 	 * Under construction
-	 * This will process incoming messages from the server that handle connection process
+	 * This will process incoming messages from the server that handle parts of the connection process
 	 */
-	public void process(ArrayList<HashMap<String,String>> msgs) {
+	public void process(ArrayList<JsonObject> msgs) {
 		for (int i =0; i < msgs.size(); i++ ) {
-			HashMap<String,String> msg = msgs.get(i);
-			if (msg.get("TYPE") == "HELLO" ) {
-				HashMap<String,String> newMsg = new HashMap<String,String>();
-				msg.put("TYPE", "HELLO");
-				//msg.put("name", InvitePlayersController.getName());
-				msg.put("gamename", "guesswho");
-				Network.send(newMsg);
+			JsonObject msg = msgs.get(i);
+			if (msg.get("TYPE").getAsString() == "HELLO" ) {
+				System.out.println("Recieved hello message");
+//				HashMap<String,String> newMsg = new HashMap<String,String>();
+//				msg.put("TYPE", "HELLO");
+//				//msg.put("name", InvitePlayersController.getName());
+//				msg.put("gamename", "guesswho");
+//				Network.send(newMsg);
 			}
-			if (msg.get("TYPE") == "WELCOME" ) {
-				HashMap<String,String> newMsg = new HashMap<String,String>();
-				msg.put("TYPE", "JOIN_GAME");
-				//this is going to create an issue because 2 needs to be a number
-				msg.put("size", "2");
-				msg.put("allow_spectators", "False");
-				msg.put("status", status);
-				msg.put("gamecode", gamecode);
+			if (msg.get("TYPE").getAsString() == "WELCOME" ) {
+				System.out.println("Recieved welcome message");
+//				HashMap<String,String> newMsg = new HashMap<String,String>();
+//				msg.put("TYPE", "JOIN_GAME");
+//				//this is going to create an issue because 2 needs to be a number
+//				msg.put("size", "2");
+//				msg.put("allow_spectators", "False");
+//				msg.put("status", status);
+//				msg.put("gamecode", gamecode);
 				
-				Network.send(newMsg);
+//				Network.send(newMsg);
 			}
 		}
 		
