@@ -364,6 +364,9 @@ public class GameplayScreenController extends Controller {
         }
     }
     
+    /**
+     * 
+     */
     public void chat() {
         //TODO implement chat using chatInput and chatArea
         //chatInput.getText() gets the text that's typed into the chat
