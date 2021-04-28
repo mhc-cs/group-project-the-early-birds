@@ -92,7 +92,6 @@ public class Network {
 	 */
 	public static void close() {
 		if (sock == null) {
-			//this used to be != but I don't know why...
 			return;
 		}
 		try {
