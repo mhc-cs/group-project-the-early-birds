@@ -53,7 +53,7 @@ public class Network {
 	/*
 	 * Connects to the game server
 	 */
-	public static void connect() {
+	public static boolean connect() {
 //		close();
 		//add ability to connect to a different game server?
 		   System.out.println("Attempting to connect...");
@@ -65,11 +65,13 @@ public class Network {
 	       dataOutputStream = new DataOutputStream(outputStream);
 			
 			System.out.println("Connected");
+			return true;
 		} 
 		catch (IOException e) {
 			System.out.println("Couldn't connect.");
 			close();
-			
+			return true;
+			//TODO change this to false once network is connecting
 		}
 	
 
@@ -89,7 +91,8 @@ public class Network {
 	 * Closes the connection with the server
 	 */
 	public static void close() {
-		if (sock != null) {
+		if (sock == null) {
+			//this used to be != but I don't know why...
 			return;
 		}
 		try {
@@ -98,6 +101,7 @@ public class Network {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("Couldn't close connection");
 		}
 	}
 	
