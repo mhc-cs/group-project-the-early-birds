@@ -36,6 +36,7 @@ public class Network {
 	static byte[] buf;
 	static OutputStream outputStream;
 	static DataOutputStream dataOutputStream;
+	static InputStream inputStream;
 	
 	
 	
@@ -55,7 +56,7 @@ public class Network {
 	 * Connects to the game server
 	 */
 	public static void connect() {
-//		close();
+		close();
 		//add ability to connect to a different game server?
 		   System.out.println("Attempting to connect...");
 		try {
@@ -64,6 +65,8 @@ public class Network {
 	        OutputStream outputStream = sock.getOutputStream();
 	        // create a data output stream from the output stream so we can send data through it
 	       dataOutputStream = new DataOutputStream(outputStream);
+	     //get the input stream from the connected socket
+	        inputStream = sock.getInputStream();
 			
 			System.out.println("Connected");
 		} 
@@ -90,7 +93,7 @@ public class Network {
 	 * Closes the connection with the server
 	 */
 	public static void close() {
-		if (sock != null) {
+		if (sock == null) {
 			return;
 		}
 		try {
@@ -107,7 +110,7 @@ public class Network {
 	 * and inputs data from the server to inbuf,
 	 * then decodes inbuf to messages
 	 */
-	public static ArrayList<JsonObject> do_communication() {		
+	public ArrayList<JsonObject> do_communication() {		
 		//only need this is not all of each message is sent in each?
 //		ArrayList<JsonObject> oldMsgs = msgs;
 		msgs = null;
@@ -118,6 +121,7 @@ public class Network {
 
 		//send message to server
 		if (!outbuf.isEmpty()) {
+			System.out.println("Trying to send to server");
 			try {
 				sock.setSoTimeout(1);
 				 //remember how much is sent, then make the outbuffer the remainder
@@ -136,33 +140,35 @@ public class Network {
 		}
 		//recieve message from server
 		try {
-			// get the input stream from the connected socket
-	        InputStream inputStream = sock.getInputStream();
+			sock.setSoTimeout(1);
+			System.out.println("Trying to receive from server");
 	        // create a DataInputStream so we can read data from it.
 	        DataInputStream dataInputStream = new DataInputStream(inputStream);
 			inbuf = dataInputStream.readUTF();
-			//need to add processing for string to become JSONObjects
-//			try (JsonReader jsonReader = new JsonReader(dataInputStream)) {
+//			InputStreamReader streamReader = new InputStreamReader(sock.getInputStream());
+//			//need to add processing for string to become JSONObjects
+//			try (JsonReader jsonReader = new JsonReader(streamReader)) {
 //	            jsonReader.beginObject();
 //	            while (jsonReader.hasNext()) {
-//	                String name = jsonReader.nextName();
-//	                if (name.equals("filter_level")) {
-//	                    System.out.println(jsonReader.nextString());
-//	                } else if (name.equals("text")) {
-//	                    System.out.println("text: " + jsonReader.nextString());
-//	                } else {
-//	                    jsonReader.skipValue();
-//	                }
+//	            	
+////	                String name = jsonReader.nextName();
+////	                if (name.equals("filter_level")) {
+////	                    System.out.println(jsonReader.nextString());
+////	                } else if (name.equals("text")) {
+////	                    System.out.println("text: " + jsonReader.nextString());
+////	                } else {
+////	                    jsonReader.skipValue();
+////	                }
 //	            }
 //	            jsonReader.endObject();
 //	            jsonReader.close();
 //	        }
 			
 			System.out.print("Inbuf: " + inbuf);
-			System.out.println("Recived from server");
+			System.out.println("Received from server");
 		}
 		catch (Exception e) {
-			
+			System.out.println("Tried to receive from server");
 		}
 		
 		

@@ -177,6 +177,9 @@ public class Game {
 	 * @param msgs ArrayList of incoming message
 	 */
 	public void process(ArrayList<JsonObject> msgs) {
+		if (msgs == null) {
+			return;
+		}
 		for (int i =0; i < msgs.size(); i++ ) {
 			JsonObject msg = msgs.get(i);
 			if (msg.get("TYPE").getAsString() == "HELLO" ) {

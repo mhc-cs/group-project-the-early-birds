@@ -43,6 +43,7 @@ public class Controller extends Application {
         } catch(Exception e) {
             e.printStackTrace();
         }
+        
     }
     
     public static Game getGame() {
@@ -50,12 +51,33 @@ public class Controller extends Application {
     }
     
     public static void main(String[] args) {
+    	Thread networkThread = new Thread("Network Thread") {
+    	      public void run(){
+    	    	  Network network = new Network();
+    	          try {
+    	  			while (true) {
+    	  				game.process(network.do_communication());
+    	  				Thread.sleep(500);
+    	  			}
+    	  		} catch (InterruptedException e) {
+    	  			// TODO Auto-generated catch block
+    	  			e.printStackTrace();
+    	  		}
+    	      }
+    	   };
+    	   
+    	 networkThread.start();
+    	
         launch(args);
+        System.out.println("hello");
         //testing
-       
-        System.out.println(player.getName());
-        System.out.println(player.getHost());
-       
+//       
+//        System.out.println(player.getName());
+//        System.out.println(player.getHost());
+//        Network network = new Network();
+//        while (true) {
+//        	game.process(network.do_communication());
+//        }
         
     }
 }
