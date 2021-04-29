@@ -2,14 +2,18 @@ package Messages;
 
 public class Message {
 	private String TYPE;
+	private String name;
+	private String gamename;
 	
 	/**
 	 * Constructor for Message class
 	 * @param TYPE String representation of message type, 
 	 * used to help recipient handle incoming message correctly
 	 */
-	public Message(String TYPE) {
+	public Message(String TYPE, String name, String gamename) {
 		this.TYPE = TYPE;
+		this.name = name;
+		this.gamename = gamename;
 	}
 	
 	/**
@@ -25,7 +29,7 @@ public class Message {
 	}
 	
 	public String toString() {
-		return "{TYPE:" + TYPE + "}";
+		return "Mine: {TYPE: " + TYPE + ", name: " + name + ", gamename: " + gamename + "}";
 	}
 	
 }
