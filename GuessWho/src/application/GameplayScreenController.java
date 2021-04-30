@@ -367,10 +367,15 @@ public class GameplayScreenController extends Controller {
     /**
      * 
      */
-    public void chat(String msg) {
+    public void chat() { //used to pass in String msg... Should I put it back?
         //TODO implement chat using chatInput and chatArea
-        //chatInput.getText() gets the text that's typed into the chat
-    	//Is this used to add text to the chat? (Asked by Anna)
+        //Called when user presses enter inside the chatbox. Puts what they
+        //typed into the chat
+    	//Is this used to add text to the chat? (Asked by Anna) It is now lol
+        String msg = chatInput.getText();
+        
+        chatArea.appendText(msg + "\n");
+        chatInput.clear();
     }
         
    
