@@ -69,7 +69,6 @@ public class Controller extends Application {
     	 networkThread.start();
     	
         launch(args);
-        System.out.println("hello");
         //testing
 //       
 //        System.out.println(player.getName());

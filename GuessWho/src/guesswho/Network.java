@@ -1,5 +1,6 @@
 package guesswho;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -8,10 +9,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
+
+import Messages.Hello;
 import Messages.Message;
 //import java.net.InetAddress;
 
@@ -25,7 +32,7 @@ public class Network {
 	static String outbuf;
 	static String inbuf;
 	//Fix types later
-	static ArrayList<JsonObject> msgs;
+	static ArrayList<Message> msgs;
 	static byte[] buf;
 	static OutputStream outputStream;
 	static DataOutputStream dataOutputStream;
@@ -41,7 +48,7 @@ public class Network {
 //		this.SERVER_ADDRESS = new InetAddress();
 		outbuf = "";
 		inbuf = "";
-		msgs = new ArrayList<JsonObject>();
+		msgs = new ArrayList<Message>();
 	}
 	
 	
@@ -61,7 +68,7 @@ public class Network {
 	       dataOutputStream = new DataOutputStream(outputStream);
 	     //get the input stream from the connected socket
 	        inputStream = sock.getInputStream();
-	        in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+//	        in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 			
 			System.out.println("Connected");
 		} 
@@ -106,24 +113,32 @@ public class Network {
 	 * and inputs data from the server to inbuf,
 	 * then decodes inbuf to messages
 	 */
-	public ArrayList<JsonObject> do_communication() {		
+	public ArrayList<Message> do_communication() {		
 		//only need this is not all of each message is sent in each?
 //		ArrayList<JsonObject> oldMsgs = msgs;
-		msgs = null;
+		msgs = new ArrayList<Message>();
 		System.out.println("Do Communication is running");
 		if (sock == null) {
 			return msgs;
 		}
-		send(new Message("HELLO", "Dani", "guesswho"));
+		send(new Hello("HELLO", "Dani", "guesswho"));
 
+		byte[] newOutbuf = new byte[100];
 		//send message to server
 		if (!outbuf.isEmpty()) {
+			try {
+				outbuf += "\n";
+				newOutbuf = outbuf.getBytes("UTF8");
+			} catch (UnsupportedEncodingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			System.out.println("Trying to send to server");
-			System.out.println(outbuf);
+//			System.out.println((String) newOutbuf);
 			try {
 				sock.setSoTimeout(1);
 				 //remember how much is sent, then make the outbuffer the remainder
-				dataOutputStream.writeBytes(outbuf);
+				dataOutputStream.write(newOutbuf);
 		        dataOutputStream.flush();
 		        outbuf = "";
 		        System.out.println("Sent to server");
@@ -140,31 +155,65 @@ public class Network {
 		}
 		//recieve message from server
 		try {
-			sock.setSoTimeout(1);
+			sock.setSoTimeout(2);
 			System.out.println("Trying to receive from server");
 	        // create a DataInputStream so we can read data from it.
 	        DataInputStream dataInputStream = new DataInputStream(inputStream);
-			inbuf = dataInputStream.readUTF();
+	        byte[] bytes = new byte[100];
+	        int i= 0;
+	        while (dataInputStream.available() > 0) {
+	        	
+	        	bytes[i] = dataInputStream.readByte();
+	        	
+	        	i++;
+	        }
+	        String temp = new String(bytes);
+        	inbuf = temp;
+        	if (inbuf.trim().length() > 0) {
+        		System.out.println("*******************MESSAGE RECEIVED*********************");
+        		System.out.println(inbuf);
+    			Gson gson = new Gson();
+//    			JsonReader reader = new JsonReader(new StringReader(inbuf));
+//    			reader.setLenient(true);
+    			
+    			//Anna do this (make the classes work)
+    			Message test = gson.fromJson(inbuf.trim(), Message.class);
+    			System.out.println("Message: " + test);
+    			
+    			
+    			msgs.add(test);
+    			
+    			System.out.print("Inbuf: " + inbuf);
+    			System.out.println("Received from server");
+
+        	}
+			
+//	        inbuf = new String(IOUtilities.streamToBytes(inputStream));
 			//need to add processing for string to become JSONObjects
 			System.out.println("Data stream set up");
-			JsonParser jsonParser = new JsonParser();
-			JsonElement jsonTree = jsonParser.parse(inbuf);
-			if (jsonTree.isJsonObject()) {
-				JsonObject jsonObject = jsonTree.getAsJsonObject();
-				System.out.print(jsonObject);
-				msgs.add(jsonObject);
-			}
+//			JsonParser jsonParser = new JsonParser();
+//			JsonElement jsonTree = jsonParser.parse(inbuf);
+//			if (jsonTree.isJsonObject()) {
+//				JsonObject jsonObject = jsonTree.getAsJsonObject();
+//				System.out.print(jsonObject);
+//				msgs.add(jsonObject);
+//			}
+			
+			// ask for help on this one
+			
+//			 JsonReader reader = new JsonReader(new StringReader(inbuf));
+//			 JsonObject array = reader.readObject();
+//			 reader.close();
 	    
 			
-			System.out.print("Inbuf: " + inbuf);
-			System.out.println("Received from server");
+			
 		}
 		catch (Exception e) {
 			System.out.println("Tried to receive from server");
 			e.printStackTrace();
 		}
 		
-		
+		inbuf = "";
 		return msgs;
 		
 		

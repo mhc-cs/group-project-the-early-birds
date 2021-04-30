@@ -8,6 +8,7 @@ import java.util.Random;
 
 import com.google.gson.*;
 
+import Messages.Message;
 import application.GameplayScreenController;
 import application.InvitePlayersController;
 
@@ -176,13 +177,14 @@ public class Game {
 	 * This will process incoming messages from the server that handle parts of the connection process
 	 * @param msgs ArrayList of incoming message
 	 */
-	public void process(ArrayList<JsonObject> msgs) {
-		if (msgs == null) {
+	public void process(ArrayList<Message> msgs) {
+		if (msgs.isEmpty()) {
 			return;
 		}
 		for (int i =0; i < msgs.size(); i++ ) {
-			JsonObject msg = msgs.get(i);
-			if (msg.get("TYPE").getAsString() == "HELLO" ) {
+			System.out.println("Loop " + i);
+			Message msg = msgs.get(i);
+			if (msg.getType() == "HELLO" ) {
 				System.out.println("Recieved hello message");
 //				HashMap<String,String> newMsg = new HashMap<String,String>();
 //				msg.put("TYPE", "HELLO");
@@ -190,7 +192,7 @@ public class Game {
 //				msg.put("gamename", "guesswho");
 //				Network.send(newMsg);
 			}
-			if (msg.get("TYPE").getAsString() == "WELCOME" ) {
+			if (msg.getType() == "WELCOME" ) {
 				System.out.println("Recieved welcome message");
 //				HashMap<String,String> newMsg = new HashMap<String,String>();
 //				msg.put("TYPE", "JOIN_GAME");
@@ -203,6 +205,7 @@ public class Game {
 //				Network.send(newMsg);
 			}
 		}
+		
 		
 	}
 	

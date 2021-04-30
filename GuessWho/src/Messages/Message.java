@@ -1,19 +1,16 @@
 package Messages;
 
 public class Message {
-	private String TYPE;
-	private String name;
-	private String gamename;
+	String TYPE;
 	
 	/**
 	 * Constructor for Message class
 	 * @param TYPE String representation of message type, 
 	 * used to help recipient handle incoming message correctly
 	 */
-	public Message(String TYPE, String name, String gamename) {
+	public Message(String TYPE) {
 		this.TYPE = TYPE;
-		this.name = name;
-		this.gamename = gamename;
+		
 	}
 	
 	/**
@@ -29,13 +26,13 @@ public class Message {
 	}
 	
 	public String toString() {
-		return "Mine: {TYPE: " + TYPE + ", name: " + name + ", gamename: " + gamename + "}";
+		return "Mine: {TYPE: " + TYPE + "}";
 	}
 	
 }
 
-//TODO create child classes for types HELLO, JOIN_GAME, DATA (seen in make_move method) 
-//and DATA which contains message data
+//TODO create child classes for types JOIN_GAME, DATA (seen in make_move method) 
+//and DATA which contains message data, WELCOME, ERROR, GUESS, CORRECT GUESS, INCORRECT GUESS
 //Each class needs: (the type for each will be the name of the class in all caps)
 //constuctor
 //getter
