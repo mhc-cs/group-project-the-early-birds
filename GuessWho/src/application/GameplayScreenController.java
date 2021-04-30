@@ -158,6 +158,9 @@ public class GameplayScreenController extends Controller {
         
         //set player's card name
         yourCardName.setText(player.getCard().getName());
+        
+        //Initial chat messages
+        chatArea.appendText("SERVER: " + player.getName() + " has entered the game. \n");
     }
     
     /**
@@ -374,7 +377,7 @@ public class GameplayScreenController extends Controller {
     	//Is this used to add text to the chat? (Asked by Anna) It is now lol
         String msg = chatInput.getText();
         
-        chatArea.appendText(msg + "\n");
+        chatArea.appendText(player.getName() + ": " + msg + "\n");
         chatInput.clear();
     }
         
