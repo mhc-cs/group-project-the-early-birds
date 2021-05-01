@@ -87,7 +87,7 @@ public class Network {
 	/**
 	 * Adds data to be sent to the out buffer
 	 */
-	public static void send(Message data) {
+	public void send(Message data) {
 		Gson gson = new Gson();
 		outbuf += gson.toJson(data);
 	}
@@ -121,7 +121,6 @@ public class Network {
 		if (sock == null) {
 			return msgs;
 		}
-		send(new Hello("HELLO", "Dani", "guesswho"));
 
 		byte[] newOutbuf = new byte[100];
 		//send message to server
@@ -214,6 +213,10 @@ public class Network {
 		}
 		
 		inbuf = "";
+		for (int i =0; i < msgs.size(); i++ ) {
+			System.out.println(msgs.get(i));
+		}
+		
 		return msgs;
 		
 		

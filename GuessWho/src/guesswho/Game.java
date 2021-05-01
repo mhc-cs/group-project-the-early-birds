@@ -8,6 +8,7 @@ import java.util.Random;
 
 import com.google.gson.*;
 
+import Messages.Hello;
 import Messages.Message;
 import application.GameplayScreenController;
 import application.InvitePlayersController;
@@ -182,18 +183,17 @@ public class Game {
 			return;
 		}
 		for (int i =0; i < msgs.size(); i++ ) {
-			System.out.println("Loop " + i);
+			System.out.println("Message recieved" + msgs.get(i).getType());
 			Message msg = msgs.get(i);
-			if (msg.getType() == "HELLO" ) {
+			if (msg.getType().strip() == "HELLO" ) {
 				System.out.println("Recieved hello message");
-//				HashMap<String,String> newMsg = new HashMap<String,String>();
-//				msg.put("TYPE", "HELLO");
-//				//msg.put("name", InvitePlayersController.getName());
-//				msg.put("gamename", "guesswho");
-//				Network.send(newMsg);
+				Controller.network.send(new Hello("HELLO", "Dani", "guesswho"));
+//				Add this once the bit above works
+//				Controller.network.send(new Hello("HELLO", player1.getName(), "guesswho"));
 			}
 			if (msg.getType() == "WELCOME" ) {
 				System.out.println("Recieved welcome message");
+//				Controller.network.send(new JOIN_GAME(JOIN_GAME, 2, False, status, gamecode));
 //				HashMap<String,String> newMsg = new HashMap<String,String>();
 //				msg.put("TYPE", "JOIN_GAME");
 //				//this is going to create an issue because 2 needs to be a number
@@ -204,6 +204,7 @@ public class Game {
 				
 //				Network.send(newMsg);
 			}
+			
 		}
 		
 		

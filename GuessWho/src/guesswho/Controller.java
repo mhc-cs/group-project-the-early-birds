@@ -25,6 +25,8 @@ public class Controller extends Application {
      */
     protected static Game game = new Game(deck, player);
     
+    public static Network network;
+    
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -53,7 +55,7 @@ public class Controller extends Application {
     public static void main(String[] args) {
     	Thread networkThread = new Thread("Network Thread") {
     	      public void run(){
-    	    	  Network network = new Network();
+    	    	  network = new Network();
     	          try {
     	  			while (true) {
     	  				game.process(network.do_communication());
