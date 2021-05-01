@@ -5,7 +5,6 @@ public class Join_Game extends Message{
 	private String allow_spectators;
 	private String status;
 	private String gamecode;
-	private String role;
 
 	
 	public Join_Game(String TYPE, int size, String allow_spectators, String status, String gamecode, String role) {
@@ -14,7 +13,6 @@ public class Join_Game extends Message{
 		this.allow_spectators = allow_spectators;
 		this.status = status;
 		this.gamecode = gamecode;
-		this.role = role;
 	}
 	
 	public int getSize() {
@@ -49,15 +47,7 @@ public class Join_Game extends Message{
 		this.gamecode = gamecode;
 	}
 	
-	public String getRole() {
-		return role;
-	}
-	
-	public void setRole(String role) {
-		this.role = role;
-	}
-	
 	public String toString() {
-		return "Mine: {TYPE: " + TYPE + ", size: " + size + ", allow_spectators: " + allow_spectators + ", status: " + status + ", gamecode: " + gamecode + ", role: " + role + "}";
+		return "Mine: {TYPE: " + TYPE + ", size: " + size + ", allow_spectators: " + allow_spectators + ", status: " + status + ", gamecode: " + gamecode + "}";
 	}
 }
