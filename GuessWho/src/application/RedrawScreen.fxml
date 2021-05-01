@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+
+<HBox fx:controller="application.RedrawScreenController" xmlns:fx="http://javafx.com/fxml/1"
+	alignment="CENTER" prefWidth="448" prefHeight="455" spacing="10" stylesheets="@redrawScreen.css">
+	<Label id="title" text="Here is your card."/>
+	<ImageView fx:id="card" id="card" fitHeight="210.0" fitWidth=132.0 pickOnBounds="true" preserveRatio="false"/>
+	<Label fx:id="cardName"id="cardName"/>
+	<HBox>
+		<Button id="redraw" text="Redraw" onAction="#redraw"/>
+		<Button id="continue" text="Continue" onAction="#continueButton"/>
+	</HBox>
+</VBox>
+
