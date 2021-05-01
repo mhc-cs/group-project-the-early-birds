@@ -1,17 +1,9 @@
 package guesswho;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
-
-import com.google.gson.*;
-
-import guesswho.Controller;
 import Messages.*;
-import application.GameplayScreenController;
-import application.InvitePlayersController;
 
 /**
  * Game
