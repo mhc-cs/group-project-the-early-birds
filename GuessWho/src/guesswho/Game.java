@@ -1,17 +1,9 @@
 package guesswho;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
-
-import com.google.gson.*;
-
-import Messages.Hello;
-import Messages.Message;
-import application.GameplayScreenController;
-import application.InvitePlayersController;
+import Messages.*;
 
 /**
  * Game
@@ -37,9 +29,10 @@ public class Game {
 	private String gamecode;
 	
 	//TODO
-	//store other players name? might go in dif file?
+	//store other players name? get from some message??
 	private String player2Name = "[NAME]";
-	//same thing with score
+	
+	//stores other player's score
 	private int player2Score = 3;
 	
 	/**
@@ -52,19 +45,22 @@ public class Game {
 		player1 = p1;
 	}
 	
-	/*
+	/**
 	 * draw cards for both players
 	 * cannot both have the same card
 	 */
 	public void drawCards() {
-		Card c1 = deck.drawRandomCard();
-		//send to other player
-		//receive other players card
-		player2Card = null; //store other players card
-		while( c1 == player2Card){
-			drawCards(); //I think this will work??
+		if (player1.getHost()) {
+			Card c1 = deck.drawRandomCard();
+			Card c2 = deck.drawRandomCard();
+			while( c1 == c2){
+				c2 = deck.drawRandomCard();
+			}
+			player1.setCard(c1);
+			player2Card = c2;
+			//send to other player
+			Controller.network.send(new Cards("DATA","cards", c1, c2));
 		}
-		player1.setCard(c1);
 	}
 	
 	/**
@@ -77,8 +73,10 @@ public class Game {
 		    if (chance == 1) {
 		    	player1.setTurn(true);
 		    	//tell other player to set turn false
+		    	Controller.network.send(new TurnUpdate("DATA","turnUpdate", false));
 		    } else {
 		    	//tell other player to set turn true
+		    	Controller.network.send(new TurnUpdate("DATA","turnUpdate", true));
 		    	player1.setTurn(false);
 		    }
 		}
@@ -99,6 +97,7 @@ public class Game {
 	public void endTurn() {
 		player1.toggleTurn();
 		//tell other player to set turn true
+    	Controller.network.send(new TurnUpdate("DATA","turnUpdate", true));
 	}
 	
 	/**
@@ -113,8 +112,11 @@ public class Game {
 			if(c==player2Card) {
 				player1.incScore();
 				//send message that score updated and player wins
+				Controller.network.send(new Guess("DATA","guess",c,true,player1.getScore()));
 			}
 			else {
+				//send message that player guessed incorrectly
+				Controller.network.send(new Guess("DATA","guess",c,false,player1.getScore()));
 				endTurn();
 			}
 		}
@@ -203,6 +205,25 @@ public class Game {
 //				msg.put("gamecode", gamecode);
 				
 //				Network.send(newMsg);
+			}
+			else if (msg.getType() == "DATA") {
+				System.out.println("Recieved DATA message");
+				if (((Data) msg).getDataType() == "cards") {
+					System.out.println("Recieved Cards message");
+					player2Card = ((Cards)msg).getMyCard();
+					player1.setCard(((Cards)msg).getYourCard());
+				} 
+				else if (((Data) msg).getDataType() == "turnUpdate") {
+					System.out.println("Recieved TurnUpdate Message");
+					player1.setTurn(((TurnUpdate)msg).getYourTurn());
+				}
+				else if (((Data) msg).getDataType() == "guess") {
+					System.out.println("Recieved Guess Message");
+					player2Score = ((Guess) msg).getScore();
+					//TODO 
+					//End round when guess correct
+					//Put card guessed in chat?
+				}
 			}
 			
 		}
