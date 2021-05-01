@@ -147,7 +147,7 @@ class TicTacToe (object):
             add_hist("That name isn't allowed.  Try another.")
           else:
             add_hist("Disconnecting due to an error. (type: " +
-                      str(msg.get('ERR', "Unknnown")) + ")")
+                      str(msg.get('ERR', "Unknown")) + ")")
           net.close()
         elif msg['TYPE'] == 'WELCOME':
           if self.spectate:
@@ -156,7 +156,7 @@ class TicTacToe (object):
             #size can be changed: host can specifies how big of a room (how many players) you want
             #maybe add another field indicates the gamecode
             #TODO fix this to have options for multiple roles
-            net.send(dict(TYPE="JOIN_GAME", size=2, allow_spectators=True, status=self.status, gamecode=self.gamecode, role='host'))
+            net.send(dict(TYPE="JOIN_GAME", size=2, allow_spectators=True, status=self.status, gamecode=self.gamecode))
         elif msg['TYPE'] == 'DATA' or msg['TYPE'] == 'PRIV':
           data = msg['msg']
           spectator = msg['SPECTATOR']
@@ -428,13 +428,16 @@ def send_chat ():
       add_hist("Entering 'J' to join an existing game, or entering 'S' to start a new game.")
       #net.connect()
   elif not gs.status:
-    gs.status = entrytext
     add_hist("")
     if(entrytext == "J"):
-      add_hist("You choose to join an existing game. Please enter the gamecode.")
+        gs.status = entrytext
+        add_hist("You choose to join an existing game. Please enter the gamecode.")
       #process here is more complicated, need to check if code will work
+    elif(entrytext == "S"):
+        gs.status = entrytext
+        add_hist("You choose to start a new game. Please assign a gamecode.")
     else:
-      add_hist("You choose to start a new game. Please assign a gamecode.")
+        add_hist("Please enter J or S to join or start a new game")
   elif not gs.gamecode:
     gs.gamecode = entrytext
     add_hist("The gamecode you entered is " + entrytext + ".")

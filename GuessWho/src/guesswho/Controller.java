@@ -25,6 +25,8 @@ public class Controller extends Application {
      */
     protected static Game game = new Game(deck, player);
     
+    public static Network network;
+    
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -43,6 +45,7 @@ public class Controller extends Application {
         } catch(Exception e) {
             e.printStackTrace();
         }
+        
     }
     
     public static Game getGame() {
@@ -50,13 +53,32 @@ public class Controller extends Application {
     }
     
     public static void main(String[] args) {
+    	Thread networkThread = new Thread("Network Thread") {
+    	      public void run(){
+    	    	  network = new Network();
+    	          try {
+    	  			while (true) {
+    	  				game.process(network.do_communication());
+    	  				Thread.sleep(500);
+    	  			}
+    	  		} catch (InterruptedException e) {
+    	  			// TODO Auto-generated catch block
+    	  			e.printStackTrace();
+    	  		}
+    	      }
+    	   };
+    	   
+    	 networkThread.start();
+    	
         launch(args);
         //testing
-        System.out.println(player.getName());
-        System.out.println(player.getHost());
-        while (true) {
-        	game.process(Network.do_communication());
-        }
+//       
+//        System.out.println(player.getName());
+//        System.out.println(player.getHost());
+//        Network network = new Network();
+//        while (true) {
+//        	game.process(network.do_communication());
+//        }
         
     }
 }

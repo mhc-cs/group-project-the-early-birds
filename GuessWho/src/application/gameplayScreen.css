@@ -19,14 +19,14 @@ TextArea{
 	-fx-font-family: "Century Gothic";
 	-fx-min-height: 496px;
 	-fx-max-width: 315px;
-	-fx-font-size: 15px;
+	-fx-font-size: 17px;
 }
 
 TextField{
 	-fx-border-color: black;
 	-fx-font-family: "Century Gothic";
 	-fx-min-height: 71px;
-	-fx-font-size: 15px;
+	-fx-font-size: 20px;
 }
 
 GridPane{

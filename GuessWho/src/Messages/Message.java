@@ -1,7 +1,7 @@
 package Messages;
 
 public class Message {
-	private String TYPE;
+	String TYPE;
 	
 	/**
 	 * Constructor for Message class
@@ -10,6 +10,7 @@ public class Message {
 	 */
 	public Message(String TYPE) {
 		this.TYPE = TYPE;
+		
 	}
 	
 	/**
@@ -25,13 +26,13 @@ public class Message {
 	}
 	
 	public String toString() {
-		return "{TYPE:" + TYPE + "}";
+		return "Mine: {TYPE: " + TYPE + "}";
 	}
 	
 }
 
-//TODO create child classes for types HELLO, JOIN_GAME, DATA (seen in make_move method) 
-//and DATA which contains message data
+//TODO create child classes for types JOIN_GAME, DATA (seen in make_move method) 
+//and DATA which contains message data, WELCOME, ERROR, GUESS, CORRECT GUESS, INCORRECT GUESS
 //Each class needs: (the type for each will be the name of the class in all caps)
 //constuctor
 //getter

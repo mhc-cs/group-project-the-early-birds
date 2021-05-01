@@ -130,11 +130,15 @@ public class GameplayScreenController extends Controller {
         //set player's card name
         yourCardName.setText(player.getCard().getName());
         
+        //Initial chat messages
+        chatArea.appendText("SERVER: " + player.getName() + " has entered the game. \n");
+
         //Opening waiting for players screen
         Stage window = new Stage();
         //waitingForPlayer(window); //COMMENTED OUT FOR NOW. OPENS WAITING FOR PLAYER DIALOG
         
         //TODO Call closeWaitingWindow(window) when the other player has connected to the game.
+
     }
     
     /**
@@ -452,9 +456,15 @@ public class GameplayScreenController extends Controller {
     /**
      * 
      */
-    public void chat() {
+    public void chat() { //used to pass in String msg... Should I put it back?
         //TODO implement chat using chatInput and chatArea
-        //chatInput.getText() gets the text that's typed into the chat
+        //Called when user presses enter inside the chatbox. Puts what they
+        //typed into the chat
+    	//Is this used to add text to the chat? (Asked by Anna) It is now lol
+        String msg = chatInput.getText();
+        
+        chatArea.appendText(player.getName() + ": " + msg + "\n");
+        chatInput.clear();
     }
         
    

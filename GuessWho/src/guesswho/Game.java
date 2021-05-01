@@ -8,6 +8,9 @@ import java.util.Random;
 
 import com.google.gson.*;
 
+import Messages.Hello;
+import Messages.Message;
+import application.GameplayScreenController;
 import application.InvitePlayersController;
 
 /**
@@ -163,29 +166,34 @@ public class Game {
 	 */
 	public void handle_msg (boolean privateMsg, String sender, boolean spectactor, String kind, HashMap<String,String> msg) {
 		if (kind == "CHAT") {
-			Network.add_hist(sender + ": " + msg.get("msg"));
+			//needs to add message to chat
+//			GameplayScreenController.chat(sender + ": " + msg.get("msg"));
 		}
 		
 		//will need to write handlers for all kinds of messages we send between games
 	}
 	
-	/*
+	/**
 	 * Under construction
 	 * This will process incoming messages from the server that handle parts of the connection process
+	 * @param msgs ArrayList of incoming message
 	 */
-	public void process(ArrayList<JsonObject> msgs) {
+	public void process(ArrayList<Message> msgs) {
+		if (msgs.isEmpty()) {
+			return;
+		}
 		for (int i =0; i < msgs.size(); i++ ) {
-			JsonObject msg = msgs.get(i);
-			if (msg.get("TYPE").getAsString() == "HELLO" ) {
+			System.out.println("Message recieved" + msgs.get(i).getType() + "stop");
+			Message msg = msgs.get(i);
+			if (msg.getType() == "HELLO" ) {
 				System.out.println("Recieved hello message");
-//				HashMap<String,String> newMsg = new HashMap<String,String>();
-//				msg.put("TYPE", "HELLO");
-//				//msg.put("name", InvitePlayersController.getName());
-//				msg.put("gamename", "guesswho");
-//				Network.send(newMsg);
+				Controller.network.send(new Hello("HELLO", "Dani", "guesswho"));
+//				Add this once the bit above works
+//				Controller.network.send(new Hello("HELLO", player1.getName(), "guesswho"));
 			}
-			if (msg.get("TYPE").getAsString() == "WELCOME" ) {
+			else if (msg.getType() == "WELCOME" ) {
 				System.out.println("Recieved welcome message");
+//				Controller.network.send(new JOIN_GAME(JOIN_GAME, 2, False, status, gamecode));
 //				HashMap<String,String> newMsg = new HashMap<String,String>();
 //				msg.put("TYPE", "JOIN_GAME");
 //				//this is going to create an issue because 2 needs to be a number
@@ -196,20 +204,10 @@ public class Game {
 				
 //				Network.send(newMsg);
 			}
+			
 		}
 		
-		// this code is not right yet, needs to iterate through messages 
-		// handle each one
-//		for (Map.Entry<String,String> msg : msgs.entrySet()) {
-//			try {
-//				if( msgs.get("TYPE") == "CONNECT") {
-//					
-//				}
-//			}
-//			catch (IOException e) {
-//				System.out.print("temp");
-//			}
-//		}
+		
 	}
 	
 }
