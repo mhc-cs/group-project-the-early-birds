@@ -8,8 +8,8 @@ import java.util.Random;
 
 import com.google.gson.*;
 
-import Messages.Hello;
-import Messages.Message;
+import guesswho.Controller;
+import Messages.*;
 import application.GameplayScreenController;
 import application.InvitePlayersController;
 
@@ -57,14 +57,17 @@ public class Game {
 	 * cannot both have the same card
 	 */
 	public void drawCards() {
-		Card c1 = deck.drawRandomCard();
-		//send to other player
-		//receive other players card
-		player2Card = null; //store other players card
-		while( c1 == player2Card){
-			drawCards(); //I think this will work??
+		if (player1.getHost()) {
+			Card c1 = deck.drawRandomCard();
+			Card c2 = deck.drawRandomCard();
+			while( c1 == c2){
+				c2 = deck.drawRandomCard();
+			}
+			player1.setCard(c1);
+			player2Card = c2;
+			//send to other player
+			Controller.network.send(new Cards("DATA","cards", c1, c2));
 		}
-		player1.setCard(c1);
 	}
 	
 	/**
@@ -77,8 +80,10 @@ public class Game {
 		    if (chance == 1) {
 		    	player1.setTurn(true);
 		    	//tell other player to set turn false
+		    	Controller.network.send(new TurnUpdate("DATA","turnUpdate", false));
 		    } else {
 		    	//tell other player to set turn true
+		    	Controller.network.send(new TurnUpdate("DATA","turnUpdate", true));
 		    	player1.setTurn(false);
 		    }
 		}
@@ -99,6 +104,7 @@ public class Game {
 	public void endTurn() {
 		player1.toggleTurn();
 		//tell other player to set turn true
+    	Controller.network.send(new TurnUpdate("DATA","turnUpdate", true));
 	}
 	
 	/**
@@ -203,6 +209,18 @@ public class Game {
 //				msg.put("gamecode", gamecode);
 				
 //				Network.send(newMsg);
+			}
+			else if (msg.getType() == "DATA") {
+				System.out.println("Recieved DATA message");
+				if (((Data) msg).getDataType() == "cards") {
+					System.out.println("Recieved Cards message");
+					player2Card = ((Cards)msg).getMyCard();
+					player1.setCard(((Cards)msg).getYourCard());
+				} 
+				else if (((Data) msg).getDataType() == "turnUpdate") {
+					System.out.println("Recieved TurnUpdate Message");
+					player1.setTurn(((TurnUpdate)msg).getYourTurn());
+				}
 			}
 			
 		}
