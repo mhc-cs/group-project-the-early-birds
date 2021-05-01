@@ -24,6 +24,14 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * The controller for the confirmation menu that opens when the user
+ * tries to guess. Has methods for each of the buttons, as well as the
+ * incorrect guess popup window.
+ * 
+ * @author Hannah, Dani, Anna
+ *
+ */
 public class ConfirmationMenuController extends Controller {
     
     @FXML
@@ -75,9 +83,7 @@ public class ConfirmationMenuController extends Controller {
     }
     
     /**
-     * Displays the help window with instructions on how to play guess who.
-     * Has a button for closing the window and the window behind it cannot be
-     * interacted with while this window is open.
+     * Displays the incorrect guess popup when the user guesses incorrectly.
      */
     public void incorrectGuessWindow() {
         Stage incorrectGuess = new Stage();
