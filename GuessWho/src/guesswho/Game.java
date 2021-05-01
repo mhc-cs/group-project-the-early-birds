@@ -37,9 +37,10 @@ public class Game {
 	private String gamecode;
 	
 	//TODO
-	//store other players name? might go in dif file?
+	//store other players name? get from some message??
 	private String player2Name = "[NAME]";
-	//same thing with score
+	
+	//stores other player's score
 	private int player2Score = 3;
 	
 	/**
@@ -52,7 +53,7 @@ public class Game {
 		player1 = p1;
 	}
 	
-	/*
+	/**
 	 * draw cards for both players
 	 * cannot both have the same card
 	 */
@@ -119,8 +120,11 @@ public class Game {
 			if(c==player2Card) {
 				player1.incScore();
 				//send message that score updated and player wins
+				Controller.network.send(new Guess("DATA","guess",c,true,player1.getScore()));
 			}
 			else {
+				//send message that player guessed incorrectly
+				Controller.network.send(new Guess("DATA","guess",c,false,player1.getScore()));
 				endTurn();
 			}
 		}
@@ -220,6 +224,13 @@ public class Game {
 				else if (((Data) msg).getDataType() == "turnUpdate") {
 					System.out.println("Recieved TurnUpdate Message");
 					player1.setTurn(((TurnUpdate)msg).getYourTurn());
+				}
+				else if (((Data) msg).getDataType() == "guess") {
+					System.out.println("Recieved Guess Message");
+					player2Score = ((Guess) msg).getScore();
+					//TODO 
+					//End round when guess correct
+					//Put card guessed in chat?
 				}
 			}
 			
