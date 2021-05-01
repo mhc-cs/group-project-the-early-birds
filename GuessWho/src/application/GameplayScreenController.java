@@ -465,6 +465,24 @@ public class GameplayScreenController extends Controller {
         chatArea.appendText(player.getName() + ": " + msg + "\n");
         chatInput.clear();
     }
+    
+    /**
+     * Opens the new round screen if a player guessed correctly.
+     * 
+     * @throws IOException if the file to make the window is not found.
+     */
+    private void openNewRoundScreen() throws IOException {
+        Stage newRound = new Stage();
+        newRound.initModality(Modality.APPLICATION_MODAL);
+        newRound.setTitle("Results");
+        newRound.getIcons().add(new Image("application/icon.png"));
+        newRound.setResizable(false);
+        
+        Parent root = FXMLLoader.load(getClass().getResource("NewRoundScreen.fxml"));
+        Scene scene = new Scene(root);
+        newRound.setScene(scene);
+        newRound.showAndWait(); 
+    }
         
    
 }
