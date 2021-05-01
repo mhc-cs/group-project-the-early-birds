@@ -74,6 +74,8 @@ public class GameplayScreenController extends Controller {
     @FXML
     private TextArea chatArea;
     
+    public static int guessedId;
+    
     /**
      * Initializes the grid with the cards that the players guess from.
      */
@@ -236,6 +238,7 @@ public class GameplayScreenController extends Controller {
         if(!greyedOutCards.get(imageId)) {
             image.setOnMouseClicked(e -> {
                 try {
+                    guessedId = imageId;
                     openConfirmationWindow();
                 } catch (IOException e1) {
                     e1.printStackTrace();
