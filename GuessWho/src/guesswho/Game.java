@@ -9,6 +9,7 @@ import java.util.Random;
 import com.google.gson.*;
 
 import Messages.Hello;
+import Messages.Join_Game;
 import Messages.Message;
 import application.GameplayScreenController;
 import application.InvitePlayersController;
@@ -187,13 +188,13 @@ public class Game {
 			Message msg = msgs.get(i);
 			if (msg.getType().equals("HELLO")) {
 				System.out.println("Recieved hello message");
-				Controller.network.send(new Hello("HELLO", "Dani", "guesswho"));
+//				Controller.network.send(new Hello("HELLO", "Dani", "guesswho"));
 //				Add this once the bit above works
-//				Controller.network.send(new Hello("HELLO", player1.getName(), "guesswho"));
+				Controller.network.send(new Hello("HELLO", player1.getName(), "guesswho"));
 			}
 			else if (msg.getType().equals("WELCOME" )) {
 				System.out.println("Recieved welcome message");
-//				Controller.network.send(new JOIN_GAME(JOIN_GAME, 2, False, status, gamecode));
+				Controller.network.send(new Join_Game("JOIN_GAME", 2, false, status, gamecode));
 //				HashMap<String,String> newMsg = new HashMap<String,String>();
 //				msg.put("TYPE", "JOIN_GAME");
 //				//this is going to create an issue because 2 needs to be a number

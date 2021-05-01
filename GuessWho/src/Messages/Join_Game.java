@@ -2,12 +2,12 @@ package Messages;
 
 public class Join_Game extends Message{
 	private int size;
-	private String allow_spectators;
+	private Boolean allow_spectators;
 	private String status;
 	private String gamecode;
 
 	
-	public Join_Game(String TYPE, int size, String allow_spectators, String status, String gamecode, String role) {
+	public Join_Game(String TYPE, int size, Boolean allow_spectators, String status, String gamecode) {
 		super(TYPE);
 		this.size = size;
 		this.allow_spectators = allow_spectators;
@@ -23,11 +23,11 @@ public class Join_Game extends Message{
 		this.size = size;
 	}
 	
-	public String getAllow_spectators() {
+	public Boolean getAllow_spectators() {
 		return allow_spectators;
 	}
 	
-	public void setAllow_spectators(String allow_spectators) {
+	public void setAllow_spectators(Boolean allow_spectators) {
 		this.allow_spectators = allow_spectators;
 	}
 	
