@@ -40,8 +40,8 @@
 			<Label fx:id="scoresBox" id="scoresBox"/>
 		</FlowPane>
 		<Label id="chat" text="CHAT"/>
-		<TextArea editable="false"/>
-		<TextField fx:id="chatInput"/>
+		<TextArea fx:id="chatArea" editable="false" wrapText="true"/>
+		<TextField fx:id="chatInput" onAction="#chat"/>
 	</VBox>
 </HBox>
 
