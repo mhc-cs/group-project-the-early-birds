@@ -288,9 +288,9 @@ class Room (object):
 
     if len(self.members) >= self.room_size:
       #self.send("READY")
-      waiting[self.gamename].discard(self)
-      log.info("Room ready (%s waiting rooms)", len(waiting[self.gamename]))
-      clean_waiting(self.gamename)
+        waiting[self.gamename].discard(self)
+        log.info("Room ready (%s waiting rooms)", len(waiting[self.gamename]))
+        clean_waiting(self.gamename)
 
     self.sendstatus()
 
@@ -467,7 +467,7 @@ class Connection (ConnectionBase):
     #my add (name may need to change depending on huiyun)
     gc = msg.get('gamecode', None)
 
-    role = msg.get('role', None)
+    status = msg.get('status', None)
     #my add
     wait_rooms = waiting[gn]
 
@@ -493,26 +493,38 @@ class Connection (ConnectionBase):
       r.join(self)
 
      # if you are the host, you should always be placed in a new room
-    if role == 'host':
-        new_room()
-        used_codes.append(room_code)
+    if status == 'S':
+        log.info("Status: S")
+        if gc not in used_codes:
+            new_room()
+            used_codes.append(gc)
+        else:
+            self.send(Msg("ERROR", ERR="REPEATCODE"))
+
     # if you are not the host, you will need to join a room
     # if there is no room with the room code you entered, it wil
     # give an error
-    else:
-        for rooms in wait_rooms:
-            if room.room_code == gc:
-                r.join(self)
+    elif status == 'J':
+        log.info("Status: J")
+        for waitroom in wait_rooms:
+            if waitroom.room_code == gc:
+                waitroom.join(self)
+                break;
+        if not self.room:
+            log.info("Bad room code")
+            self.send(Msg("ERROR", ERR="BADCODE"))
     # need to add handling of case where room with entered
     # room code does not exist
+    else:
+        self.send(Msg("ERROR", ERR="BADSTATUS"))
 
 
 
 
-    if not wait_rooms:
-      # No waiting rooms; create one of minimum size
-      new_room()
-      return
+    # if not wait_rooms:
+    #   # No waiting rooms; create one of minimum size
+    #   new_room()
+    #   return
 
     # # Filter rooms
     # wait_rooms = [r for r in wait_rooms
