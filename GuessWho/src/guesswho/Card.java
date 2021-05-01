@@ -96,4 +96,8 @@ public class Card {
 		grey = false;
 	}
 	
+	public String toString() {
+		return "CardName: "+ cardName;
+	}
+	
 }
