@@ -33,9 +33,10 @@ public class InvitePlayersController extends Controller {
         player.setName(playerName.getText());
         if(playerName.getText().isEmpty()) {
             warning.setText("Please enter a name.");
+        } else if(!Network.connect()){
+            	warning.setText("Counld not connect.");
         } else {
-            Network.connect();
-            player.setName(playerName.getText());
+        	player.setName(playerName.getText());
             try {
                 //Loads the new screen
                 Parent startGameParent = FXMLLoader.load(getClass().getResource("HostGamecodeScreen.fxml"));
@@ -49,9 +50,9 @@ public class InvitePlayersController extends Controller {
                 appStage.show();
                 
             } catch (IOException e) {
-                e.printStackTrace();
-            
+                e.printStackTrace();  
             }
+            
         }
     }
     
@@ -66,6 +67,8 @@ public class InvitePlayersController extends Controller {
         player.setName(playerName.getText());
         if(playerName.getText().isEmpty()) {
             warning.setText("Please enter a name.");
+        } else if(!Network.connect()) {
+        	warning.setText("Counld not connect.");
         } else {
             Network.connect();
             player.setName(playerName.getText());
