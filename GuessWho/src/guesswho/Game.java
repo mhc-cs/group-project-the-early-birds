@@ -185,13 +185,13 @@ public class Game {
 		for (int i =0; i < msgs.size(); i++ ) {
 			System.out.println("Message recieved" + msgs.get(i).getType() + "stop");
 			Message msg = msgs.get(i);
-			if (msg.getType() == "HELLO" ) {
+			if (msg.getType().equals("HELLO")) {
 				System.out.println("Recieved hello message");
 				Controller.network.send(new Hello("HELLO", "Dani", "guesswho"));
 //				Add this once the bit above works
 //				Controller.network.send(new Hello("HELLO", player1.getName(), "guesswho"));
 			}
-			else if (msg.getType() == "WELCOME" ) {
+			else if (msg.getType().equals("WELCOME" )) {
 				System.out.println("Recieved welcome message");
 //				Controller.network.send(new JOIN_GAME(JOIN_GAME, 2, False, status, gamecode));
 //				HashMap<String,String> newMsg = new HashMap<String,String>();
