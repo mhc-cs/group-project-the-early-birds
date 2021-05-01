@@ -32,7 +32,7 @@ public class RedrawScreenController extends Controller{
     }
     
     public void redraw() {
-        game.drawCards();
+        game.redrawCards();
         Image image = new Image("application/" + player.getCard().getImagePath());
         card.setImage(image);
         
