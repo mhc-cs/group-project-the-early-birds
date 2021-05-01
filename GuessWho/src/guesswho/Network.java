@@ -56,8 +56,9 @@ public class Network {
 	/*
 	 * Connects to the game server
 	 */
-	public static void connect() {
+	public static boolean connect() {
 		close();
+
 		//add ability to connect to a different game server?
 		   System.out.println("Attempting to connect...");
 		try {
@@ -71,12 +72,14 @@ public class Network {
 //	        in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 			
 			System.out.println("Connected");
+			return true;
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Couldn't connect.");
 			close();
-			
+			return true;
+			//TODO change this to false once network is connecting
 		}
 	
 
@@ -105,6 +108,7 @@ public class Network {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("Couldn't close connection");
 		}
 	}
 	
