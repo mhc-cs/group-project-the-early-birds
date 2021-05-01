@@ -1,0 +1,37 @@
+Label{
+	-fx-font-size: 48px;
+	-fx-font-family: "Century Gothic";
+}
+
+Button{
+	-fx-min-width: 316px;
+	-fx-min-height: 61px;
+	-fx-font-family: "Century Gothic";
+	-fx-font-size: 23px;
+	-fx-background-radius: 10px;
+	-fx-translate-y: 50px;
+}
+
+#nextRound{
+	-fx-background-color: "#4AF3CB";
+}
+
+#nextRound:hover{
+	-fx-background-color: "#0ff0bb";
+}
+
+#newGame{
+	-fx-background-color: "#86BEFF";
+}
+
+#newGame:hover{
+	-fx-background-color: "#66adff";
+}
+
+#quit{
+	-fx-background-color: "#F34A72";
+}
+
+#quit:hover{
+	-fx-background-color: "#f00f44";
+}
