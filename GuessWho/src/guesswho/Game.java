@@ -119,20 +119,24 @@ public class Game {
 	 * must be guessing player's turn
 	 * if incorrect end turn
 	 * @param c card to guess
+	 * @param true if the player guessed correctly, false otherwise
 	 */
-	public void guess(Card c) {
+	public boolean guess(Card c) {
 		if (player1.getTurn()){
 			if(c==player2Card) {
 				player1.incScore();
 				//send message that score updated and player wins
 				Controller.network.send(new Guess("DATA","guess",c,true,player1.getScore()));
+				return true;
 			}
 			else {
 				//send message that player guessed incorrectly
 				Controller.network.send(new Guess("DATA","guess",c,false,player1.getScore()));
 				endTurn();
+				return false;
 			}
 		}
+		return false;
 	}
 	
 	/**
