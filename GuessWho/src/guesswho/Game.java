@@ -47,6 +47,7 @@ public class Game {
 	
 	/**
 	 * draw cards for both players
+	 * only host draws and sends results to player2
 	 * cannot both have the same card
 	 */
 	public void drawCards() {
@@ -60,6 +61,18 @@ public class Game {
 			player2Card = c2;
 			//send to other player
 			Controller.network.send(new Cards("DATA","cards", c1, c2));
+		}
+	}
+	
+	/**
+	 * redraw cards for both players
+	 * called by either player
+	 */
+	public void redrawCards() {
+		if (player1.getHost()) {
+			drawCards();
+		} else {
+			Controller.network.send(new Data("DATA","redraw"));
 		}
 	}
 	
@@ -213,6 +226,10 @@ public class Game {
 					player2Card = ((Cards)msg).getMyCard();
 					player1.setCard(((Cards)msg).getYourCard());
 				} 
+				else if (((Data) msg).getDataType() == "redraw") {
+					System.out.println("Recieved Redraw Message");
+					drawCards();
+				}
 				else if (((Data) msg).getDataType() == "turnUpdate") {
 					System.out.println("Recieved TurnUpdate Message");
 					player1.setTurn(((TurnUpdate)msg).getYourTurn());
