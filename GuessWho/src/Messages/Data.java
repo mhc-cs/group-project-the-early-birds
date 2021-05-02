@@ -1,6 +1,7 @@
 package Messages;
 
 public class Data extends Message{
+	Message msg;
 	String type;
 
 	
@@ -21,4 +22,8 @@ public class Data extends Message{
 	public String toString() {
 		return "Mine: {TYPE: " + TYPE + ", type: " + type + "}";
 	}
+//	public Data(String TYPE, Message msg) {
+//		super(TYPE);
+//		this.msg = msg;
+//	}
 }

@@ -1,20 +1,21 @@
 package guesswho;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 import com.google.gson.*;
+import Messages.Cards;
 import Messages.Chat;
 import Messages.Hello;
 import Messages.Join;
 import Messages.Join_Game;
 import Messages.Message;
+import Messages.TurnUpdate;
 import Messages.Error;
+import Messages.Guess;
 import Messages.Leave;
 import Messages.Data;
 import application.GameplayScreenController;
 import application.InvitePlayersController;
-]
 
 /**
  * Game
@@ -248,14 +249,7 @@ public class Game {
 				if (errorMsg.getErr().equals("BADSTATUS")) {
 					System.out.println("Received badstatus error");
 	
-				}
-				
-			}
-			//Handles chat data
-			else if (msg.getType().equals("DATA")) {
-				Data dataMsg = (Data) msg;
-				//Hannah's done this
-				
+				}	
 			}
 			//Handles message sent when someone leaves the room
 			else if (msg.getType().equals("LEAVE")) {
@@ -267,13 +261,11 @@ public class Game {
 				Join joinMsg = (Join) msg;
 				player2Name = (joinMsg.getUser());
 			}
+			//Handles room status update
 			else if (msg.getType().equals("ROOM_STATUS")) {
 				System.out.println("Got ROOM_STATUS");
 			}
-			//Handles any messages not provided with special handling
-			else {
-				System.out.println("Unprocessed message: " + msg);
-			}
+			
 			else if (msg.getType() == "DATA") {
 				System.out.println("Recieved DATA message");
 				if (((Data) msg).getDataType() == "cards") {
@@ -296,6 +288,10 @@ public class Game {
 					//End round when guess correct
 					//Put card guessed in chat?
 				}
+			}
+			//Handles any messages not provided with special handling
+			else {
+				System.out.println("Unprocessed message: " + msg);
 			}
 			
 		}
