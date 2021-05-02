@@ -1,20 +1,10 @@
 package guesswho;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
-import com.google.gson.*;
-import Messages.Chat;
-import Messages.Hello;
-import Messages.Join;
-import Messages.Join_Game;
-import Messages.Message;
+import Messages.*;
 import Messages.Error;
-import Messages.Leave;
-import Messages.Data;
-import application.GameplayScreenController;
-import application.InvitePlayersController;
-]
+
 
 /**
  * Game
@@ -136,6 +126,7 @@ public class Game {
 	 */
 	public boolean guess(Card c) {
 		if (player1.getTurn()){
+			System.out.println("***********GUESS********** guess: "+ c +" correct: "+player2Card);
 			if(c==player2Card) {
 				player1.incScore();
 				//send message that score updated and player wins
@@ -255,7 +246,29 @@ public class Game {
 			else if (msg.getType().equals("DATA")) {
 				Data dataMsg = (Data) msg;
 				//Hannah's done this
-				
+				//TODO check this
+				//should chat be handled here too?
+				System.out.println("Recieved DATA message");
+				if (dataMsg.getDataType().equals("cards")) {
+					System.out.println("Recieved Cards message");
+					player2Card = ((Cards)dataMsg).getMyCard();
+					player1.setCard(((Cards)dataMsg).getYourCard());
+				} 
+				else if (dataMsg.getDataType().equals("redraw")) {
+					System.out.println("Recieved Redraw Message");
+					drawCards();
+				}
+				else if (dataMsg.getDataType().equals("turnUpdate")) {
+					System.out.println("Recieved TurnUpdate Message");
+					player1.setTurn(((TurnUpdate)dataMsg).getYourTurn());
+				}
+				else if (dataMsg.getDataType().equals("guess")) {
+					System.out.println("Recieved Guess Message");
+					player2Score = ((Guess)dataMsg).getScore();
+					//TODO 
+					//End round when guess correct
+					//Put card guessed in chat?
+				}
 			}
 			//Handles message sent when someone leaves the room
 			else if (msg.getType().equals("LEAVE")) {
@@ -273,29 +286,6 @@ public class Game {
 			//Handles any messages not provided with special handling
 			else {
 				System.out.println("Unprocessed message: " + msg);
-			}
-			else if (msg.getType() == "DATA") {
-				System.out.println("Recieved DATA message");
-				if (((Data) msg).getDataType() == "cards") {
-					System.out.println("Recieved Cards message");
-					player2Card = ((Cards)msg).getMyCard();
-					player1.setCard(((Cards)msg).getYourCard());
-				} 
-				else if (((Data) msg).getDataType() == "redraw") {
-					System.out.println("Recieved Redraw Message");
-					drawCards();
-				}
-				else if (((Data) msg).getDataType() == "turnUpdate") {
-					System.out.println("Recieved TurnUpdate Message");
-					player1.setTurn(((TurnUpdate)msg).getYourTurn());
-				}
-				else if (((Data) msg).getDataType() == "guess") {
-					System.out.println("Recieved Guess Message");
-					player2Score = ((Guess) msg).getScore();
-					//TODO 
-					//End round when guess correct
-					//Put card guessed in chat?
-				}
 			}
 			
 		}

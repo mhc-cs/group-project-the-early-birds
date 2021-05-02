@@ -28,6 +28,8 @@ public class NewRoundScreenController extends Controller {
     public void nextRound() {
         Stage stage = (Stage) winner.getScene().getWindow();
         stage.close();
+        //TODO redraw
+        //game.assignFirstTurn();
     }
     
     /**
@@ -38,6 +40,8 @@ public class NewRoundScreenController extends Controller {
         stage.close();
         //resets scores to 0
         player.reset();
+        //TODO should go to redraw screen again
+        //game.assignFirstTurn();
     }
     
     /**
