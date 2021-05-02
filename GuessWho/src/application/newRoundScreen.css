@@ -12,6 +12,11 @@ Button{
 	-fx-translate-y: 50px;
 }
 
+VBox{
+	-fx-border-color: black;
+	-fx-background-color: white;
+}
+
 #nextRound{
 	-fx-background-color: "#4AF3CB";
 }

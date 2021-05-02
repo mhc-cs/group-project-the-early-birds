@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.application.Application;
 
 
@@ -42,6 +43,7 @@ public class Controller extends Application {
             primaryStage.setResizable(false);
             primaryStage.setTitle("Guess Who");
             primaryStage.getIcons().add(new Image("application/icon.png"));
+            primaryStage.initStyle(StageStyle.UNDECORATED);
             primaryStage.show();
             
         } catch(Exception e) {

@@ -62,12 +62,12 @@ public class ConfirmationMenuController extends Controller {
         if(correctGuess) {
             try {
                 //Loads the new screen
-                Parent startGameParent = FXMLLoader.load(getClass().getResource("NewRoundScreen.fxml"));
-                Scene startGameScene = new Scene(startGameParent);
+                Parent newRoundParent = FXMLLoader.load(getClass().getResource("NewRoundScreen.fxml"));
+                Scene newRoundScene = new Scene(newRoundParent);
                 
                 //Finds the previous screen and switches off of it
                 Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                appStage.setScene(startGameScene);
+                appStage.setScene(newRoundScene);
                 appStage.centerOnScreen();
                 
                 //Shows the new screen

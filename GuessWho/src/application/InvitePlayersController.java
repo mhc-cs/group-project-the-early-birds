@@ -13,7 +13,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-
+/**
+ * Manages the invite players screen, where players enter their name and choose
+ * whether they want to join or start a new game.
+ * 
+ * @author Anna, Dani, Hannah
+ *
+ */
 public class InvitePlayersController extends Controller {
     
     @FXML
@@ -34,7 +40,7 @@ public class InvitePlayersController extends Controller {
         if(playerName.getText().isEmpty()) {
             warning.setText("Please enter a name.");
         } else if(!Network.connect()){
-            	warning.setText("Counld not connect.");
+            	warning.setText("Could not connect.");
         } else {
         	player.setName(playerName.getText());
             try {
@@ -68,7 +74,7 @@ public class InvitePlayersController extends Controller {
         if(playerName.getText().isEmpty()) {
             warning.setText("Please enter a name.");
         } else if(!Network.connect()) {
-        	warning.setText("Counld not connect.");
+        	warning.setText("Could not connect.");
         } else {
             Network.connect();
             player.setName(playerName.getText());
@@ -88,5 +94,14 @@ public class InvitePlayersController extends Controller {
                 e.printStackTrace();
             }
         }
+    }
+    
+    /**
+     * Allows the user to quit the game
+     */
+    public void quit() {
+        Stage stage = (Stage) warning.getScene().getWindow();
+        stage.close();
+        System.exit(0); //terminates the java VM
     }
 }

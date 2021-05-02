@@ -282,14 +282,15 @@ public class GameplayScreenController extends Controller {
     private void openConfirmationWindow() throws IOException {
         Stage thisStage = (Stage) ((Node) scoresBox).getScene().getWindow();
         Stage confirmationWindow = new Stage();
+        confirmationWindow.initStyle(StageStyle.UNDECORATED);
         gameStage = thisStage;
         
         confirmationWindow.initModality(Modality.APPLICATION_MODAL);
-        confirmationWindow.setTitle("Are you sure?");
         confirmationWindow.getIcons().add(new Image("application/icon.png"));
         confirmationWindow.setResizable(false);
 
         Parent root = FXMLLoader.load(getClass().getResource("ConfirmationMenu.fxml"));
+        root.setStyle("-fx-background-color: white; -fx-border-color: black");
         Scene scene = new Scene(root);
         confirmationWindow.setScene(scene);
         confirmationWindow.showAndWait(); 
@@ -384,12 +385,12 @@ public class GameplayScreenController extends Controller {
         //Going to invite players screen
         try {
             //Loads the new screen
-            Parent startGameParent = FXMLLoader.load(getClass().getResource("InvitePlayers.fxml"));
-            Scene startGameScene = new Scene(startGameParent);
+            Parent gameParent = FXMLLoader.load(getClass().getResource("InvitePlayers.fxml"));
+            Scene gameScene = new Scene(gameParent);
             
             //Finds the previous screen and switches off of it
             Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            appStage.setScene(startGameScene);
+            appStage.setScene(gameScene);
             appStage.centerOnScreen();
             
             //Shows the new screen
