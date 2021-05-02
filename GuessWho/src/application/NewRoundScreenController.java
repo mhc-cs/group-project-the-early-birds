@@ -29,7 +29,7 @@ public class NewRoundScreenController extends Controller {
      * to be increased.
      */
     public void nextRound(ActionEvent event) {
-        //TODO reset the hashmap with greyed out cards
+        //TODO reset the hashmap with greyed out cards, assign first turn
         gameStage.close();      
         try {
             //Loads the new screen
@@ -55,9 +55,9 @@ public class NewRoundScreenController extends Controller {
     public void newGame(ActionEvent event) {
         gameStage.close(); 
         //resets scores to 0
-       //TODO reset the hashmap with greyed out cards
+        //TODO reset the hashmap with greyed out cards, assign first turn
         player.reset();
-        
+      
         try {
             //Loads the new screen
             Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));

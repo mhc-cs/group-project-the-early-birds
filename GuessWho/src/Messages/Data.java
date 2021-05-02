@@ -1,24 +1,26 @@
 package Messages;
 
 public class Data extends Message{
+	Message msg;
 	String type;
 
 	
-	public Data(String TYPE, String type) {
+	public Data(String TYPE, Message msg) {
 		super(TYPE);
-		this.type = type;
+		this.msg = msg;
 	}
 	
-	public String getDataType() {
-		return type;
+	public Message getMsg() {
+		return msg;
 	}
 	
-	public void setDataType(String type) {
-		this.type = type;
+	public void setMsg(Message msg) {
+		this.msg = msg;
 	}
 	
 	
 	public String toString() {
-		return "Mine: {TYPE: " + TYPE + ", type: " + type + "}";
+		return "Mine: {TYPE: " + TYPE + ", Msg: " + msg + "}";
 	}
+
 }

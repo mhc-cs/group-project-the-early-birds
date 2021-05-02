@@ -1,9 +1,12 @@
 package guesswho;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 import Messages.*;
+import Messages.Error;
+import com.google.gson.*;
+import application.GameplayScreenController;
+import application.InvitePlayersController;
 
 /**
  * Game
@@ -28,12 +31,13 @@ public class Game {
 	//stores gamecode
 	private String gamecode;
 	
-	//TODO
-	//store other players name? get from some message??
+	//store other player's name
 	private String player2Name = "[NAME]";
 	
 	//stores other player's score
-	private int player2Score = 3;
+	private int player2Score = 0;
+	
+	boolean receivedWelcome = false;
 	
 	/**
 	 * Game constructor
@@ -60,7 +64,7 @@ public class Game {
 			player1.setCard(c1);
 			player2Card = c2;
 			//send to other player
-			Controller.network.send(new Cards("DATA","cards", c1, c2));
+			Controller.network.send(new Data("DATA",new Cards("cards", c1, c2)));
 		}
 	}
 	
@@ -72,7 +76,7 @@ public class Game {
 		if (player1.getHost()) {
 			drawCards();
 		} else {
-			Controller.network.send(new Data("DATA","redraw"));
+			Controller.network.send(new Data("DATA",new Message("redraw")));
 		}
 	}
 	
@@ -86,10 +90,10 @@ public class Game {
 		    if (chance == 1) {
 		    	player1.setTurn(true);
 		    	//tell other player to set turn false
-		    	Controller.network.send(new TurnUpdate("DATA","turnUpdate", false));
+		    	Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate", false)));
 		    } else {
 		    	//tell other player to set turn true
-		    	Controller.network.send(new TurnUpdate("DATA","turnUpdate", true));
+		    	Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate", true)));
 		    	player1.setTurn(false);
 		    }
 		}
@@ -110,7 +114,7 @@ public class Game {
 	public void endTurn() {
 		player1.toggleTurn();
 		//tell other player to set turn true
-    	Controller.network.send(new TurnUpdate("DATA","turnUpdate", true));
+    	Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate", true)));
 	}
 	
 	/**
@@ -123,15 +127,16 @@ public class Game {
 	 */
 	public boolean guess(Card c) {
 		if (player1.getTurn()){
+			System.out.println("***********GUESS********** guess: "+ c +" correct: "+player2Card);
 			if(c==player2Card) {
 				player1.incScore();
 				//send message that score updated and player wins
-				Controller.network.send(new Guess("DATA","guess",c,true,player1.getScore()));
+				Controller.network.send(new Data("DATA",new Guess("guess",c,true,player1.getScore())));
 				return true;
 			}
 			else {
 				//send message that player guessed incorrectly
-				Controller.network.send(new Guess("DATA","guess",c,false,player1.getScore()));
+				Controller.network.send(new Data("DATA",new Guess("guess",c,false,player1.getScore())));
 				endTurn();
 				return false;
 			}
@@ -183,10 +188,11 @@ public class Game {
 	 * @param kind Type of message
 	 * @param msg Content of the message
 	 */
-	public void handle_msg (boolean privateMsg, String sender, boolean spectactor, String kind, HashMap<String,String> msg) {
+	public void handle_msg (boolean privateMsg, String sender, boolean spectactor, String kind, Chat chat) {
 		if (kind == "CHAT") {
+			//TODO
 			//needs to add message to chat
-//			GameplayScreenController.chat(sender + ": " + msg.get("msg"));
+			//GameplayScreenController.chat(sender + ": " + msg.get("msg"));
 		}
 		
 		//will need to write handlers for all kinds of messages we send between games
@@ -204,47 +210,87 @@ public class Game {
 		for (int i =0; i < msgs.size(); i++ ) {
 			System.out.println("Message recieved" + msgs.get(i).getType() + "stop");
 			Message msg = msgs.get(i);
-			if (msg.getType() == "HELLO" ) {
+			//Handles message sent from server when game connects to server
+			if (msg.getType().equals("HELLO")) {
 				System.out.println("Recieved hello message");
-				Controller.network.send(new Hello("HELLO", "Dani", "guesswho"));
-//				Add this once the bit above works
-//				Controller.network.send(new Hello("HELLO", player1.getName(), "guesswho"));
+				Controller.network.send(new Hello("HELLO", player1.getName(), "guesswho"));
 			}
-			else if (msg.getType() == "WELCOME" ) {
+			//Handles message sent from server when server recieves hello message
+			else if (msg.getType().equals("WELCOME" )) {
 				System.out.println("Recieved welcome message");
-//				Controller.network.send(new JOIN_GAME(JOIN_GAME, 2, False, status, gamecode));
-//				HashMap<String,String> newMsg = new HashMap<String,String>();
-//				msg.put("TYPE", "JOIN_GAME");
-//				//this is going to create an issue because 2 needs to be a number
-//				msg.put("size", "2");
-//				msg.put("allow_spectators", "False");
-//				msg.put("status", status);
-//				msg.put("gamecode", gamecode);
-				
-//				Network.send(newMsg);
+				receivedWelcome = true;
+//				Controller.network.send(new Join_Game("JOIN_GAME", 2, false, status, gamecode));
 			}
-			else if (msg.getType() == "DATA") {
+			//Handles error message sent at various stages of connection process
+			else if (msg.getType().equals("ERROR")) {
+				Error errorMsg = (Error) msg;
+				// sent from server if name is nonexistent or if it's a duplicate
+				if (errorMsg.getErr().equals("BADNAME")) {
+					System.out.println("Received badname error");
+				}
+				// sent from server when someone tries to create a new game with
+				//a code that already is in use for a game in wait_rooms
+				if (errorMsg.getErr().equals("REPEATCODE")) {
+					
+				}
+				//sent from server when user joins with invalid code
+				if (errorMsg.getErr().equals("BADCODE")) {
+	
+				}
+				// sent from server if status sent is not J or S
+				if (errorMsg.getErr().equals("BADSTATUS")) {
+					System.out.println("Received badstatus error");
+				}	
+			}
+			//Handles message sent when someone leaves the room
+			else if (msg.getType().equals("LEAVE")) {
+				Leave LeaveMsg = (Leave) msg;
+				
+			}
+			//Handles message sent when someone joins the room
+			else if (msg.getType().equals("JOIN")) {
+				Join joinMsg = (Join) msg;
+				player2Name = (joinMsg.getUser());
+			}
+			//Handles room status update
+			else if (msg.getType().equals("ROOM_STATUS")) {
+				System.out.println("Got ROOM_STATUS");
+			}
+			//Handles data messages
+			else if (msg.getType().equals("DATA")) {
+				Message dataMsg = ((Data)msg).getMsg();
 				System.out.println("Recieved DATA message");
-				if (((Data) msg).getDataType() == "cards") {
+				//Handles message from host when drawing cards
+				if ((dataMsg).getType().equals("cards")) {
 					System.out.println("Recieved Cards message");
-					player2Card = ((Cards)msg).getMyCard();
-					player1.setCard(((Cards)msg).getYourCard());
+					player2Card = ((Cards)dataMsg).getMyCard();
+					player1.setCard(((Cards)dataMsg).getYourCard());
 				} 
-				else if (((Data) msg).getDataType() == "redraw") {
+				//Handles message from player2 requesting redraw
+				else if ((dataMsg).getType().equals("redraw")) {
 					System.out.println("Recieved Redraw Message");
 					drawCards();
 				}
-				else if (((Data) msg).getDataType() == "turnUpdate") {
+				//Handles turn updates
+				else if ((dataMsg).getType().equals("turnUpdate")) {
 					System.out.println("Recieved TurnUpdate Message");
-					player1.setTurn(((TurnUpdate)msg).getYourTurn());
+					player1.setTurn(((TurnUpdate)dataMsg).getYourTurn());
 				}
-				else if (((Data) msg).getDataType() == "guess") {
+				//Handles guesses
+				else if ((dataMsg).getType().equals("guess")) {
 					System.out.println("Recieved Guess Message");
-					player2Score = ((Guess) msg).getScore();
+					player2Score = ((Guess)dataMsg).getScore();
 					//TODO 
 					//End round when guess correct
 					//Put card guessed in chat?
 				}
+				else if ((dataMsg.getType().equals("chat"))) {
+					//TODO Handle chat
+				}
+			}
+			//Handles any messages not provided with special handling
+			else {
+				System.out.println("Unprocessed message: " + msg);
 			}
 			
 		}

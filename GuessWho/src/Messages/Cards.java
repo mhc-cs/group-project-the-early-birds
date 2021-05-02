@@ -1,12 +1,12 @@
 package Messages;
 import guesswho.Card;
 
-public class Cards extends Data{
+public class Cards extends Message{
 	private Card myCard;
 	private Card yourCard;
 	
-	public Cards(String TYPE, String type, Card myCard, Card yourCard) {
-		super(TYPE, type);
+	public Cards(String TYPE, Card myCard, Card yourCard) {
+		super(TYPE);
 		this.myCard = myCard;
 		this.yourCard = yourCard;
 	}
@@ -28,7 +28,7 @@ public class Cards extends Data{
 	}
 	
 	public String toString() {
-		return "Mine: {TYPE: " + TYPE + ", type: " + type + ", myCard: " + myCard + ", yourCard: " + yourCard + "}";
+		return "Mine: {TYPE: " + TYPE + ", myCard: " + myCard + ", yourCard: " + yourCard + "}";
 	}
 
 }
