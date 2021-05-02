@@ -1,13 +1,13 @@
 package Messages;
 import guesswho.Card;
 
-public class Guess extends Data{
+public class Guess extends Message{
 	private Card guess;
 	private boolean correct;
 	private int score;
 	
-	public Guess(String TYPE, String type, Card guess, boolean correct, int score) {
-		super(TYPE, type);
+	public Guess(String TYPE, Card guess, boolean correct, int score) {
+		super(TYPE);
 		this.guess = guess;
 		this.correct = correct;
 		this.score = score;
@@ -38,7 +38,7 @@ public class Guess extends Data{
 	}
 	
 	public String toString() {
-		return "Mine: {TYPE: " + TYPE + ", type: " + type + ", guess: " + guess + ", correct: " + correct + ", score: " + score + "}";
+		return "Mine: {TYPE: " + TYPE + ", guess: " + guess + ", correct: " + correct + ", score: " + score + "}";
 	}
 
 }

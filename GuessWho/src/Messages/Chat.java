@@ -1,10 +1,10 @@
 package Messages;
 
-public class Chat extends Data{
+public class Chat extends Message{
 	private String entrytext;
 	
-	public Chat(String TYPE, String type, String entrytext) {
-		super(TYPE, type);
+	public Chat(String TYPE, String entrytext) {
+		super(TYPE);
 		this.entrytext = entrytext;
 	}
 	
@@ -17,7 +17,7 @@ public class Chat extends Data{
 	}
 	
 	public String toString() {
-		return "Mine: {TYPE: " + TYPE + ", type: " + type + ", entrytext: " + entrytext + "}";
+		return "Mine: {TYPE: " + TYPE + ", entrytext: " + entrytext + "}";
 	}
 
 }
