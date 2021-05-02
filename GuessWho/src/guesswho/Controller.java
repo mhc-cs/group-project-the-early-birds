@@ -54,10 +54,6 @@ public class Controller extends Application {
     	return game;
     }
     
-    public static void redrawScene() {
-        
-    }
-    
     public static void main(String[] args) {
     	Thread networkThread = new Thread("Network Thread") {
     	      public void run(){

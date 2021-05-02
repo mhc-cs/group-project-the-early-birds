@@ -32,7 +32,7 @@ public class PlayerGamecodeScreenController {
         
         //Going to redraw screen
         try {
-          //Loads the new screen
+            //Loads the new screen
             Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
             Scene startGameScene = new Scene(startGameParent);
             
