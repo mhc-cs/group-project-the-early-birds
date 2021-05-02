@@ -33,7 +33,7 @@ public class Player {
 	public Player(String name, boolean host) {
 		playerName = name;
 		playerCard = null;
-		isTurn = false;
+		isTurn = true;
 		isHost = host;
 		score = 0;
 	}
@@ -132,6 +132,6 @@ public class Player {
 	public void reset() {
 		playerCard = null;
 		score = 0;
-		isTurn = false;
+		isTurn = true;
 	}
 }

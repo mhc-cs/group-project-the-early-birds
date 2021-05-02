@@ -2,18 +2,9 @@ package guesswho;
 
 import java.util.ArrayList;
 import java.util.Random;
-import com.google.gson.*;
-import Messages.Cards;
-import Messages.Chat;
-import Messages.Hello;
-import Messages.Join;
-import Messages.Join_Game;
-import Messages.Message;
-import Messages.TurnUpdate;
+import Messages.*;
 import Messages.Error;
-import Messages.Guess;
-import Messages.Leave;
-import Messages.Data;
+import com.google.gson.*;
 import application.GameplayScreenController;
 import application.InvitePlayersController;
 
@@ -137,6 +128,7 @@ public class Game {
 	 */
 	public boolean guess(Card c) {
 		if (player1.getTurn()){
+			System.out.println("***********GUESS********** guess: "+ c +" correct: "+player2Card);
 			if(c==player2Card) {
 				player1.incScore();
 				//send message that score updated and player wins
@@ -248,7 +240,6 @@ public class Game {
 				// sent from server if status sent is not J or S
 				if (errorMsg.getErr().equals("BADSTATUS")) {
 					System.out.println("Received badstatus error");
-	
 				}	
 			}
 			//Handles message sent when someone leaves the room
@@ -265,7 +256,7 @@ public class Game {
 			else if (msg.getType().equals("ROOM_STATUS")) {
 				System.out.println("Got ROOM_STATUS");
 			}
-			
+
 			else if (msg.getType() == "DATA") {
 				System.out.println("Recieved DATA message");
 				if (((Data) msg).getDataType() == "cards") {
