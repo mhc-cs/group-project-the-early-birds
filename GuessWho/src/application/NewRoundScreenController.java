@@ -17,31 +17,63 @@ public class NewRoundScreenController extends Controller {
     @FXML
     private Label winner;
     
+    /**
+     * Initializes the screen.
+     */
     public void initialize() {
-        //winner.setText("... wins!"); //set text to winner's name wins
+        winner.setText("... wins!"); //set text to winner's name wins
     }
     
     /**
      * Goes back to gameplay screen and scores stay as they are,
      * to be increased.
      */
-    public void nextRound() {
-        Stage stage = (Stage) winner.getScene().getWindow();
-        stage.close();
-        //TODO redraw
-        //game.assignFirstTurn();
+    public void nextRound(ActionEvent event) {
+        //TODO reset the hashmap with greyed out cards, assign first turn
+        gameStage.close();      
+        try {
+            //Loads the new screen
+            Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
+            Scene startGameScene = new Scene(startGameParent);
+            
+            //Finds the previous screen and switches off of it
+            Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            appStage.setScene(startGameScene);
+            appStage.centerOnScreen();
+            
+            //Shows the new screen
+            appStage.show();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     /**
-     * Goes back to gameplay screen, but resets scores to 0
+     * Goes back to redraw screen, but resets scores to 0
      */
-    public void newGame() {
-        Stage stage = (Stage) winner.getScene().getWindow();
-        stage.close();
+    public void newGame(ActionEvent event) {
+        gameStage.close(); 
         //resets scores to 0
+        //TODO reset the hashmap with greyed out cards, assign first turn
         player.reset();
-        //TODO should go to redraw screen again
-        //game.assignFirstTurn();
+      
+        try {
+            //Loads the new screen
+            Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
+            Scene startGameScene = new Scene(startGameParent);
+            
+            //Finds the previous screen and switches off of it
+            Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            appStage.setScene(startGameScene);
+            appStage.centerOnScreen();
+            
+            //Shows the new screen
+            appStage.show();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -49,7 +81,9 @@ public class NewRoundScreenController extends Controller {
      * @param event
      */
     public void quit(ActionEvent event) {
-        System.out.println("Quitting...");
+        gameStage.close();
+        //TODO reset the hashmap with greyed out cards
+        //TODO close connection with other player
         
         //Resetting player data and hashmap
         player.reset();
@@ -57,8 +91,6 @@ public class NewRoundScreenController extends Controller {
 //            deck.getCard(key.intValue()).resetGrey();
 //            greyedOutCards.put(key, deck.getCard(key).getGrey());
 //        }        
-        
-        //TODO close connection to server
         
         //Going to invite players screen
         try {

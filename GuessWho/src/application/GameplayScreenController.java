@@ -280,12 +280,15 @@ public class GameplayScreenController extends Controller {
      * @throws IOException if the file to make the window is not found.
      */
     private void openConfirmationWindow() throws IOException {
+        Stage thisStage = (Stage) ((Node) scoresBox).getScene().getWindow();
         Stage confirmationWindow = new Stage();
+        gameStage = thisStage;
+        
         confirmationWindow.initModality(Modality.APPLICATION_MODAL);
         confirmationWindow.setTitle("Are you sure?");
         confirmationWindow.getIcons().add(new Image("application/icon.png"));
         confirmationWindow.setResizable(false);
-        
+
         Parent root = FXMLLoader.load(getClass().getResource("ConfirmationMenu.fxml"));
         Scene scene = new Scene(root);
         confirmationWindow.setScene(scene);

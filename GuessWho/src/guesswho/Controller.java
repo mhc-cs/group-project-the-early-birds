@@ -27,6 +27,8 @@ public class Controller extends Application {
     
     public static Network network;
     
+    public static Stage gameStage;
+    
     @Override
     public void start(Stage primaryStage) {
         try {
