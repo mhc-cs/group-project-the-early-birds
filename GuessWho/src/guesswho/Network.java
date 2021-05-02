@@ -28,7 +28,7 @@ import Messages.Room_Status;
 public class Network {
 //	static InetAddress SERVER_ADDRESS;
 	static Socket sock;
-	static String outbuf;
+	static ArrayList<String> outbuf;
 	static String inbuf;
 	//Fix types later
 	static ArrayList<Message> msgs;
@@ -45,7 +45,7 @@ public class Network {
 	 */
 	public Network() {
 //		this.SERVER_ADDRESS = new InetAddress();
-		outbuf = "";
+		outbuf = new ArrayList<String>();
 		inbuf = "";
 		msgs = new ArrayList<Message>();
 	}
@@ -92,7 +92,7 @@ public class Network {
 	public void send(Message data) {
 		System.out.println("Sending: " + data);
 		Gson gson = new Gson();
-		outbuf += gson.toJson(data);
+		outbuf.add( gson.toJson(data) + "\n");
 	}
 	
 	/*
@@ -126,35 +126,38 @@ public class Network {
 			return msgs;
 		}
 
-		byte[] newOutbuf = new byte[300];
+		byte[] encodedSend = new byte[300];
 		//send message to server
 		if (!outbuf.isEmpty()) {
-			try {
-				outbuf += "\n";
-				newOutbuf = outbuf.getBytes("UTF8");
-			} catch (UnsupportedEncodingException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			System.out.println("Trying to send to server");
-//			System.out.println((String) newOutbuf);
-			try {
-				sock.setSoTimeout(1);
-				 //remember how much is sent, then make the outbuffer the remainder
-				dataOutputStream.write(newOutbuf);
-		        dataOutputStream.flush();
-		        outbuf = "";
-		        System.out.println("Sent to server");
+			for(int h =0; h < outbuf.size();h++) {
+				String send = outbuf.get(h);
+				try {
+					encodedSend = send.getBytes("UTF8");
+				} catch (UnsupportedEncodingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			
+				System.out.println("Trying to send to server");
+	//			System.out.println((String) newOutbuf);
+				try {
+					sock.setSoTimeout(1);
+					 //remember how much is sent, then make the outbuffer the remainder
+					dataOutputStream.write(encodedSend);
+			        dataOutputStream.flush();
 		       
-			} 
-			catch (SocketException e) {
-				System.out.print(e);
-				
-			} catch (IOException e) {
-				System.out.print(e);
+		       
+				} 
+				catch (SocketException e) {
+					System.out.print(e);
+					
+				} catch (IOException e) {
+					System.out.print(e);
+				}
 			}
 			
-			
+			 outbuf = new ArrayList<String>();
+		     System.out.println("Sent to server");
 		}
 		//recieve message from server
 		try {
