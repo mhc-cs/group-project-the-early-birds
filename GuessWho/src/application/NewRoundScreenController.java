@@ -37,9 +37,11 @@ public class NewRoundScreenController extends Controller {
     /**
      * Goes back to redraw screen and scores stay as they are,
      * to be increased.
+     * @param event the event that the button is pressed
      */
     public void nextRound(ActionEvent event) {
-        //TODO reset the hashmap with greyed out cards, assign first turn
+        //TODO assign first turn
+        GameplayScreenController.resetHashmap();
         gameStage.close();      
         try {
             //Loads the new screen
@@ -64,8 +66,9 @@ public class NewRoundScreenController extends Controller {
      */
     public void newGame(ActionEvent event) {
         gameStage.close(); 
-        //resets scores to 0
-        //TODO reset the hashmap with greyed out cards, assign first turn
+        //resets scores to 0 and clears greyed out hashmap
+        //TODO assign first turn
+        GameplayScreenController.resetHashmap();
         player.reset();
       
         try {
@@ -92,15 +95,11 @@ public class NewRoundScreenController extends Controller {
      */
     public void quit(ActionEvent event) {
         gameStage.close();
-        //TODO reset the hashmap with greyed out cards
         //TODO close connection with other player
         
         //Resetting player data and hashmap
         player.reset();
-//        for(Integer key : greyedOutCards.keySet()) {
-//            deck.getCard(key.intValue()).resetGrey();
-//            greyedOutCards.put(key, deck.getCard(key).getGrey());
-//        }        
+        GameplayScreenController.resetHashmap();
         
         //Going to invite players screen
         try {
