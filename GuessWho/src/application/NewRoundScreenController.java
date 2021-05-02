@@ -12,6 +12,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+/**
+ * The controller for the screen when a player wins.
+ * Gives the player three options: play next round, which goes back
+ * to the redraw screen and keeps the players' scores; new game, which 
+ * goes back to the redraw screen, but resets the scores to 0, and quit,
+ * which takes them back to the invite screen.
+ * 
+ * @author Hannah, Dani, Anna
+ *
+ */
 public class NewRoundScreenController extends Controller {
 
     @FXML
@@ -25,7 +35,7 @@ public class NewRoundScreenController extends Controller {
     }
     
     /**
-     * Goes back to gameplay screen and scores stay as they are,
+     * Goes back to redraw screen and scores stay as they are,
      * to be increased.
      */
     public void nextRound(ActionEvent event) {
@@ -33,12 +43,12 @@ public class NewRoundScreenController extends Controller {
         gameStage.close();      
         try {
             //Loads the new screen
-            Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
-            Scene startGameScene = new Scene(startGameParent);
+            Parent gameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
+            Scene gameScene = new Scene(gameParent);
             
             //Finds the previous screen and switches off of it
             Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            appStage.setScene(startGameScene);
+            appStage.setScene(gameScene);
             appStage.centerOnScreen();
             
             //Shows the new screen
@@ -60,12 +70,12 @@ public class NewRoundScreenController extends Controller {
       
         try {
             //Loads the new screen
-            Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
-            Scene startGameScene = new Scene(startGameParent);
+            Parent gameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
+            Scene gameScene = new Scene(gameParent);
             
             //Finds the previous screen and switches off of it
             Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            appStage.setScene(startGameScene);
+            appStage.setScene(gameScene);
             appStage.centerOnScreen();
             
             //Shows the new screen
@@ -95,12 +105,12 @@ public class NewRoundScreenController extends Controller {
         //Going to invite players screen
         try {
             //Loads the new screen
-            Parent startGameParent = FXMLLoader.load(getClass().getResource("InvitePlayers.fxml"));
-            Scene startGameScene = new Scene(startGameParent);
+            Parent gameParent = FXMLLoader.load(getClass().getResource("InvitePlayers.fxml"));
+            Scene gameScene = new Scene(gameParent);
             
             //Finds the previous screen and switches off of it
             Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            appStage.setScene(startGameScene);
+            appStage.setScene(gameScene);
             appStage.centerOnScreen();
             
             //Shows the new screen

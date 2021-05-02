@@ -49,4 +49,15 @@ TextField{
 	-fx-text-background-color: "#F34A72";
 }
 
+#quit{
+	-fx-background-color: "#F34A72";
+	-fx-min-width: 35px;
+	-fx-min-height: 17px;
+	-fx-font-size: 13px;
+	-fx-translate-x: 215px;
+	-fx-translate-y: -35px;
+}
 
+#quit:hover{
+	-fx-background-color: "#f00f44";
+}
