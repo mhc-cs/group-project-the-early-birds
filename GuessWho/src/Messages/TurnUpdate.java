@@ -1,10 +1,10 @@
 package Messages;
 
-public class TurnUpdate extends Data{
+public class TurnUpdate extends Message{
 	private boolean yourTurn;
 	
-	public TurnUpdate(String TYPE, String type, boolean yourTurn) {
-		super(TYPE, type);
+	public TurnUpdate(String TYPE, boolean yourTurn) {
+		super(TYPE);
 		this.yourTurn = yourTurn;
 	}
 	
@@ -17,7 +17,7 @@ public class TurnUpdate extends Data{
 	}
 	
 	public String toString() {
-		return "Mine: {TYPE: " + TYPE + ", type: " + type + ", yourTurn: " + yourTurn + "}";
+		return "Mine: {TYPE: " + TYPE + ", yourTurn: " + yourTurn + "}";
 	}
 
 }
