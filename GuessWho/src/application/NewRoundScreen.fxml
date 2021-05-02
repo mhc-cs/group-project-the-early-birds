@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+
+<VBox alignment="CENTER" fx:controller="application.NewRoundScreenController" xmlns:fx="http://javafx.com/fxml/1"
+	spacing = "10" prefWidth="448" prefHeight="455" stylesheets="@newRoundScreen.css">
+	<Label fx:id="winner"/>
+	<Button id="nextRound" text="Play next round" onAction="#nextRound"/>
+	<Button id="newGame" text="New game" onAction="#newGame"/>
+	<Button id="quit" text="Quit" onAction="#quit"/>
+</VBox>
+

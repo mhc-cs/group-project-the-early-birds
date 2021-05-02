@@ -74,6 +74,8 @@ public class GameplayScreenController extends Controller {
     @FXML
     private TextArea chatArea;
     
+    public static int guessedId;
+    
     /**
      * Initializes the grid with the cards that the players guess from.
      */
@@ -121,7 +123,6 @@ public class GameplayScreenController extends Controller {
         scoresBox.setText(player.getName()+" = "+player.getScore()+" \t "+game.getPlayer2Name()+" = "+game.getPlayer2Score());
         
         //set player's card
-        game.drawCards();
         String cardPath = "application/" + player.getCard().getImagePath();
         System.out.println(cardPath);
         Image image = new Image(cardPath);
@@ -237,6 +238,7 @@ public class GameplayScreenController extends Controller {
         if(!greyedOutCards.get(imageId)) {
             image.setOnMouseClicked(e -> {
                 try {
+                    guessedId = imageId;
                     openConfirmationWindow();
                 } catch (IOException e1) {
                     e1.printStackTrace();

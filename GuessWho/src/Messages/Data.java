@@ -9,11 +9,11 @@ public class Data extends Message{
 		this.type = type;
 	}
 	
-	public String getType() {
+	public String getDataType() {
 		return type;
 	}
 	
-	public void setType(String type) {
+	public void setDataType(String type) {
 		this.type = type;
 	}
 	

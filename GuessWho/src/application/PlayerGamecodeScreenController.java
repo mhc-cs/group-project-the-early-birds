@@ -30,10 +30,10 @@ public class PlayerGamecodeScreenController {
         System.out.println(code);
         //TODO connect players with gamecode
         
-        //Going to gameplay screen
+        //Going to redraw screen
         try {
             //Loads the new screen
-            Parent startGameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
+            Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
             Scene startGameScene = new Scene(startGameParent);
             
             //Finds the previous screen and switches off of it
