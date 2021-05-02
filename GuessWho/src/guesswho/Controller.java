@@ -27,6 +27,8 @@ public class Controller extends Application {
     
     public static Network network;
     
+    public static Stage gameStage;
+    
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -50,6 +52,10 @@ public class Controller extends Application {
     
     public static Game getGame() {
     	return game;
+    }
+    
+    public static void redrawScene() {
+        
     }
     
     public static void main(String[] args) {
