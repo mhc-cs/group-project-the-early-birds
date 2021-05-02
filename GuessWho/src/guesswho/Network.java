@@ -10,7 +10,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
+import Messages.Hello;
+import Messages.Join;
+import Messages.Leave;
 import Messages.Message;
+import Messages.Room_Status;
+//import java.net.InetAddress;
 
 /*
  * Provides support methods to connect and communicate with the 
@@ -81,6 +90,7 @@ public class Network {
 	 * Adds data to be sent to the out buffer
 	 */
 	public void send(Message data) {
+		System.out.println("Sending: " + data);
 		Gson gson = new Gson();
 		outbuf += gson.toJson(data);
 	}
@@ -116,7 +126,7 @@ public class Network {
 			return msgs;
 		}
 
-		byte[] newOutbuf = new byte[100];
+		byte[] newOutbuf = new byte[300];
 		//send message to server
 		if (!outbuf.isEmpty()) {
 			try {
@@ -152,7 +162,7 @@ public class Network {
 			System.out.println("Trying to receive from server");
 	        // create a DataInputStream so we can read data from it.
 	        DataInputStream dataInputStream = new DataInputStream(inputStream);
-	        byte[] bytes = new byte[100];
+	        byte[] bytes = new byte[1000];
 	        int i= 0;
 	        while (dataInputStream.available() > 0) {
 	        	
@@ -164,26 +174,63 @@ public class Network {
         	inbuf = temp;
         	if (inbuf.trim().length() > 0) {
         		System.out.println("*******************MESSAGE RECEIVED*********************");
-        		System.out.println(inbuf);
+//        		System.out.println(inbuf);
+        		String[] msgArray;
+        		msgArray = inbuf.split("\n");
     			Gson gson = new Gson();
 //    			JsonReader reader = new JsonReader(new StringReader(inbuf));
 //    			reader.setLenient(true);
     			
     			//Anna do this (make the classes work)
-    			Message test = gson.fromJson(inbuf.trim(), Message.class);
-    			System.out.println("Message: " + test);
+    			//to take in multiple messages at once: split inbuf by /n and put into array
+    			// to parse to specific class, probably going to need to use JsonParser with
+    			//begin and end object to get type
+    			JsonParser parser = new JsonParser();
+    			
+    			for (int j = 0; j  < msgArray.length;j++) {
+//    				System.out.println("Checking: " + msgArray[j].trim());
+    				if (!msgArray[j].trim().equals("")) {
+	    				JsonElement jsonTree = parser.parse(msgArray[j].trim());
+	    				String TYPE = jsonTree.getAsJsonObject().get("TYPE").toString();
+//	    				System.out.println("Trying to decode: " + msgArray[j].trim() + "of type " + TYPE);
+	    				if (TYPE.equals("\"JOIN\"")) {
+	    					System.out.println("JOIN: " + gson.fromJson(msgArray[j].trim(), Join.class));
+	    					msgs.add(gson.fromJson(msgArray[j].trim(), Join.class));
+	    				}
+	    				else if (TYPE.equals("\"LEAVE\"")) {
+	    					System.out.println("LEAVE: " + gson.fromJson(msgArray[j].trim(), Leave.class));
+	    					msgs.add(gson.fromJson(msgArray[j].trim(), Leave.class));
+	    				}
+	    				else if (TYPE.equals("\"ROOM_STATUS\"")) {
+	    					System.out.println("ROOM_STATUS:" + gson.fromJson(msgArray[j].trim(), Room_Status.class));
+	    					msgs.add(gson.fromJson(msgArray[j].trim(), Room_Status.class));
+	    				}
+	    				else {
+	    					System.out.println("OTHER: " + gson.fromJson(msgArray[j].trim(), Message.class));
+	    					msgs.add(gson.fromJson(msgArray[j].trim(), Message.class));
+	    				}
+    				}
+//    				System.out.println("Decoded: " + gson.fromJson(msgArray[j].trim(), Message.class));
+    			}
+    			
+    		
+
+    				
+//    			Message test = gson.fromJson(inbuf.trim(), Message.class);
+//    			System.out.println("Message: " + test);
     			
     			
-    			msgs.add(test);
+//    			msgs.add(test);
     			
-    			System.out.print("Inbuf: " + inbuf);
+//    			System.out.print("Inbuf: " + inbuf);
     			System.out.println("Received from server");
+
 
         	}
 			
 //	        inbuf = new String(IOUtilities.streamToBytes(inputStream));
 			//need to add processing for string to become JSONObjects
-			System.out.println("Data stream set up");
+//			System.out.println("Data stream set up");
 //			JsonParser jsonParser = new JsonParser();
 //			JsonElement jsonTree = jsonParser.parse(inbuf);
 //			if (jsonTree.isJsonObject()) {

@@ -3,7 +3,18 @@ package guesswho;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import Messages.*;
+import com.google.gson.*;
+import Messages.Chat;
+import Messages.Hello;
+import Messages.Join;
+import Messages.Join_Game;
+import Messages.Message;
+import Messages.Error;
+import Messages.Leave;
+import Messages.Data;
+import application.GameplayScreenController;
+import application.InvitePlayersController;
+]
 
 /**
  * Game
@@ -34,6 +45,8 @@ public class Game {
 	
 	//stores other player's score
 	private int player2Score = 3;
+	
+	boolean receivedWelcome = false;
 	
 	/**
 	 * Game constructor
@@ -183,7 +196,7 @@ public class Game {
 	 * @param kind Type of message
 	 * @param msg Content of the message
 	 */
-	public void handle_msg (boolean privateMsg, String sender, boolean spectactor, String kind, HashMap<String,String> msg) {
+	public void handle_msg (boolean privateMsg, String sender, boolean spectactor, String kind, Chat chat) {
 		if (kind == "CHAT") {
 			//needs to add message to chat
 //			GameplayScreenController.chat(sender + ": " + msg.get("msg"));
@@ -204,24 +217,62 @@ public class Game {
 		for (int i =0; i < msgs.size(); i++ ) {
 			System.out.println("Message recieved" + msgs.get(i).getType() + "stop");
 			Message msg = msgs.get(i);
-			if (msg.getType() == "HELLO" ) {
+			//Handles message sent from server when game connects to server
+			if (msg.getType().equals("HELLO")) {
 				System.out.println("Recieved hello message");
-				Controller.network.send(new Hello("HELLO", "Dani", "guesswho"));
-//				Add this once the bit above works
-//				Controller.network.send(new Hello("HELLO", player1.getName(), "guesswho"));
+				Controller.network.send(new Hello("HELLO", player1.getName(), "guesswho"));
 			}
-			else if (msg.getType() == "WELCOME" ) {
+			//Handles message sent from server when server recieves hello message
+			else if (msg.getType().equals("WELCOME" )) {
 				System.out.println("Recieved welcome message");
-//				Controller.network.send(new JOIN_GAME(JOIN_GAME, 2, False, status, gamecode));
-//				HashMap<String,String> newMsg = new HashMap<String,String>();
-//				msg.put("TYPE", "JOIN_GAME");
-//				//this is going to create an issue because 2 needs to be a number
-//				msg.put("size", "2");
-//				msg.put("allow_spectators", "False");
-//				msg.put("status", status);
-//				msg.put("gamecode", gamecode);
+				receivedWelcome = true;
+//				Controller.network.send(new Join_Game("JOIN_GAME", 2, false, status, gamecode));
+			}
+			//Handles error message sent at various stages of connection process
+			else if (msg.getType().equals("ERROR")) {
+				Error errorMsg = (Error) msg;
+				// sent from server if name is nonexistent or if it's a duplicate
+				if (errorMsg.getErr().equals("BADNAME")) {
+					System.out.println("Received badname error");
+				}
+				// sent from server when someone tries to create a new game with
+				//a code that already is in use for a game in wait_rooms
+				if (errorMsg.getErr().equals("REPEATCODE")) {
+					
+				}
+				//sent from server when user joins with invalid code
+				if (errorMsg.getErr().equals("BADCODE")) {
+	
+				}
+				// sent from server if status sent is not J or S
+				if (errorMsg.getErr().equals("BADSTATUS")) {
+					System.out.println("Received badstatus error");
+	
+				}
 				
-//				Network.send(newMsg);
+			}
+			//Handles chat data
+			else if (msg.getType().equals("DATA")) {
+				Data dataMsg = (Data) msg;
+				//Hannah's done this
+				
+			}
+			//Handles message sent when someone leaves the room
+			else if (msg.getType().equals("LEAVE")) {
+				Leave LeaveMsg = (Leave) msg;
+				
+			}
+			//Handles message sent when someone joins the room
+			else if (msg.getType().equals("JOIN")) {
+				Join joinMsg = (Join) msg;
+				player2Name = (joinMsg.getUser());
+			}
+			else if (msg.getType().equals("ROOM_STATUS")) {
+				System.out.println("Got ROOM_STATUS");
+			}
+			//Handles any messages not provided with special handling
+			else {
+				System.out.println("Unprocessed message: " + msg);
 			}
 			else if (msg.getType() == "DATA") {
 				System.out.println("Recieved DATA message");
