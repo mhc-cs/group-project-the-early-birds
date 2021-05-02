@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 
+import Messages.Join_Game;
 import guesswho.Controller;
 import guesswho.Game;
 import javafx.event.ActionEvent;
@@ -31,6 +32,7 @@ public class HostGamecodeScreenController {
 
         Controller.getGame().setGameCode(code);
         Controller.getGame().setStatus("S");
+        Controller.network.send(new Join_Game("JOIN_GAME", 2, false, "S", code));
         
         //TODO connect players with gamecode
         

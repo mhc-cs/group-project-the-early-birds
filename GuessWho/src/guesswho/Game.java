@@ -48,6 +48,8 @@ public class Game {
 	//same thing with score
 	private int player2Score = 3;
 	
+	boolean receivedWelcome = false;
+	
 	/**
 	 * Game constructor
 	 * @param d deck of cards
@@ -199,16 +201,36 @@ public class Game {
 			//Handles message sent from server when server recieves hello message
 			else if (msg.getType().equals("WELCOME" )) {
 				System.out.println("Recieved welcome message");
-				Controller.network.send(new Join_Game("JOIN_GAME", 2, false, status, gamecode));
+				receivedWelcome = true;
+//				Controller.network.send(new Join_Game("JOIN_GAME", 2, false, status, gamecode));
 			}
 			//Handles error message sent at various stages of connection process
 			else if (msg.getType().equals("ERROR")) {
 				Error errorMsg = (Error) msg;
+				// sent from server if name is nonexistent or if it's a duplicate
+				if (errorMsg.getErr().equals("BADNAME")) {
+					System.out.println("Received badname error");
+				}
+				// sent from server when someone tries to create a new game with
+				//a code that already is in use for a game in wait_rooms
+				if (errorMsg.getErr().equals("REPEATCODE")) {
+					
+				}
+				//sent from server when user joins with invalid code
+				if (errorMsg.getErr().equals("BADCODE")) {
+	
+				}
+				// sent from server if status sent is not J or S
+				if (errorMsg.getErr().equals("BADSTATUS")) {
+					System.out.println("Received badstatus error");
+	
+				}
 				
 			}
 			//Handles chat data
 			else if (msg.getType().equals("DATA")) {
 				Data dataMsg = (Data) msg;
+				//Hannah's done this
 				
 			}
 			//Handles message sent when someone leaves the room
@@ -221,7 +243,9 @@ public class Game {
 				Join joinMsg = (Join) msg;
 				player2Name = (joinMsg.getUser());
 			}
-			
+			else if (msg.getType().equals("ROOM_STATUS")) {
+				System.out.println("Got ROOM_STATUS");
+			}
 			//Handles any messages not provided with special handling
 			else {
 				System.out.println("Unprocessed message: " + msg);
