@@ -45,7 +45,7 @@ public class GameplayScreenController extends Controller {
         
     boolean guessing = false;
 
-    HashMap<Integer, Boolean> greyedOutCards = new HashMap<>();
+    static HashMap<Integer, Boolean> greyedOutCards = new HashMap<>();
     
     @FXML
     private GridPane cardGrid;
@@ -375,10 +375,7 @@ public class GameplayScreenController extends Controller {
         
         //Resetting player data and hashmap
         player.reset();
-        for(Integer key : greyedOutCards.keySet()) {
-            deck.getCard(key.intValue()).resetGrey();
-            greyedOutCards.put(key, deck.getCard(key).getGrey());
-        }        
+        resetHashmap();      
         
         //TODO close connection to server
         
@@ -471,6 +468,17 @@ public class GameplayScreenController extends Controller {
         
         chatArea.appendText(player.getName() + ": " + msg + "\n");
         chatInput.clear();
+    }
+    
+    /**
+     * Resets the hashmap that contains the greyed out cards so that
+     * all cards are set to false.
+     */
+    public static void resetHashmap() {
+        for(Integer key : greyedOutCards.keySet()) {
+            deck.getCard(key.intValue()).resetGrey();
+            greyedOutCards.put(key, deck.getCard(key).getGrey());
+        }    
     }
         
    

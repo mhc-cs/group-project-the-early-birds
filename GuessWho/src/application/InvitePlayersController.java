@@ -102,6 +102,5 @@ public class InvitePlayersController extends Controller {
     public void quit() {
         Stage stage = (Stage) warning.getScene().getWindow();
         stage.close();
-        System.exit(0); //terminates the java VM
     }
 }
