@@ -53,6 +53,9 @@ public class NewRoundScreenController extends Controller {
             appStage.setScene(gameScene);
             appStage.centerOnScreen();
             
+            //Allows it to be dragged
+            dragScreen(gameScene, appStage);
+            
             //Shows the new screen
             appStage.show();
             
@@ -80,6 +83,9 @@ public class NewRoundScreenController extends Controller {
             Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             appStage.setScene(gameScene);
             appStage.centerOnScreen();
+            
+            //Allows it to be dragged
+            dragScreen(gameScene, appStage);
             
             //Shows the new screen
             appStage.show();
@@ -111,6 +117,9 @@ public class NewRoundScreenController extends Controller {
             Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             appStage.setScene(gameScene);
             appStage.centerOnScreen();
+            
+            //Allows it to be dragged
+            dragScreen(gameScene, appStage);
             
             //Shows the new screen
             appStage.show();

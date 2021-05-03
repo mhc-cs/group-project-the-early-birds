@@ -37,6 +37,7 @@ public class Controller extends Application {
             Parent root = FXMLLoader.load(getClass().getResource("/application/InvitePlayers.fxml"));
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/application/application.css").toExternalForm());
+            dragScreen(scene, primaryStage);   
             
             // Sets properties for the window and displays it
             primaryStage.setScene(scene);
@@ -54,6 +55,25 @@ public class Controller extends Application {
     
     public static Game getGame() {
     	return game;
+    }
+    
+    /**
+     * Allows the screen to be dragged.
+     * Subtracts where the mouse is when you click on the stage
+     * from where it is after you start dragging the mouse and sets 
+     * the screen position to that to mimic dragging the screen.
+     * @param scene The scene to be dragged
+     * @param stage The stage that the scene is in
+     */
+    public static void dragScreen(Scene scene, Stage stage) {
+        scene.setOnMousePressed(pressEvent -> {
+            scene.setOnMouseDragged(dragEvent -> {
+                //dragEvent.getScreenX/Y gets the position of mouse when dragging
+                //pressEvent.getScreenX/Y gets the position of mouse when clicking
+                stage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
+                stage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
+            });
+        });  
     }
     
     public static void main(String[] args) {

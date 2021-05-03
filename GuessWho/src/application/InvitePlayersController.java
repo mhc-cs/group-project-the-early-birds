@@ -52,6 +52,9 @@ public class InvitePlayersController extends Controller {
                 Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 appStage.setScene(startGameScene);
                 
+                //Allows it to be dragged
+                dragScreen(startGameScene, appStage);
+                
                 //Shows the new screen
                 appStage.show();
                 
@@ -86,6 +89,9 @@ public class InvitePlayersController extends Controller {
                 //Finds the previous screen and switches off of it
                 Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 appStage.setScene(startGameScene);
+                
+                //Allows it to be dragged
+                dragScreen(startGameScene, appStage);
                 
                 //Shows the new screen
                 appStage.show();
