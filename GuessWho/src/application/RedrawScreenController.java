@@ -67,6 +67,9 @@ public class RedrawScreenController extends Controller{
             appStage.setScene(startGameScene);
             appStage.centerOnScreen();
             
+            //Allows it to be dragged
+            dragScreen(startGameScene, appStage);
+            
             //Shows the new screen
             appStage.show();
             

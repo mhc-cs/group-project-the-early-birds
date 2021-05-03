@@ -56,7 +56,6 @@ public class ConfirmationMenuController extends Controller {
      */
     public void confirm(ActionEvent event) {
         int guessed = GameplayScreenController.guessedId;
-        System.out.println("HERE!!!!!!!!!!!!!!!!!!!!" + guessed);
         boolean correctGuess = game.guess(deck.getCard(guessed));
         
         if(correctGuess) {
@@ -69,6 +68,9 @@ public class ConfirmationMenuController extends Controller {
                 Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 appStage.setScene(newRoundScene);
                 appStage.centerOnScreen();
+                
+              //Allows it to be dragged
+                dragScreen(newRoundScene, appStage);
                 
                 //Shows the new screen
                 appStage.show();

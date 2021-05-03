@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 
+import guesswho.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +12,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * The screen for the player to enter their gamecode.
+ * Has methods for the continue button, the button to go back, and a method
+ * to retrieve the gamecode.
+ * 
+ * @author Dani, Hannah, Anna
+ *
+ */
 public class PlayerGamecodeScreenController {
     
     @FXML
@@ -40,6 +49,9 @@ public class PlayerGamecodeScreenController {
             Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             appStage.setScene(startGameScene);
             appStage.centerOnScreen();
+            
+            //Allows it to be dragged
+            Controller.dragScreen(startGameScene, appStage);
             
             //Shows the new screen
             appStage.show();
@@ -73,6 +85,9 @@ public class PlayerGamecodeScreenController {
             //Finds the previous screen and switches off of it
             Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             appStage.setScene(invitePlayersScene);
+            
+            //Allows it to be dragged
+            Controller.dragScreen(invitePlayersScene, appStage);
             
             //Shows the new screen
             appStage.show();

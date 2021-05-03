@@ -293,6 +293,7 @@ public class GameplayScreenController extends Controller {
         root.setStyle("-fx-background-color: white; -fx-border-color: black");
         Scene scene = new Scene(root);
         confirmationWindow.setScene(scene);
+        dragScreen(scene, confirmationWindow);
         confirmationWindow.showAndWait(); 
     }
   
@@ -389,6 +390,9 @@ public class GameplayScreenController extends Controller {
             Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             appStage.setScene(gameScene);
             appStage.centerOnScreen();
+            
+            //Allows it to be dragged
+            dragScreen(gameScene, appStage);
             
             //Shows the new screen
             appStage.show();
