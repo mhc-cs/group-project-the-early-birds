@@ -19,6 +19,8 @@ import Messages.Join;
 import Messages.Leave;
 import Messages.Message;
 import Messages.Room_Status;
+import Messages.Data;
+import Messages.Error;
 //import java.net.InetAddress;
 
 /*
@@ -207,6 +209,14 @@ public class Network {
 	    				else if (TYPE.equals("\"ROOM_STATUS\"")) {
 	    					System.out.println("ROOM_STATUS:" + gson.fromJson(msgArray[j].trim(), Room_Status.class));
 	    					msgs.add(gson.fromJson(msgArray[j].trim(), Room_Status.class));
+	    				}
+	    				else if (TYPE.equals("\"ERROR\"")) {
+	    					System.out.println("ERROR:" + gson.fromJson(msgArray[j].trim(), Room_Status.class));
+	    					msgs.add(gson.fromJson(msgArray[j].trim(), Error.class));
+	    				}
+	    				else if (TYPE.equals("\"DATA\"")) {
+	    					System.out.println("DATA:" + gson.fromJson(msgArray[j].trim(), Room_Status.class));
+	    					msgs.add(gson.fromJson(msgArray[j].trim(), Data.class));
 	    				}
 	    				else {
 	    					System.out.println("OTHER: " + gson.fromJson(msgArray[j].trim(), Message.class));
