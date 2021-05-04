@@ -76,7 +76,8 @@ public class Controller extends Application {
         });  
     }
     
-    public static void main(String[] args) {
+    @SuppressWarnings("deprecation")
+	public static void main(String[] args) {
     	Thread networkThread = new Thread("Network Thread") {
     	      public void run(){
     	    	  network = new Network();
@@ -86,23 +87,17 @@ public class Controller extends Application {
     	  				Thread.sleep(500);
     	  			}
     	  		} catch (InterruptedException e) {
-    	  			// TODO Auto-generated catch block
-    	  			e.printStackTrace();
+    	  			Thread.currentThread().interrupt();
+          		System.out.println("Thread was interrupted, Failed to complete operation");
     	  		}
     	      }
+    	      
     	   };
     	   
-    	 networkThread.start();
+    	networkThread.start();
     	
         launch(args);
-        //testing
-//       
-//        System.out.println(player.getName());
-//        System.out.println(player.getHost());
-//        Network network = new Network();
-//        while (true) {
-//        	game.process(network.do_communication());
-//        }
-        
+       
+        networkThread.stop();
     }
 }

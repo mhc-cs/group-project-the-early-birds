@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import Messages.*;
 import Messages.Error;
+import application.GameplayScreenController;
 
 /**
  * Game
@@ -284,6 +285,7 @@ public class Game {
 			else if (msg.getType().equals("chat")) {
 				System.out.println("Processed Chat Message");
 				//TODO Handle chat
+				GameplayScreenController.receiveMsg(((Chat)msg).getEntrytext());
 			}
 			//Handles any messages not provided with special handling
 			else {
