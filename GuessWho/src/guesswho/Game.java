@@ -5,6 +5,7 @@ import java.util.Random;
 import Messages.*;
 import Messages.Error;
 import application.GameplayScreenController;
+import application.HostGamecodeScreenController;
 
 /**
  * Game
@@ -257,6 +258,7 @@ public class Game {
 						player2Name = name;
 					}
 				}
+				HostGamecodeScreenController.setIsReady(roomMsg.getIs_ready());
 			}
 			//Handles message from host when drawing cards
 			else if (msg.getType().equals("cards")) {

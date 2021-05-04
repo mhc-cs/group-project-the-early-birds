@@ -36,6 +36,8 @@ public class HostGamecodeScreenController {
     
     private static String code;
     
+    private static boolean isReady;
+    
     /**
      * Waiting for player screen. This shows when one player is in
      * the room and the other has not joined yet.
@@ -97,6 +99,9 @@ public class HostGamecodeScreenController {
         if(!otherPlayerJoined) { //TODO change this to check if other player has joined
           //Going to redraw screen
             waitingForPlayer(window);
+            if (isReady) {
+            	closeWaitingWindow(window);
+            }
         } else {
             try {
                 //Loads the new screen
@@ -128,6 +133,10 @@ public class HostGamecodeScreenController {
      */
     public static String getHostCode() {
         return code;
+    }
+    
+    public static void setIsReady(boolean ready) {
+    	isReady = ready;
     }
     
     /**
