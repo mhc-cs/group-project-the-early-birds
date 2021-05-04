@@ -106,6 +106,9 @@ public class Network {
 		if (sock == null) {
 			return msgs;
 		}
+		if (sock.isClosed()) {
+			return msgs;
+		}
 
 		byte[] encodedSend = new byte[300];
 		//send message to server

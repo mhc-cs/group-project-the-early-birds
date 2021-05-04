@@ -73,14 +73,13 @@ public class InvitePlayersController extends Controller {
      */
     public void joinGame(ActionEvent event) {
         player.setHost(false);
-        player.setName(playerName.getText());
         if(playerName.getText().isEmpty()) {
             warning.setText("Please enter a name.");
         } else if(!Network.connect()) {
         	warning.setText("Could not connect.");
         } else {
-            Network.connect();
             player.setName(playerName.getText());
+            Network.connect();
             try {
                 //Loads the new screen
                 Parent startGameParent = FXMLLoader.load(getClass().getResource("PlayerGamecodeScreen.fxml"));
