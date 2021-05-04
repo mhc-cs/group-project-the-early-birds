@@ -152,7 +152,7 @@ public class GameplayScreenController extends Controller {
      */
     @SuppressWarnings("boxing")
     private void greyOut(ImageView image, int imageId) {
-        if(!guessing) {
+        if(!guessing && player.getTurn()) {
             if(greyedOutCards.get(imageId) == false) { //if it's not greyed out
                 //set image to be greyed out
                 image.setImage(new Image("application/defaultImages/grey.png"));
