@@ -140,13 +140,6 @@ public class GameplayScreenController extends Controller {
         
         //Initial chat messages
         chatArea.appendText("SERVER: " + player.getName() + " has entered the game. \n");
-
-        //Opening waiting for players screen
-        Stage window = new Stage();
-        //waitingForPlayer(window); //COMMENTED OUT FOR NOW. OPENS WAITING FOR PLAYER DIALOG
-        
-        //TODO Call closeWaitingWindow(window) when the other player has connected to the game.
-
     }
     
     /**
@@ -406,46 +399,6 @@ public class GameplayScreenController extends Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    
-    /**
-     * Waiting for player screen. This shows when one player is in
-     * the room and the other has not joined yet.
-     */
-    private void waitingForPlayer(Stage waitingWindow) {
-        //waitingWindow = new Stage();
-        
-        // Makes it so you can't click on the window behind until this one is closed.
-        waitingWindow.initModality(Modality.APPLICATION_MODAL);
-        waitingWindow.setResizable(false);
-        waitingWindow.initStyle(StageStyle.UNDECORATED);
-        
-        //Adding Title
-        Label text = new Label();
-        text.setText("Waiting for other player...");
-        text.setFont(Font.font("Century Gothic", 23));
-        text.setPadding(new Insets(15,0,0,0));
-
-        //Progress wheel
-        ProgressIndicator progress = new ProgressIndicator();
-        
-        VBox root = new VBox(25);
-        root.getChildren().addAll(text, progress);
-        root.setAlignment(Pos.CENTER);
-        root.setStyle("-fx-background-color: white; -fx-border-color: black");
-
-        
-        // Display the scene
-        Scene scene = new Scene(root, 350, 200);
-        waitingWindow.setScene(scene);
-        waitingWindow.show(); //change to showAndWait if wanting to stop at invite screen
-    }
-    
-    /**
-     * Closes the waiting window dialog.
-     */
-    private void closeWaitingWindow(Stage waitingWindow) {
-        waitingWindow.close();
     }
     
     /**
