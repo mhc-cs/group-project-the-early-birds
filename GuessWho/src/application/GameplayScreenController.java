@@ -118,9 +118,12 @@ public class GameplayScreenController extends Controller {
         //Passes every image in the grid to guess button when guess button is pressed
         guessButton.setText("Guess "+game.getPlayer2Name()+"'s card");
         guessButton.setOnAction(e -> guessButtonPressed());
+        guessButton.setStyle(String.format("-fx-font-size: %dpx;", (int)(-1 * game.getPlayer2Name().length() + 30 )));
         
         //setting scores text
         scoresBox.setText(player.getName()+" = "+player.getScore()+" \t "+game.getPlayer2Name()+" = "+game.getPlayer2Score());
+        scoresBox.setStyle(String.format("-fx-font-size: %dpx;", (int) (-.1 * (game.getPlayer2Name().length() + player.getName().length()) + 15)));
+        System.out.println(-.25 * (game.getPlayer2Name().length() + player.getName().length()) + 15);
         
         //set player's card
         String cardPath = "application/" + player.getCard().getImagePath();

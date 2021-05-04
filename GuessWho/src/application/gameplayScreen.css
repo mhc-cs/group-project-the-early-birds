@@ -10,6 +10,7 @@ Label{
 Button{
 	-fx-font-family: "Century Gothic";
 	-fx-min-width: 269px;
+	-fx-max-width: 269px;
 	-fx-font-size: 24px;
 	-fx-background-radius: 10px;
 }
@@ -44,7 +45,6 @@ FlowPane{
 
 #scoresBox{
 	-fx-padding: 5px;
-	-fx-font-size: 15px;
 }
 
 #yourCardLabel{

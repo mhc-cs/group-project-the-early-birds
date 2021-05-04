@@ -26,7 +26,7 @@
      	 	<Label fx:id="turn" id="turn" text="It is your turn &#10;to ask a question."/>
      	 	<Button id="helpButton" text="?" onAction="#displayHelpWindow"/>
      	 	<VBox spacing="20">
-     	 		<Button fx:id="guessButton" id="guess" text="Guess [name]'s card"/>
+     	 		<Button fx:id="guessButton" id="guess" text="Guess [name]'s card" wrapText="true" textAlignment="CENTER"/>
      	 		<Button fx:id="endTurn" id="endTurn" text="End your turn" onAction="#endTurn"/>
      	 	</VBox>
 		</HBox>
@@ -36,7 +36,7 @@
 			<Label id="scores" text="SCORES"/>
 			<Button id="quit" text="Quit" onAction="#quitGame"/>
 		</HBox>
-		<FlowPane maxWidth="315">
+		<FlowPane maxWidth="315" minWidth="315">
 			<Label fx:id="scoresBox" id="scoresBox"/>
 		</FlowPane>
 		<Label id="chat" text="CHAT"/>
