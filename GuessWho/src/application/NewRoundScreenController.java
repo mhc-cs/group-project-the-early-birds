@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 
 import guesswho.Controller;
+import guesswho.Network;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -101,8 +102,7 @@ public class NewRoundScreenController extends Controller {
      */
     public void quit(ActionEvent event) {
         gameStage.close();
-        //TODO close connection with other player
-        
+        Network.close();
         //Resetting player data and hashmap
         player.reset();
         GameplayScreenController.resetHashmap();

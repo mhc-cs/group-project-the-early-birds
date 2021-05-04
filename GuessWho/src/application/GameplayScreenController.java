@@ -7,6 +7,7 @@ import java.util.ListIterator;
 import Messages.Chat;
 import Messages.Data;
 import guesswho.Controller;
+import guesswho.Network;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -77,6 +78,8 @@ public class GameplayScreenController extends Controller {
     private TextArea chatArea;
     
     public static int guessedId;
+    
+    private static String message;
     
     /**
      * Initializes the grid with the cards that the players guess from.
@@ -382,8 +385,7 @@ public class GameplayScreenController extends Controller {
         player.reset();
         resetHashmap();      
         
-        //TODO close connection to server
-        
+        Network.close();
         //Going to invite players screen
         try {
             //Loads the new screen
@@ -476,6 +478,11 @@ public class GameplayScreenController extends Controller {
         Controller.network.send(new Data("DATA",new Chat("chat",msg)));
         chatArea.appendText(player.getName() + ": " + msg + "\n");
         chatInput.clear();
+        //TODO test that this receives from other player
+        if(message!=null) {
+        	chatArea.appendText(game.getPlayer2Name() + ": " + message + "\n");
+        	message=null;
+        }
     }
     
     /**
@@ -487,6 +494,10 @@ public class GameplayScreenController extends Controller {
             deck.getCard(key.intValue()).resetGrey();
             greyedOutCards.put(key, deck.getCard(key).getGrey());
         }    
+    }
+    
+    public static void receiveMsg(String msg) {
+    	message = msg;
     }
         
    
