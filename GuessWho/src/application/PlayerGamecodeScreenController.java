@@ -6,11 +6,19 @@ import guesswho.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * The screen for the player to enter their gamecode.
@@ -28,6 +36,45 @@ public class PlayerGamecodeScreenController {
     private static String code;
     
     /**
+     * Waiting for player screen. This shows when one player is in
+     * the room and the other has not joined yet.
+     */
+    private void waitingForPlayer(Stage waitingWindow) {
+        
+        // Makes it so you can't click on the window behind until this one is closed.
+        waitingWindow.initModality(Modality.APPLICATION_MODAL);
+        waitingWindow.setResizable(false);
+        waitingWindow.initStyle(StageStyle.UNDECORATED);
+        
+        //Adding Title
+        Label text = new Label();
+        text.setText("Waiting for other player...");
+        text.setFont(Font.font("Century Gothic", 23));
+        text.setPadding(new Insets(15,0,0,0));
+
+        //Progress wheel
+        ProgressIndicator progress = new ProgressIndicator();
+        
+        VBox root = new VBox(25);
+        root.getChildren().addAll(text, progress);
+        root.setAlignment(Pos.CENTER);
+        root.setStyle("-fx-background-color: white; -fx-border-color: black");
+
+        
+        // Display the scene
+        Scene scene = new Scene(root, 350, 200);
+        waitingWindow.setScene(scene);
+        waitingWindow.show();
+    }
+    
+    /**
+     * Closes the waiting window dialog.
+     */
+    private void closeWaitingWindow(Stage waitingWindow) {
+        waitingWindow.close();
+    }
+    
+    /**
      * Sets the gamecode that the player entered.
      * Happens when continue button is pressed.
      * 
@@ -39,27 +86,35 @@ public class PlayerGamecodeScreenController {
         System.out.println("Entered gamecode: "+code);
         //TODO connect players with gamecode
         
-        //Going to redraw screen
-        try {
-            //Loads the new screen
-            Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
-            Scene startGameScene = new Scene(startGameParent);
-            
-            //Finds the previous screen and switches off of it
-            Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            appStage.setScene(startGameScene);
-            appStage.centerOnScreen();
-            
-            //Allows it to be dragged
-            Controller.dragScreen(startGameScene, appStage);
-            
-            //Shows the new screen
-            appStage.show();
-            
-        } catch (IOException e) {
-            e.printStackTrace();
+        boolean otherPlayerJoined = false;
+        Stage window = new Stage();
         
+        
+        if(!otherPlayerJoined) {
+            waitingForPlayer(window);
+        } else {
+            //Going to redraw screen
+            try {
+                //Loads the new screen
+                Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
+                Scene startGameScene = new Scene(startGameParent);
+                
+                //Finds the previous screen and switches off of it
+                Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                appStage.setScene(startGameScene);
+                appStage.centerOnScreen();
+                
+                //Allows it to be dragged
+                Controller.dragScreen(startGameScene, appStage);
+                
+                //Shows the new screen
+                appStage.show();
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+
         }
+}
     }
     
     /**
