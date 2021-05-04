@@ -212,31 +212,35 @@ public class Network {
 	    				}
 	    				else if (TYPE.equals("\"DATA\"")) {
 	    					//need to specify data type
+	    					System.out.println(msgArray[j].trim().toString());
+		    				String Sender = jsonTree.getAsJsonObject().get("SENDER").toString();
+		    				String name = "\""+Controller.player.getName()+"\"";
+		    				if (!Sender.equals(name)) {
+		    					JsonElement msg2 = jsonTree.getAsJsonObject().get("msg");
+		    					String type = msg2.getAsJsonObject().get("TYPE").toString();
+		    					System.out.println("#################################### "+ type);
+		    					if (type.equals("\"cards\"")) {
+		    						System.out.println("DATA: cards:" + gson.fromJson(msg2, Cards.class));
+			    					msgs.add(gson.fromJson(msg2, Cards.class));
+		    					}
+		    					else if (type.equals("\"redraw")) {
+		    						System.out.println("DATA: redraw:" + gson.fromJson(msg2, Cards.class));
+			    					msgs.add(gson.fromJson(msg2, Message.class));
+		    					}
+		    					else if (type.equals("\"turnUpdate")) {
+		    						System.out.println("DATA: turnUpdate:" + gson.fromJson(msg2, Cards.class));
+			    					msgs.add(gson.fromJson(msg2, TurnUpdate.class));
+		    					}
+		    					else if (type.equals("\"guess")) {
+		    						System.out.println("DATA: guess:" + gson.fromJson(msg2, Cards.class));
+			    					msgs.add(gson.fromJson(msg2, Guess.class));
+		    					}
+		    					else if (type.equals("\"chat")) {
+		    						System.out.println("DATA: chat:" + gson.fromJson(msg2, Cards.class));
+			    					msgs.add(gson.fromJson(msg2, Chat.class));
+		    					}
+		    				}
 	    					
-	    					JsonElement msg2 = jsonTree.getAsJsonObject().get("msg");
-	    					String type = msg2.getAsJsonObject().get("TYPE").toString();
-	    					System.out.println("#################################### "+ type);
-	    					if (type.equals("\"cards\"")) {
-	    						System.out.println("######################################################THIS#########################################");
-	    						System.out.println("DATA: cards:" + gson.fromJson(msg2, Cards.class));
-		    					msgs.add(gson.fromJson(msg2, Cards.class));
-	    					}
-	    					else if (type.equals("\"redraw")) {
-	    						System.out.println("DATA: redraw:" + gson.fromJson(msg2, Cards.class));
-		    					msgs.add(gson.fromJson(msg2, Message.class));
-	    					}
-	    					else if (type.equals("\"turnUpdate")) {
-	    						System.out.println("DATA: turnUpdate:" + gson.fromJson(msg2, Cards.class));
-		    					msgs.add(gson.fromJson(msg2, TurnUpdate.class));
-	    					}
-	    					else if (type.equals("\"guess")) {
-	    						System.out.println("DATA: guess:" + gson.fromJson(msg2, Cards.class));
-		    					msgs.add(gson.fromJson(msg2, Guess.class));
-	    					}
-	    					else if (type.equals("\"chat")) {
-	    						System.out.println("DATA: chat:" + gson.fromJson(msg2, Cards.class));
-		    					msgs.add(gson.fromJson(msg2, Chat.class));
-	    					}
 	    				}
 	    				else {
 	    					System.out.println("OTHER: " + gson.fromJson(msgArray[j].trim(), Message.class));

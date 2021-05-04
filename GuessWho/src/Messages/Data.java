@@ -6,9 +6,8 @@ public class Data extends Message{
 	String sender;
 
 	
-	public Data(String TYPE, String sender, Message msg) {
+	public Data(String TYPE, Message msg) {
 		super(TYPE);
-		this.sender = sender;
 		this.msg = msg;
 	}
 	
@@ -20,17 +19,9 @@ public class Data extends Message{
 		this.msg = msg;
 	}
 	
-	public String getSender() {
-		return sender;
-	}
-	
-	public void setSender(String sender) {
-		this.sender = sender;
-	}
-	
 	
 	public String toString() {
-		return "Mine: {TYPE: " + TYPE + ", Sender: " + sender + ", Msg: " + msg + "}";
+		return "Mine: {TYPE: " + TYPE + ", Msg: " + msg + "}";
 	}
 
 }

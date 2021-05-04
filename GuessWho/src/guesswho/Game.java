@@ -64,7 +64,7 @@ public class Game {
 			player1.setCard(c1);
 			player2Card = c2;
 			//send to other player
-			Controller.network.send(new Data("DATA", player1.getName(),new Cards("cards", c1, c2)));
+			Controller.network.send(new Data("DATA",new Cards("cards", c1, c2)));
 		}
 	}
 	
@@ -76,7 +76,7 @@ public class Game {
 		if (player1.getHost()) {
 			drawCards();
 		} else {
-			Controller.network.send(new Data("DATA", player1.getName(),new Message("redraw")));
+			Controller.network.send(new Data("DATA",new Message("redraw")));
 		}
 	}
 	
@@ -90,10 +90,10 @@ public class Game {
 		    if (chance == 1) {
 		    	player1.setTurn(true);
 		    	//tell other player to set turn false
-		    	Controller.network.send(new Data("DATA", player1.getName(),new TurnUpdate("turnUpdate", false)));
+		    	Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate", false)));
 		    } else {
 		    	//tell other player to set turn true
-		    	Controller.network.send(new Data("DATA", player1.getName(), new TurnUpdate("turnUpdate", true)));
+		    	Controller.network.send(new Data("DATA", new TurnUpdate("turnUpdate", true)));
 		    	player1.setTurn(false);
 		    }
 		}
@@ -114,7 +114,7 @@ public class Game {
 	public void endTurn() {
 		player1.toggleTurn();
 		//tell other player to set turn true
-    	Controller.network.send(new Data("DATA", player1.getName(),new TurnUpdate("turnUpdate", true)));
+    	Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate", true)));
 	}
 	
 	/**
@@ -131,12 +131,12 @@ public class Game {
 			if(c==player2Card) {
 				player1.incScore();
 				//send message that score updated and player wins
-				Controller.network.send(new Data("DATA", player1.getName(),new Guess("guess",c,true,player1.getScore())));
+				Controller.network.send(new Data("DATA",new Guess("guess",c,true,player1.getScore())));
 				return true;
 			}
 			else {
 				//send message that player guessed incorrectly
-				Controller.network.send(new Data("DATA", player1.getName(),new Guess("guess",c,false,player1.getScore())));
+				Controller.network.send(new Data("DATA",new Guess("guess",c,false,player1.getScore())));
 				endTurn();
 				return false;
 			}
@@ -258,7 +258,6 @@ public class Game {
 			}
 			//Handles message from host when drawing cards
 			else if (msg.getType().equals("cards")) {
-				System.out.println("HALELUJAH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 				System.out.println("Recieved Cards message");
 				player2Card = ((Cards)msg).getMyCard();
 				player1.setCard(((Cards)msg).getYourCard());
