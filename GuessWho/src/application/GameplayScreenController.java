@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.ListIterator;
 
+import Messages.Chat;
+import Messages.Data;
 import guesswho.Controller;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -471,7 +473,7 @@ public class GameplayScreenController extends Controller {
         //typed into the chat
     	//Is this used to add text to the chat? (Asked by Anna) It is now lol
         String msg = chatInput.getText();
-        
+        Controller.network.send(new Data("DATA",new Chat("chat",msg)));
         chatArea.appendText(player.getName() + ": " + msg + "\n");
         chatInput.clear();
     }

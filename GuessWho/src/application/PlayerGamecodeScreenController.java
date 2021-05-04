@@ -36,7 +36,7 @@ public class PlayerGamecodeScreenController {
      */
     public void continueButton(ActionEvent event) {
         code = gamecode.getText();
-        System.out.println(code);
+        System.out.println("Entered gamecode: "+code);
         //TODO connect players with gamecode
         
         //Going to redraw screen
