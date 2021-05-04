@@ -1,5 +1,7 @@
 package Messages;
 
+import java.util.Arrays;
+
 public class Room_Status extends Message{
 	private String[] users;
 	private boolean is_ready;
@@ -78,6 +80,6 @@ public class Room_Status extends Message{
 	}
 	
 	public String toString() {
-		return "Mine: {TYPE: " + TYPE + ", users: " + users + ", is_ready: " + is_ready + ", was_ready: " + was_ready + ", leader: " + leader +", allow_spectators: " + allow_spectators + ", spectators: " + spectators + ", size: " + size + "}";
+		return "Mine: {TYPE: " + TYPE + ", users: " + Arrays.toString(users) + ", is_ready: " + is_ready + ", was_ready: " + was_ready + ", leader: " + leader +", allow_spectators: " + allow_spectators + ", spectators: " + Arrays.toString(spectators) + ", size: " + size + "}";
 	}
 }

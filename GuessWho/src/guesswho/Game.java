@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import Messages.*;
 import Messages.Error;
-import com.google.gson.*;
-import application.GameplayScreenController;
-import application.InvitePlayersController;
 
 /**
  * Game
@@ -208,17 +205,17 @@ public class Game {
 			return;
 		}
 		for (int i =0; i < msgs.size(); i++ ) {
-			System.out.println("Message recieved" + msgs.get(i).getType() + "stop");
 			Message msg = msgs.get(i);
 			//Handles message sent from server when game connects to server
 			if (msg.getType().equals("HELLO")) {
-				System.out.println("Recieved hello message");
+				System.out.println("Processed hello message");
 				Controller.network.send(new Hello("HELLO", player1.getName(), "guesswho"));
 			}
-			//Handles message sent from server when server recieves hello message
+			//Handles message sent from server when server receives hello message
 			else if (msg.getType().equals("WELCOME" )) {
-				System.out.println("Recieved welcome message");
+				System.out.println("Processed welcome message");
 				receivedWelcome = true;
+				//TODO ??
 //				Controller.network.send(new Join_Game("JOIN_GAME", 2, false, status, gamecode));
 			}
 			//Handles error message sent at various stages of connection process
@@ -226,71 +223,73 @@ public class Game {
 				Error errorMsg = (Error) msg;
 				// sent from server if name is nonexistent or if it's a duplicate
 				if (errorMsg.getErr().equals("BADNAME")) {
-					System.out.println("Received badname error");
+					System.out.println("Processed badname error");
 				}
 				// sent from server when someone tries to create a new game with
 				//a code that already is in use for a game in wait_rooms
 				if (errorMsg.getErr().equals("REPEATCODE")) {
-					
+					System.out.println("Processed Repeat Code error");
 				}
 				//sent from server when user joins with invalid code
 				if (errorMsg.getErr().equals("BADCODE")) {
-	
+					System.out.println("Processed badcode error");
 				}
 				// sent from server if status sent is not J or S
 				if (errorMsg.getErr().equals("BADSTATUS")) {
-					System.out.println("Received badstatus error");
+					System.out.println("Processed badstatus error");
 				}	
 			}
 			//Handles message sent when someone leaves the room
 			else if (msg.getType().equals("LEAVE")) {
 				Leave LeaveMsg = (Leave) msg;
-				
 			}
 			//Handles message sent when someone joins the room
 			else if (msg.getType().equals("JOIN")) {
 				Join joinMsg = (Join) msg;
-				player2Name = (joinMsg.getUser());
 			}
 			//Handles room status update
 			else if (msg.getType().equals("ROOM_STATUS")) {
-				System.out.println("Got ROOM_STATUS");
+				System.out.println("Processed Room_Status");
+				Room_Status roomMsg = (Room_Status) msg;
+				for (String name:roomMsg.getUsers()) {
+					if (!name.equals(player1.getName())) {
+						player2Name = name;
+					}
+				}
 			}
 			//Handles message from host when drawing cards
 			else if (msg.getType().equals("cards")) {
-				System.out.println("Recieved Cards message");
+				System.out.println("Processed Cards message");
 				player2Card = ((Cards)msg).getMyCard();
 				player1.setCard(((Cards)msg).getYourCard());
 			}
 			//Handles message from player2 requesting redraw
 			else if (msg.getType().equals("redraw")) {
-				System.out.println("Recieved Redraw Message");
+				System.out.println("Processed Redraw Message");
 				drawCards();
 			}
 			//Handles turn updates
 			else if (msg.getType().equals("turnUpdate")) {
-				System.out.println("Recieved TurnUpdate Message");
+				System.out.println("Processed TurnUpdate Message");
 				player1.setTurn(((TurnUpdate)msg).getYourTurn());
 			}
 			//Handles guesses
 			else if (msg.getType().equals("guess")) {
-				System.out.println("Recieved Guess Message");
+				System.out.println("Processed Guess Message");
 				player2Score = ((Guess)msg).getScore();
 				//TODO 
 				//End round when guess correct
 				//Put card guessed in chat?
 			}
 			else if (msg.getType().equals("chat")) {
+				System.out.println("Processed Chat Message");
 				//TODO Handle chat
 			}
 			//Handles any messages not provided with special handling
 			else {
 				System.out.println("Unprocessed message: " + msg);
 			}
-			
 		}
-		
-		
 	}
 	
 }
