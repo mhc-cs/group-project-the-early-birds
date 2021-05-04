@@ -3,6 +3,7 @@ package Messages;
 public class Data extends Message{
 	Message msg;
 	String type;
+	String sender;
 
 	
 	public Data(String TYPE, Message msg) {

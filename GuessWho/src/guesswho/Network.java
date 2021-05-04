@@ -10,16 +10,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
-import Messages.Hello;
-import Messages.Join;
-import Messages.Leave;
-import Messages.Message;
-import Messages.Room_Status;
-import Messages.Data;
+import Messages.*;
 import Messages.Error;
 //import java.net.InetAddress;
 
@@ -63,7 +59,7 @@ public class Network {
 		//add ability to connect to a different game server?
 		   System.out.println("Attempting to connect...");
 		try {
-			sock = new Socket("127.0.0.1", 9876);
+			sock = new Socket("Sockette.net", 9876);
 			 // get the output stream from the socket.
 	        OutputStream outputStream = sock.getOutputStream();
 	        // create a data output stream from the output stream so we can send data through it
@@ -215,8 +211,36 @@ public class Network {
 	    					msgs.add(gson.fromJson(msgArray[j].trim(), Error.class));
 	    				}
 	    				else if (TYPE.equals("\"DATA\"")) {
-	    					System.out.println("DATA:" + gson.fromJson(msgArray[j].trim(), Room_Status.class));
-	    					msgs.add(gson.fromJson(msgArray[j].trim(), Data.class));
+	    					//need to specify data type
+	    					System.out.println(msgArray[j].trim().toString());
+		    				String Sender = jsonTree.getAsJsonObject().get("SENDER").toString();
+		    				String name = "\""+Controller.player.getName()+"\"";
+		    				if (!Sender.equals(name)) {
+		    					JsonElement msg2 = jsonTree.getAsJsonObject().get("msg");
+		    					String type = msg2.getAsJsonObject().get("TYPE").toString();
+		    					System.out.println("#################################### "+ type);
+		    					if (type.equals("\"cards\"")) {
+		    						System.out.println("DATA: cards:" + gson.fromJson(msg2, Cards.class));
+			    					msgs.add(gson.fromJson(msg2, Cards.class));
+		    					}
+		    					else if (type.equals("\"redraw")) {
+		    						System.out.println("DATA: redraw:" + gson.fromJson(msg2, Cards.class));
+			    					msgs.add(gson.fromJson(msg2, Message.class));
+		    					}
+		    					else if (type.equals("\"turnUpdate")) {
+		    						System.out.println("DATA: turnUpdate:" + gson.fromJson(msg2, Cards.class));
+			    					msgs.add(gson.fromJson(msg2, TurnUpdate.class));
+		    					}
+		    					else if (type.equals("\"guess")) {
+		    						System.out.println("DATA: guess:" + gson.fromJson(msg2, Cards.class));
+			    					msgs.add(gson.fromJson(msg2, Guess.class));
+		    					}
+		    					else if (type.equals("\"chat")) {
+		    						System.out.println("DATA: chat:" + gson.fromJson(msg2, Cards.class));
+			    					msgs.add(gson.fromJson(msg2, Chat.class));
+		    					}
+		    				}
+	    					
 	    				}
 	    				else {
 	    					System.out.println("OTHER: " + gson.fromJson(msgArray[j].trim(), Message.class));
