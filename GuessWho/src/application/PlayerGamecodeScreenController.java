@@ -38,6 +38,8 @@ public class PlayerGamecodeScreenController {
     
     private static boolean isReady;
     
+    private Stage window = new Stage();
+    
     /**
      * Waiting for player screen. This shows when one player is in
      * the room and the other has not joined yet.
@@ -86,7 +88,7 @@ public class PlayerGamecodeScreenController {
      * @param event The action of pressing the button. Allows us to know where the
      * button press came from, and therefore which scene the program came from.
      */
-    public void continueButton(ActionEvent event) {
+    public void continueButton(ActionEvent event){
         code = gamecode.getText();
         System.out.println("Entered gamecode: "+code);
         //TODO connect players with gamecode
@@ -94,18 +96,22 @@ public class PlayerGamecodeScreenController {
         Controller.getGame().setGameCode(code);
         Controller.getGame().setStatus("S");
         Controller.network.send(new Join_Game("JOIN_GAME", 2, false, "J", code));
+
+//        boolean displayed = false;
+//        while(!isReady) {
+//            if(!displayed) {
+//                waitingForPlayer(window);
+//                displayed = true;
+//                Thread.sleep(5000);
+//            }
+//        }
         
-        boolean otherPlayerJoined = false;
-        Stage window = new Stage();
+//        if(!isReady) {
+//            waitingForPlayer(window);
+//        }
         
-        
-        if(!isReady) {
-            waitingForPlayer(window);
-            if(isReady) {
-                closeWaitingWindow(window);
-            }
-        } else {
-            //Going to redraw screen
+        if(isReady) {
+            closeWaitingWindow(window);
             try {
                 //Loads the new screen
                 Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
@@ -125,8 +131,8 @@ public class PlayerGamecodeScreenController {
             } catch (IOException e) {
                 e.printStackTrace();
 
+            }
         }
-}
     }
     
     /**
