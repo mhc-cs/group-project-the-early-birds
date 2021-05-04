@@ -96,11 +96,31 @@ public class HostGamecodeScreenController {
         boolean otherPlayerJoined = false;
         Stage window = new Stage();
         
-        if(!otherPlayerJoined) { //TODO change this to check if other player has joined
+        if(!isReady) { //TODO change this to check if other player has joined
           //Going to redraw screen
             waitingForPlayer(window);
             if (isReady) {
             	closeWaitingWindow(window);
+            	try {
+                    //Loads the new screen
+                    Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
+                    Scene startGameScene = new Scene(startGameParent);
+                    
+                    //Finds the previous screen and switches off of it
+                    Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    appStage.setScene(startGameScene);
+                    appStage.centerOnScreen();
+                    
+                    //Allows it to be dragged
+                    Controller.dragScreen(startGameScene, appStage);
+                    
+                    //Shows the new screen
+                    appStage.show();
+                    
+                } catch (IOException e) {
+                    e.printStackTrace();
+                
+                }
             }
         } else {
             try {

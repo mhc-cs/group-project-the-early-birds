@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 
+import Messages.Join_Game;
 import guesswho.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,6 +36,8 @@ public class PlayerGamecodeScreenController {
     
     private static String code;
     
+    private static boolean isReady;
+    
     /**
      * Waiting for player screen. This shows when one player is in
      * the room and the other has not joined yet.
@@ -65,6 +68,8 @@ public class PlayerGamecodeScreenController {
         Scene scene = new Scene(root, 350, 200);
         waitingWindow.setScene(scene);
         waitingWindow.show();
+        
+        
     }
     
     /**
@@ -86,12 +91,19 @@ public class PlayerGamecodeScreenController {
         System.out.println("Entered gamecode: "+code);
         //TODO connect players with gamecode
         
+        Controller.getGame().setGameCode(code);
+        Controller.getGame().setStatus("S");
+        Controller.network.send(new Join_Game("JOIN_GAME", 2, false, "J", code));
+        
         boolean otherPlayerJoined = false;
         Stage window = new Stage();
         
         
-        if(!otherPlayerJoined) {
+        if(!isReady) {
             waitingForPlayer(window);
+            if(isReady) {
+                closeWaitingWindow(window);
+            }
         } else {
             //Going to redraw screen
             try {
@@ -123,6 +135,10 @@ public class PlayerGamecodeScreenController {
      */
     public static String getPlayerCode() {
         return code;
+    }
+    
+    public static void setIsReady(boolean ready) {
+    	isReady = ready;
     }
     
     /**
