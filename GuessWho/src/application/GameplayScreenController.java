@@ -171,15 +171,17 @@ public class GameplayScreenController extends Controller {
      * let them know whose turn it is.
      */
     public void endTurn() {
-        if(player.getTurn()) {
+        if(!player.getTurn()) {
+            //if not their turn, make it their turn
             turn.setText("It is your turn \nto ask a question.");
             enableButtons();
             game.endTurn();
-        } else {
+        } else { //if it IS their turn, make it not their turn
         	//TODO
         	// this case should be when receiving a message from the server
             turn.setText("It is the other \nplayer's turn to \nask a question.");
             disableButtons();
+            game.endTurn();
             //set players turn to true? this might go in a different file
         }
         
