@@ -89,6 +89,8 @@ public class ConfirmationMenuController extends Controller {
             controller.guessing = false;
             
             incorrectGuessWindow();
+            Stage stage = (Stage) cancel.getScene().getWindow();
+            stage.close();
         }
     }
     
