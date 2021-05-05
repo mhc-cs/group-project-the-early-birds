@@ -144,7 +144,8 @@ public class GameplayScreenController extends Controller {
         yourCardName.setText(player.getCard().getName());
         
         //Initial chat messages
-        chatArea.appendText("SERVER: " + player.getName() + " has entered the game. \n");
+        chatArea.appendText("SERVER: If you need instructions, press the '?' button! \n");
+        chatArea.appendText("SERVER: " + game.getPlayer2Name() + " has entered the game. \n");
         
         setController(this);
         
