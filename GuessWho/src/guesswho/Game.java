@@ -6,6 +6,7 @@ import Messages.*;
 import Messages.Error;
 import application.GameplayScreenController;
 import application.HostGamecodeScreenController;
+import application.PlayerGamecodeScreenController;
 
 /**
  * Game
@@ -258,6 +259,7 @@ public class Game {
 						player2Name = name;
 					}
 				}
+				//HostGamecodeScreenController.closeWaitingWindow();
 				HostGamecodeScreenController.setIsReady(roomMsg.getIs_ready());
 			}
 			//Handles message from host when drawing cards
@@ -265,6 +267,7 @@ public class Game {
 				System.out.println("Processed Cards message");
 				player2Card = ((Cards)msg).getMyCard();
 				player1.setCard(((Cards)msg).getYourCard());
+				PlayerGamecodeScreenController.setIsReady(true);
 			}
 			//Handles message from player2 requesting redraw
 			else if (msg.getType().equals("redraw")) {

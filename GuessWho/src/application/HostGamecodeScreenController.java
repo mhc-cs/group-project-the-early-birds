@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import Messages.Join_Game;
 import guesswho.Controller;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,6 +38,8 @@ public class HostGamecodeScreenController {
     private static String code;
     
     private static boolean isReady;
+    
+    private Stage window = new Stage();
     
     /**
      * Waiting for player screen. This shows when one player is in
@@ -89,20 +92,57 @@ public class HostGamecodeScreenController {
         Controller.getGame().setGameCode(code);
         Controller.getGame().setStatus("S");
         Controller.network.send(new Join_Game("JOIN_GAME", 2, false, "S", code));
-        
-        //should only be able to continue when join has been recieved, need to do error handling otherwise
+
+        //should only be able to continue when join has been received, need to do error handling otherwise
         
         //TODO connect players with gamecode
-        boolean otherPlayerJoined = false;
-        Stage window = new Stage();
+
         
-        if(!otherPlayerJoined) { //TODO change this to check if other player has joined
-          //Going to redraw screen
-            waitingForPlayer(window);
-            if (isReady) {
-            	closeWaitingWindow(window);
-            }
-        } else {
+        Thread waitingThread = new Thread("Waiting Thread") {
+  	      public void run(){
+  	          try {
+  	            boolean runThread = true;
+  	  			while (runThread) {
+  	  				if(isReady) {
+  	  				Platform.runLater(() -> {
+  	  				closeWaitingWindow(window);  
+  	  			try {
+  	                //Loads the new screen
+  	                Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
+  	                Scene startGameScene = new Scene(startGameParent);
+  	                
+  	                //Finds the previous screen and switches off of it
+  	                Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+  	                appStage.setScene(startGameScene);
+  	                appStage.centerOnScreen();
+  	                
+  	                //Allows it to be dragged
+  	                Controller.dragScreen(startGameScene, appStage);
+  	                
+  	                //Shows the new screen
+  	                appStage.show();
+  	                
+  	            } catch (IOException e) {
+  	                e.printStackTrace();
+  	            
+  	            }
+  	  					});
+  	  				runThread = false;
+  	  				}
+  	  				Thread.sleep(500);
+  	  			}
+  	  		} catch (InterruptedException e) {
+  	  			Thread.currentThread().interrupt();
+        		System.out.println("Thread was interrupted, Failed to complete operation");
+  	  		}
+  	      }
+  	      
+  	   };
+  	   
+  	   waitingThread.start();
+  	
+        if(isReady) {
+            closeWaitingWindow(window);
             try {
                 //Loads the new screen
                 Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
@@ -123,8 +163,9 @@ public class HostGamecodeScreenController {
                 e.printStackTrace();
             
             }
-        }  
-
+        }else {
+        	waitingForPlayer(window);
+        }
     }
     
     /**
