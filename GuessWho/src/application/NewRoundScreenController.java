@@ -16,8 +16,8 @@ import javafx.stage.Stage;
 /**
  * The controller for the screen when a player wins.
  * Gives the player three options: play next round, which goes back
- * to the redraw screen and keeps the players' scores; new game, which 
- * goes back to the redraw screen, but resets the scores to 0, and quit,
+ * to the gameplay screen and keeps the players' scores; new game, which 
+ * goes back to the gameplay screen, but resets the scores to 0, and quit,
  * which takes them back to the invite screen.
  * 
  * @author Hannah, Dani, Anna
@@ -36,7 +36,7 @@ public class NewRoundScreenController extends Controller {
     }
     
     /**
-     * Goes back to redraw screen and scores stay as they are,
+     * Goes back to gameplay screen and scores stay as they are,
      * to be increased.
      * @param event the event that the button is pressed
      */
@@ -46,7 +46,7 @@ public class NewRoundScreenController extends Controller {
         gameStage.close();      
         try {
             //Loads the new screen
-            Parent gameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
+            Parent gameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
             Scene gameScene = new Scene(gameParent);
             
             //Finds the previous screen and switches off of it
@@ -66,7 +66,7 @@ public class NewRoundScreenController extends Controller {
     }
     
     /**
-     * Goes back to redraw screen, but resets scores to 0
+     * Goes back to gameplay screen, but resets scores to 0
      */
     public void newGame(ActionEvent event) {
         gameStage.close(); 
@@ -77,7 +77,7 @@ public class NewRoundScreenController extends Controller {
       
         try {
             //Loads the new screen
-            Parent gameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
+            Parent gameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
             Scene gameScene = new Scene(gameParent);
             
             //Finds the previous screen and switches off of it
