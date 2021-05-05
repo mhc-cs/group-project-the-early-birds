@@ -91,10 +91,13 @@ public class Game {
 		    	player1.setTurn(true);
 		    	//tell other player to set turn false
 		    	Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate", false)));
+		    	System.out.println("%%%%%%%%%%%%%%%% Player 1 goes first %%%%%%%%%%%%%%%");
 		    } else {
 		    	//tell other player to set turn true
 		    	Controller.network.send(new Data("DATA", new TurnUpdate("turnUpdate", true)));
 		    	player1.setTurn(false);
+		    	System.out.println("%%%%%%%%%%%%%%%% Player 2 goes first %%%%%%%%%%%%%%%");
+
 		    }
 		}
 	}
@@ -277,6 +280,7 @@ public class Game {
 			else if (msg.getType().equals("turnUpdate")) {
 				System.out.println("Processed TurnUpdate Message");
 				player1.setTurn(((TurnUpdate)msg).getYourTurn());
+				GameplayScreenController.setTurnCorrect(false);
 			}
 			//Handles guesses
 			else if (msg.getType().equals("guess")) {
