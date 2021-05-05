@@ -83,6 +83,8 @@ public class GameplayScreenController extends Controller {
     
     public static boolean turnCorrect;
     
+    public static GameplayScreenController controller;
+    
     /**
      * Initializes the grid with the cards that the players guess from.
      */
@@ -144,6 +146,7 @@ public class GameplayScreenController extends Controller {
         //Initial chat messages
         chatArea.appendText("SERVER: " + player.getName() + " has entered the game. \n");
         
+        setController(this);
         
      // longrunning operation runs on different thread
         Thread thread = new Thread(new Runnable() {
@@ -542,6 +545,14 @@ public class GameplayScreenController extends Controller {
         
     public static void setTurnCorrect(boolean turn) {
     	turnCorrect = turn;
+    }
+    
+    public void setController(GameplayScreenController controller) {
+        this.controller = controller;
+    }
+    
+    public static GameplayScreenController getController() {
+        return controller;
     }
    
 }
