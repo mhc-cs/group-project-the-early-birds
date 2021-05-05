@@ -27,6 +27,8 @@ public class RedrawScreenController extends Controller{
     @FXML
     private ImageView card;
     
+    protected static GameplayScreenController controller;
+    
     /**
      * Initializes the screen. Draws cards and displays them.
      */
@@ -59,7 +61,9 @@ public class RedrawScreenController extends Controller{
         //Going to gameplay screen
         try {
             //Loads the new screen
-            Parent startGameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameplayScreen.fxml"));
+            Parent startGameParent = loader.load();
+            controller = loader.getController();
             Scene startGameScene = new Scene(startGameParent);
             
             //Finds the previous screen and switches off of it

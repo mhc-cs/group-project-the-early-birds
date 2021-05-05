@@ -136,7 +136,7 @@ public class Game {
 			else {
 				//send message that player guessed incorrectly
 				Controller.network.send(new Data("DATA",new Guess("guess",c,false,player1.getScore())));
-				endTurn();
+				//endTurn();
 				return false;
 			}
 		}
