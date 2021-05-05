@@ -193,19 +193,19 @@ public class Network {
 			    					msgs.add(gson.fromJson(msg2, Cards.class));
 		    					}
 		    					else if (type.equals("\"redraw\"")) {
-		    						System.out.println("DATA: redraw:" + gson.fromJson(msg2, Cards.class));
+		    						System.out.println("DATA: redraw:" + gson.fromJson(msg2, Data.class));
 			    					msgs.add(gson.fromJson(msg2, Message.class));
 		    					}
 		    					else if (type.equals("\"turnUpdate\"")) {
-		    						System.out.println("DATA: turnUpdate:" + gson.fromJson(msg2, Cards.class));
+		    						System.out.println("DATA: turnUpdate:" + gson.fromJson(msg2, TurnUpdate.class));
 			    					msgs.add(gson.fromJson(msg2, TurnUpdate.class));
 		    					}
 		    					else if (type.equals("\"guess\"")) {
-		    						System.out.println("DATA: guess:" + gson.fromJson(msg2, Cards.class));
+		    						System.out.println("DATA: guess:" + gson.fromJson(msg2, Guess.class));
 			    					msgs.add(gson.fromJson(msg2, Guess.class));
 		    					}
 		    					else if (type.equals("\"chat\"")) {
-		    						System.out.println("DATA: chat:" + gson.fromJson(msg2, Cards.class));
+		    						System.out.println("DATA: chat:" + gson.fromJson(msg2, Chat.class));
 			    					msgs.add(gson.fromJson(msg2, Chat.class));
 		    					}
 		    				}

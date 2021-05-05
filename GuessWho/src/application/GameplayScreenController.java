@@ -21,7 +21,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -81,6 +80,8 @@ public class GameplayScreenController extends Controller {
     public static int guessedId;
     
     private static String message;
+    
+    public static boolean turnCorrect;
     
     /**
      * Initializes the grid with the cards that the players guess from.
@@ -173,6 +174,51 @@ public class GameplayScreenController extends Controller {
         // don't let thread prevent JVM shutdown
         thread.setDaemon(true);
         thread.start();
+        
+     // longrunning operation runs on different thread
+        Thread turnThread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+
+                    @Override
+                    public void run() {
+                    	if(!turnCorrect) {
+                    		if(player.getTurn()) {
+                	        	startTurn();
+                	        } else {
+                	        	turn.setText("It is the other \nplayer's turn to \nask a question.");
+                	            disableButtons();
+                	            System.out.println("TURN ################# "+player.getTurn());
+                	            turnCorrect=true;
+                	        }
+                    	}
+                    	                     }
+                };
+
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+            }
+
+        });
+        // don't let thread prevent JVM shutdown
+        turnThread.setDaemon(true);
+        turnThread.start();
+        
+        game.assignFirstTurn();
+        turnCorrect=false;
+//        if(!player.getTurn()) {
+//        	endTurn();
+//        }
+//        
     }
     
     /**
@@ -205,20 +251,31 @@ public class GameplayScreenController extends Controller {
      */
     public void endTurn() {
         if(!player.getTurn()) {
-            //if not their turn, make it their turn
+            //if not their turn
             turn.setText("It is your turn \nto ask a question.");
             enableButtons();
-            game.endTurn();
+            System.out.println("TURN ################# "+player.getTurn());
+
         } else { //if it IS their turn, make it not their turn
         	//TODO
         	// this case should be when receiving a message from the server
             turn.setText("It is the other \nplayer's turn to \nask a question.");
             disableButtons();
             game.endTurn();
-            System.out.println(player.getTurn());
+            System.out.println("TURN ################# "+player.getTurn());
             //set players turn to true? this might go in a different file
+            turnCorrect=false;
         }
         
+    }
+    
+    public void startTurn() {
+    	//TODO
+        turn.setText("It is your turn \nto ask a question.");
+        enableButtons();
+        System.out.println("TURN ################# "+player.getTurn());
+        turnCorrect=true;
+
     }
     
     /**
@@ -482,5 +539,8 @@ public class GameplayScreenController extends Controller {
     	message = msg;
     }
         
+    public static void setTurnCorrect(boolean turn) {
+    	turnCorrect = turn;
+    }
    
 }
