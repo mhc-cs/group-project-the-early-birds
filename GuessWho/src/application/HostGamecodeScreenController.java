@@ -41,6 +41,8 @@ public class HostGamecodeScreenController {
     
     private Stage window = new Stage();
     
+    protected static GameplayScreenController controller;
+    
     /**
      * Waiting for player screen. This shows when one player is in
      * the room and the other has not joined yet.
@@ -108,7 +110,7 @@ public class HostGamecodeScreenController {
   	  				closeWaitingWindow(window);  
   	  			try {
   	                //Loads the new screen
-  	                Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
+  	                Parent startGameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
   	                Scene startGameScene = new Scene(startGameParent);
   	                
   	                //Finds the previous screen and switches off of it
@@ -145,7 +147,10 @@ public class HostGamecodeScreenController {
             closeWaitingWindow(window);
             try {
                 //Loads the new screen
-                Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("GameplayScreen.fxml"));
+                Parent startGameParent = loader.load();
+                controller = loader.getController();
+                //Parent startGameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
                 Scene startGameScene = new Scene(startGameParent);
                 
                 //Finds the previous screen and switches off of it
