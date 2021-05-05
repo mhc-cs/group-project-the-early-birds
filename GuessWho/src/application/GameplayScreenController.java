@@ -8,6 +8,7 @@ import Messages.Chat;
 import Messages.Data;
 import guesswho.Controller;
 import guesswho.Network;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -140,6 +141,18 @@ public class GameplayScreenController extends Controller {
         
         //Initial chat messages
         chatArea.appendText("SERVER: " + player.getName() + " has entered the game. \n");
+        
+//        new Thread(() -> {
+//            while (true) {
+//            	if(!message.equals(null)) {
+//            		System.out.println("GOT MESSAGE - UI - GOT MESSAGE - UI - GOT MESSAGE - UI - GOT MESSAGE ");
+//                Platform.runLater(() -> {
+//			        chatArea.appendText(game.getPlayer2Name() + ": " + message + "\n");
+//                });
+//                message=null;
+//            	}
+//            }
+//        }).start();
     }
     
     /**
@@ -435,10 +448,36 @@ public class GameplayScreenController extends Controller {
         chatArea.appendText(player.getName() + ": " + msg + "\n");
         chatInput.clear();
         //TODO test that this receives from other player
+        
         if(message!=null) {
-        	chatArea.appendText(game.getPlayer2Name() + ": " + message + "\n");
-        	message=null;
-        }
+	        	chatArea.appendText(game.getPlayer2Name() + ": " + message + "\n");
+	        	message=null;
+	        } 
+        
+//        Thread chatThread = new Thread("Chat Thread") {
+//    	      public void run(){
+//    	          try {
+//    	            boolean runThread = true;
+//    	  			while (runThread) {
+//    	  				Platform.runLater(() -> {
+//    	  					if(message!=null) {
+//    	  			        	chatArea.appendText(game.getPlayer2Name() + ": " + message + "\n");
+//    	  			        	message=null;
+//    	  			        } 
+//    	  			
+//    	  					});
+//    	  				Thread.sleep(500);
+//    	  			}
+//    	  		} catch (InterruptedException e) {
+//    	  			Thread.currentThread().interrupt();
+//          		System.out.println("Thread was interrupted, Failed to complete operation");
+//    	  		}
+//    	      }
+//    	      
+//    	   };
+//    	   
+//    	   chatThread.start();
+//       
     }
     
     /**
@@ -454,6 +493,7 @@ public class GameplayScreenController extends Controller {
     
     public static void receiveMsg(String msg) {
     	message = msg;
+    	System.out.println("#################SENT MSG TO UI #######################");
     }
         
    
