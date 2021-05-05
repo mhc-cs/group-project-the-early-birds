@@ -153,6 +153,38 @@ public class GameplayScreenController extends Controller {
 //            	}
 //            }
 //        }).start();
+        
+        
+     // longrunning operation runs on different thread
+        Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+
+                    @Override
+                    public void run() {
+                    	if(message!=null) {
+            	        	chatArea.appendText(game.getPlayer2Name() + ": " + message + "\n");
+            	        	message=null;
+            	        }                     }
+                };
+
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+            }
+
+        });
+        // don't let thread prevent JVM shutdown
+        thread.setDaemon(true);
+        thread.start();
     }
     
     /**
@@ -449,10 +481,10 @@ public class GameplayScreenController extends Controller {
         chatInput.clear();
         //TODO test that this receives from other player
         
-        if(message!=null) {
-	        	chatArea.appendText(game.getPlayer2Name() + ": " + message + "\n");
-	        	message=null;
-	        } 
+//        if(message!=null) {
+//	        	chatArea.appendText(game.getPlayer2Name() + ": " + message + "\n");
+//	        	message=null;
+//	        } 
         
 //        Thread chatThread = new Thread("Chat Thread") {
 //    	      public void run(){
