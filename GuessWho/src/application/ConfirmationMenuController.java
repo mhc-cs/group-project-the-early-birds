@@ -81,7 +81,7 @@ public class ConfirmationMenuController extends Controller {
             
             }
         } else {
-            GameplayScreenController controller = RedrawScreenController.controller;
+            GameplayScreenController controller = HostGamecodeScreenController.controller;
             
             //ends turn, mimics pressing the guess button and sets guessing to false
             controller.endTurn();

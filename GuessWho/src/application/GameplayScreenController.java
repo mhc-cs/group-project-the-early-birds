@@ -132,6 +132,7 @@ public class GameplayScreenController extends Controller {
         scoresBox.setStyle(String.format("-fx-font-size: %dpx;", (int) (-.1 * (game.getPlayer2Name().length() + player.getName().length()) + 15)));
         
         //set player's card
+        game.drawCards();
         String cardPath = "application/" + player.getCard().getImagePath();
         System.out.println(cardPath);
         Image image = new Image(cardPath);
