@@ -50,7 +50,7 @@ public class Network {
 		//add ability to connect to a different game server?
 		   System.out.println("Attempting to connect...");
 		try {
-			sock = new Socket("Sockette.net", 9876);
+			sock = new Socket("Sockette.net", 9878);
 			// get the output stream from the socket.
 	        OutputStream outputStream = sock.getOutputStream();
 	        // create a data output stream from the output stream so we can send data through it
