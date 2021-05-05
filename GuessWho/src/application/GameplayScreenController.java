@@ -8,6 +8,7 @@ import Messages.Chat;
 import Messages.Data;
 import guesswho.Controller;
 import guesswho.Network;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -140,6 +141,38 @@ public class GameplayScreenController extends Controller {
         
         //Initial chat messages
         chatArea.appendText("SERVER: " + player.getName() + " has entered the game. \n");
+        
+        
+     // longrunning operation runs on different thread
+        Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+
+                    @Override
+                    public void run() {
+                    	if(message!=null) {
+            	        	chatArea.appendText(game.getPlayer2Name() + ": " + message + "\n");
+            	        	message=null;
+            	        }                     }
+                };
+
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+            }
+
+        });
+        // don't let thread prevent JVM shutdown
+        thread.setDaemon(true);
+        thread.start();
     }
     
     /**
@@ -425,20 +458,13 @@ public class GameplayScreenController extends Controller {
     /**
      * 
      */
-    public void chat() { //used to pass in String msg... Should I put it back?
-        //TODO implement chat using chatInput and chatArea
+    public void chat() { 
         //Called when user presses enter inside the chatbox. Puts what they
         //typed into the chat
-    	//Is this used to add text to the chat? (Asked by Anna) It is now lol
         String msg = chatInput.getText();
         Controller.network.send(new Data("DATA",new Chat("chat",msg)));
         chatArea.appendText(player.getName() + ": " + msg + "\n");
         chatInput.clear();
-        //TODO test that this receives from other player
-        if(message!=null) {
-        	chatArea.appendText(game.getPlayer2Name() + ": " + message + "\n");
-        	message=null;
-        }
     }
     
     /**
