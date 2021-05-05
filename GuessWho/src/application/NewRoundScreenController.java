@@ -32,7 +32,7 @@ public class NewRoundScreenController extends Controller {
      * Initializes the screen.
      */
     public void initialize() {
-        winner.setText("... wins!"); //set text to winner's name wins
+        winner.setText(game.getWinner() + " wins!"); //set text to winner's name wins
     }
     
     /**

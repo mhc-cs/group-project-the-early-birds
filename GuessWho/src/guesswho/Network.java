@@ -212,6 +212,11 @@ public class Network {
 		    				else {
 		    					System.out.println("Ignored message from self of type "+ type);
 		    				}
+		    				
+	    				}
+	    				else if (TYPE.equals("\"GUESS\"")) {
+	    					System.out.println("GUESS: " + gson.fromJson(msgArray[j].trim(), Guess.class));
+	    					msgs.add(gson.fromJson(msgArray[j].trim(), Guess.class));
 	    				}
 	    				else {
 	    					System.out.println("OTHER: " + gson.fromJson(msgArray[j].trim(), Message.class));
