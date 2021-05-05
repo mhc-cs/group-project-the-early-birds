@@ -39,6 +39,8 @@ public class Game {
 	
 	boolean receivedWelcome = false;
 	
+	String winner = "";
+	
 	/**
 	 * Game constructor
 	 * @param d deck of cards
@@ -135,11 +137,13 @@ public class Game {
 				player1.incScore();
 				//send message that score updated and player wins
 				Controller.network.send(new Data("DATA",new Guess("guess",c,true,player1.getScore())));
+				winner = player1.getName();
 				return true;
 			}
 			else {
 				//send message that player guessed incorrectly
 				Controller.network.send(new Data("DATA",new Guess("guess",c,false,player1.getScore())));
+				GameplayScreenController.add_hist("guessed " + c.getName() + " but it was incorrect!");
 				//endTurn();
 				return false;
 			}
@@ -179,6 +183,10 @@ public class Game {
 	public int getPlayer2Score() {
 		return player2Score;
 
+	}
+	
+	public String getWinner() {
+		return winner;
 	}
 	
 	/**
@@ -285,7 +293,11 @@ public class Game {
 			//Handles guesses
 			else if (msg.getType().equals("guess")) {
 				System.out.println("Processed Guess Message");
-				player2Score = ((Guess)msg).getScore();
+				if (((Guess)msg).getCorrect()) {
+					winner = player2Name;
+					player2Score = ((Guess)msg).getScore();
+				}
+				
 				//TODO 
 				//End round when guess correct
 				//Put card guessed in chat?
