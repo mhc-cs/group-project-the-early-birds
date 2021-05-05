@@ -142,18 +142,6 @@ public class GameplayScreenController extends Controller {
         //Initial chat messages
         chatArea.appendText("SERVER: " + player.getName() + " has entered the game. \n");
         
-//        new Thread(() -> {
-//            while (true) {
-//            	if(!message.equals(null)) {
-//            		System.out.println("GOT MESSAGE - UI - GOT MESSAGE - UI - GOT MESSAGE - UI - GOT MESSAGE ");
-//                Platform.runLater(() -> {
-//			        chatArea.appendText(game.getPlayer2Name() + ": " + message + "\n");
-//                });
-//                message=null;
-//            	}
-//            }
-//        }).start();
-        
         
      // longrunning operation runs on different thread
         Thread thread = new Thread(new Runnable() {
@@ -470,46 +458,13 @@ public class GameplayScreenController extends Controller {
     /**
      * 
      */
-    public void chat() { //used to pass in String msg... Should I put it back?
-        //TODO implement chat using chatInput and chatArea
+    public void chat() { 
         //Called when user presses enter inside the chatbox. Puts what they
         //typed into the chat
-    	//Is this used to add text to the chat? (Asked by Anna) It is now lol
         String msg = chatInput.getText();
         Controller.network.send(new Data("DATA",new Chat("chat",msg)));
         chatArea.appendText(player.getName() + ": " + msg + "\n");
         chatInput.clear();
-        //TODO test that this receives from other player
-        
-//        if(message!=null) {
-//	        	chatArea.appendText(game.getPlayer2Name() + ": " + message + "\n");
-//	        	message=null;
-//	        } 
-        
-//        Thread chatThread = new Thread("Chat Thread") {
-//    	      public void run(){
-//    	          try {
-//    	            boolean runThread = true;
-//    	  			while (runThread) {
-//    	  				Platform.runLater(() -> {
-//    	  					if(message!=null) {
-//    	  			        	chatArea.appendText(game.getPlayer2Name() + ": " + message + "\n");
-//    	  			        	message=null;
-//    	  			        } 
-//    	  			
-//    	  					});
-//    	  				Thread.sleep(500);
-//    	  			}
-//    	  		} catch (InterruptedException e) {
-//    	  			Thread.currentThread().interrupt();
-//          		System.out.println("Thread was interrupted, Failed to complete operation");
-//    	  		}
-//    	      }
-//    	      
-//    	   };
-//    	   
-//    	   chatThread.start();
-//       
     }
     
     /**
@@ -525,7 +480,6 @@ public class GameplayScreenController extends Controller {
     
     public static void receiveMsg(String msg) {
     	message = msg;
-    	System.out.println("#################SENT MSG TO UI #######################");
     }
         
    
