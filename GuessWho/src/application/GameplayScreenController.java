@@ -53,13 +53,13 @@ public class GameplayScreenController extends Controller {
     @FXML
     private GridPane cardGrid;
     
-    @FXML
+    @FXML 
     private Label turn;
     
-    @FXML
+    @FXML 
     private Button guessButton;
     
-    @FXML
+    @FXML 
     private Button endTurn;
     
     @FXML
@@ -171,15 +171,18 @@ public class GameplayScreenController extends Controller {
      * let them know whose turn it is.
      */
     public void endTurn() {
-        if(player.getTurn()) {
+        if(!player.getTurn()) {
+            //if not their turn, make it their turn
             turn.setText("It is your turn \nto ask a question.");
             enableButtons();
             game.endTurn();
-        } else {
+        } else { //if it IS their turn, make it not their turn
         	//TODO
         	// this case should be when receiving a message from the server
             turn.setText("It is the other \nplayer's turn to \nask a question.");
             disableButtons();
+            game.endTurn();
+            System.out.println(player.getTurn());
             //set players turn to true? this might go in a different file
         }
         
@@ -414,7 +417,7 @@ public class GameplayScreenController extends Controller {
      * Disables the guess and endTurn buttons when it is not the
      * player's turn.
      */
-    private void disableButtons() {
+    protected void disableButtons() {
         guessButton.setDisable(true);
         endTurn.setDisable(true);
     }

@@ -53,8 +53,9 @@ public class ConfirmationMenuController extends Controller {
      * Happens when the "yes" button is pressed in the confirmation
      * menu.
      * @param event the event that the confirm button is pressed.
+     * @throws IOException 
      */
-    public void confirm(ActionEvent event) {
+    public void confirm(ActionEvent event) throws IOException {
         int guessed = GameplayScreenController.guessedId;
         boolean correctGuess = game.guess(deck.getCard(guessed));
         
@@ -80,6 +81,13 @@ public class ConfirmationMenuController extends Controller {
             
             }
         } else {
+            GameplayScreenController controller = RedrawScreenController.controller;
+            
+            //ends turn, mimics pressing the guess button and sets guessing to false
+            controller.endTurn();
+            controller.guessButtonPressed();
+            controller.guessing = false;
+            
             incorrectGuessWindow();
         }
     }
