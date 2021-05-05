@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import Messages.Join_Game;
 import guesswho.Controller;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -97,18 +98,51 @@ public class PlayerGamecodeScreenController {
         Controller.getGame().setStatus("S");
         Controller.network.send(new Join_Game("JOIN_GAME", 2, false, "J", code));
 
-//        boolean displayed = false;
-//        while(!isReady) {
-//            if(!displayed) {
-//                waitingForPlayer(window);
-//                displayed = true;
-//                Thread.sleep(5000);
-//            }
-//        }
+        //TODO connect players with gamecode
+
         
-//        if(!isReady) {
-//            waitingForPlayer(window);
-//        }
+        Thread waitingThread = new Thread("Waiting Thread") {
+  	      public void run(){
+  	          try {
+  	            boolean runThread = true;
+  	  			while (runThread) {
+  	  				if(isReady) {
+  	  				Platform.runLater(() -> {
+  	  				closeWaitingWindow(window);  
+  	  			try {
+  	                //Loads the new screen
+  	                Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
+  	                Scene startGameScene = new Scene(startGameParent);
+  	                
+  	                //Finds the previous screen and switches off of it
+  	                Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+  	                appStage.setScene(startGameScene);
+  	                appStage.centerOnScreen();
+  	                
+  	                //Allows it to be dragged
+  	                Controller.dragScreen(startGameScene, appStage);
+  	                
+  	                //Shows the new screen
+  	                appStage.show();
+  	                
+  	            } catch (IOException e) {
+  	                e.printStackTrace();
+  	            
+  	            }
+  	  					});
+  	  				runThread = false;
+  	  				}
+  	  				Thread.sleep(500);
+  	  			}
+  	  		} catch (InterruptedException e) {
+  	  			Thread.currentThread().interrupt();
+        		System.out.println("Thread was interrupted, Failed to complete operation");
+  	  		}
+  	      }
+  	      
+  	   };
+  	   
+  	   waitingThread.start();
         
         if(isReady) {
             closeWaitingWindow(window);
@@ -132,6 +166,8 @@ public class PlayerGamecodeScreenController {
                 e.printStackTrace();
 
             }
+        }else {
+        	waitingForPlayer(window);
         }
     }
     
