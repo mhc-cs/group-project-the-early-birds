@@ -42,6 +42,8 @@ public class NewRoundScreenController extends Controller {
      */
     public void nextRound(ActionEvent event) {
         //TODO assign first turn
+    	game.assignFirstTurn();
+    	game.drawCards();
         GameplayScreenController.resetHashmap();
         gameStage.close();      
         try {
@@ -74,7 +76,8 @@ public class NewRoundScreenController extends Controller {
         //TODO assign first turn
         GameplayScreenController.resetHashmap();
         player.reset();
-      
+        game.assignFirstTurn();
+    	game.drawCards();
         try {
             //Loads the new screen
             Parent gameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));

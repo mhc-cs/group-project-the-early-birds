@@ -133,7 +133,7 @@ public class Game {
 	public boolean guess(Card c) {
 		if (player1.getTurn()){
 			System.out.println("***********GUESS********** guess: "+ c +" correct: "+player2Card);
-			if(c==player2Card) {
+			if(c.getName().equals(player2Card.getName())) {
 				player1.incScore();
 				//send message that score updated and player wins
 				Controller.network.send(new Data("DATA",new Guess("guess",c,true,player1.getScore())));
@@ -296,6 +296,7 @@ public class Game {
 				if (((Guess)msg).getCorrect()) {
 					winner = player2Name;
 					player2Score = ((Guess)msg).getScore();
+					GameplayScreenController.setGuess((Guess)msg);
 				}
 				
 				//TODO 
