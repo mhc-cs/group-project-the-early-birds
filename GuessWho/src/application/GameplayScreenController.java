@@ -6,6 +6,7 @@ import java.util.ListIterator;
 
 import Messages.Chat;
 import Messages.Data;
+import Messages.Guess;
 import guesswho.Controller;
 import guesswho.Network;
 import javafx.application.Platform;
@@ -82,6 +83,8 @@ public class GameplayScreenController extends Controller {
     private static String message;
     
     public static boolean turnCorrect;
+    
+    public static Guess guess = null;
     
     public static GameplayScreenController controller;
     
@@ -220,10 +223,60 @@ public class GameplayScreenController extends Controller {
         
         game.assignFirstTurn();
         turnCorrect=false;
-//        if(!player.getTurn()) {
-//        	endTurn();
-//        }
-//        
+
+     // longrunning operation runs on different thread
+        Thread guessThread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+
+                    @Override
+                    public void run() {
+                    	if(guess!=null) {
+            	        	if(guess.getCorrect()) {
+            	        		//open newRound screen
+            	        		try {
+//            	                    //Loads the new screen
+//            	                    Parent newRoundParent = FXMLLoader.load(getClass().getResource("NewRoundScreen.fxml"));
+//            	                    Scene newRoundScene = new Scene(newRoundParent);
+//            	                    
+//            	                    //Finds the previous screen and switches off of it
+//            	                    Stage appStage = (Stage) guessButton.getScene().getWindow();
+//            	                    appStage.setScene(newRoundScene);
+//            	                    appStage.centerOnScreen();
+//            	                    
+//            	                  //Allows it to be dragged
+//            	                    dragScreen(newRoundScene, appStage);
+//            	                    
+//            	                    //Shows the new screen
+//            	                    appStage.show();
+            	                    openNewRoundWindow();
+            	                } catch (IOException e) {
+            	                    e.printStackTrace();
+            	                
+            	                }
+            	        	}
+            	        	guess=null;
+            	        }                     }
+                };
+
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+            }
+
+        });
+        // don't let thread prevent JVM shutdown
+        guessThread.setDaemon(true);
+        guessThread.start();
+        
     }
     
     /**
@@ -394,6 +447,24 @@ public class GameplayScreenController extends Controller {
         dragScreen(scene, confirmationWindow);
         confirmationWindow.showAndWait(); 
     }
+    
+    private void openNewRoundWindow() throws IOException {
+        Stage thisStage = (Stage) ((Node) scoresBox).getScene().getWindow();
+        Stage confirmationWindow = new Stage();
+        confirmationWindow.initStyle(StageStyle.UNDECORATED);
+        gameStage = thisStage;
+        
+        confirmationWindow.initModality(Modality.APPLICATION_MODAL);
+        confirmationWindow.getIcons().add(new Image("application/icon.png"));
+        confirmationWindow.setResizable(false);
+
+        Parent root = FXMLLoader.load(getClass().getResource("NewRoundScreen.fxml"));
+        root.setStyle("-fx-background-color: white; -fx-border-color: black");
+        Scene scene = new Scene(root);
+        confirmationWindow.setScene(scene);
+        dragScreen(scene, confirmationWindow);
+        confirmationWindow.show(); 
+    }
   
     
     /**
@@ -548,12 +619,16 @@ public class GameplayScreenController extends Controller {
     	turnCorrect = turn;
     }
     
-    public void setController(GameplayScreenController controller) {
-        this.controller = controller;
+    public void setController(GameplayScreenController cont) {
+        controller = cont;
     }
     
     public static GameplayScreenController getController() {
         return controller;
+    }
+    
+    public static void setGuess(Guess g) {
+    	guess = g;
     }
 
     
