@@ -10,10 +10,8 @@
 	<Label id="title" text="Please choose a game code." wrapText="true" textAlignment="CENTER"/>
 	<Label id="subtitle" text="Use this code to send to the other &#10;player so they can join your game."
 		textAlignment="CENTER"/>
-	<Label id="subtitle" text="You can leave the box blank to generate a random code." 
-		wrapText="true" textAlignment="CENTER"/>
-	
 	<TextField fx:id="gamecode"></TextField>
+	<Label fx:id="warning" id="warning"/>
 	<Button id="continue" text="Continue" onAction="#continueButton"/>
 	<Button id="back" text="Go back" onAction="#goBack"/>
 </VBox>

@@ -29,6 +29,13 @@ Label{
 	-fx-font-size: 18px;
 }
 
+#warning{
+	-fx-font-size: 20px;
+	-fx-font-family: "Century Gothic";
+	-fx-text-background-color: "#F34A72";
+	-fx-translate-y: 10px;
+}
+
 #continue{
 	-fx-background-color: "#86BEFF";
 }
