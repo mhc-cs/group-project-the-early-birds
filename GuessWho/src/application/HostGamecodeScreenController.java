@@ -5,6 +5,7 @@ import java.io.IOException;
 import Messages.Join_Game;
 import guesswho.Controller;
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,9 +14,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
@@ -49,33 +53,62 @@ public class HostGamecodeScreenController {
     /**
      * Waiting for player screen. This shows when one player is in
      * the room and the other has not joined yet.
+     * @throws IOException 
      */
-    private void waitingForPlayer(Stage waitingWindow) {
+    private void waitingForPlayer(Stage waitingWindow) throws IOException {
         
-        // Makes it so you can't click on the window behind until this one is closed.
-        waitingWindow.initModality(Modality.APPLICATION_MODAL);
-        waitingWindow.setResizable(false);
+//        // Makes it so you can't click on the window behind until this one is closed.
+//        waitingWindow.initModality(Modality.APPLICATION_MODAL);
+//        waitingWindow.setResizable(false);
+//        waitingWindow.initStyle(StageStyle.UNDECORATED);
+//        
+//        //Adding Title
+//        Label text = new Label();
+//        text.setText("Waiting for other player...");
+//        text.setFont(Font.font("Century Gothic", 23));
+//        text.setPadding(new Insets(15,0,0,0));
+//
+//        //Progress wheel
+//        ProgressIndicator progress = new ProgressIndicator();
+//        
+//        Button close = new Button();
+//        close.setText("Stop attempting connection");
+//        close.setOnAction(e -> stopWaitingForPlayers(waitingWindow));
+//        close.setStyle("-fx-background-color: #c4c4c4");
+//        close.setFont(Font.font("Century Gothic", 10));
+//        
+//        //Add hover property to button
+//        close.hoverProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean hovering) -> {
+//            if(hovering) {
+//                close.setStyle("-fx-background-color: #a6a6a6");
+//            } else {
+//                close.setStyle("-fx-background-color: #c4c4c4");
+//            }
+//        });
+//        
+//        VBox root = new VBox(25);
+//        root.getChildren().addAll(text, progress, close);
+//        root.setAlignment(Pos.CENTER);
+//        root.setStyle("-fx-background-color: white; -fx-border-color: black");
+//
+//        
+//        // Display the scene
+//        Scene scene = new Scene(root, 350, 200);
+//        waitingWindow.setScene(scene);
+//        waitingWindow.show();
+        
+        //Stage confirmationWindow = new Stage();
         waitingWindow.initStyle(StageStyle.UNDECORATED);
         
-        //Adding Title
-        Label text = new Label();
-        text.setText("Waiting for other player...");
-        text.setFont(Font.font("Century Gothic", 23));
-        text.setPadding(new Insets(15,0,0,0));
+        waitingWindow.initModality(Modality.APPLICATION_MODAL);
+        waitingWindow.getIcons().add(new Image("application/icon.png"));
+        waitingWindow.setResizable(false);
 
-        //Progress wheel
-        ProgressIndicator progress = new ProgressIndicator();
-        
-        VBox root = new VBox(25);
-        root.getChildren().addAll(text, progress);
-        root.setAlignment(Pos.CENTER);
+        Parent root = FXMLLoader.load(getClass().getResource("WaitingForPlayers.fxml"));
         root.setStyle("-fx-background-color: white; -fx-border-color: black");
-
-        
-        // Display the scene
-        Scene scene = new Scene(root, 350, 200);
+        Scene scene = new Scene(root);
         waitingWindow.setScene(scene);
-        waitingWindow.show();
+        waitingWindow.showAndWait(); 
     }
     
     /**
@@ -89,8 +122,9 @@ public class HostGamecodeScreenController {
      * Sets the gamecode. Happens when continue button is pressed.
      * @param event The action of pressing the button. Allows us to know where the
      * button press came from, and therefore which scene the program came from.
+     * @throws IOException 
      */
-    public void continueButton(ActionEvent event) {
+    public void continueButton(ActionEvent event) throws IOException {
         //should only be able to continue when join has been received, need to do error handling otherwise
 
         if(gamecode.getText().isEmpty()) {
@@ -187,6 +221,15 @@ public class HostGamecodeScreenController {
     
     public static void setIsReady(boolean ready) {
     	isReady = ready;
+    }
+    
+    /**
+     * Called when the user presses the button to stop attempting
+     * connection on the waiting for players screen. Closes the screen and
+     * stops trying to connect.
+     */
+    private void stopWaitingForPlayers(Stage waitingWindow) {
+        waitingWindow.close();
     }
     
     /**

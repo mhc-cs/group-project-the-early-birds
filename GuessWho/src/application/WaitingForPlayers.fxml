@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+
+<VBox alignment="CENTER" fx:controller="WaitingForPlayersController" xmlns:fx="http://javafx.com/fxml/1"
+	spacing = "25" prefWidth="350" prefHeight="200" stylesheets="@waitingForPlayers.css">
+	<Label id="waiting" text="Waiting for other player..."/>
+	<ProgressIndicator></ProgressIndicator>
+	<Button fx:id="close" id="close" text="Stop attempting connection"/>
+</VBox>
+
