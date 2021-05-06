@@ -6,6 +6,7 @@ import java.util.ListIterator;
 
 import Messages.Chat;
 import Messages.Data;
+import Messages.Guess;
 import guesswho.Controller;
 import guesswho.Network;
 import javafx.application.Platform;
@@ -82,6 +83,8 @@ public class GameplayScreenController extends Controller {
     private static String message;
     
     public static boolean turnCorrect;
+    
+    public static Guess guess = null;
     
     public static GameplayScreenController controller;
     
@@ -220,10 +223,40 @@ public class GameplayScreenController extends Controller {
         
         game.assignFirstTurn();
         turnCorrect=false;
-//        if(!player.getTurn()) {
-//        	endTurn();
-//        }
-//        
+
+     // longrunning operation runs on different thread
+        Thread guessThread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                Runnable updater = new Runnable() {
+
+                    @Override
+                    public void run() {
+                    	if(guess!=null) {
+            	        	if(guess.getCorrect()) {
+            	        		
+            	        	}
+            	        	guess=null;
+            	        }                     }
+                };
+
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+
+                    // UI update is run on the Application thread
+                    Platform.runLater(updater);
+                }
+            }
+
+        });
+        // don't let thread prevent JVM shutdown
+        guessThread.setDaemon(true);
+        guessThread.start();
+        
     }
     
     /**
