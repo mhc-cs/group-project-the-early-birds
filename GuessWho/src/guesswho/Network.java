@@ -177,7 +177,7 @@ public class Network {
 	    					msgs.add(gson.fromJson(msgArray[j].trim(), Room_Status.class));
 	    				}
 	    				else if (TYPE.equals("\"ERROR\"")) {
-	    					System.out.println("ERROR:" + gson.fromJson(msgArray[j].trim(), Room_Status.class));
+	    					System.out.println("ERROR:" + gson.fromJson(msgArray[j].trim(), Error.class));
 	    					msgs.add(gson.fromJson(msgArray[j].trim(), Error.class));
 	    				}
 	    				else if (TYPE.equals("\"DATA\"")) {
