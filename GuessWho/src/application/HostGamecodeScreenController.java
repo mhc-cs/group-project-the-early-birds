@@ -53,51 +53,9 @@ public class HostGamecodeScreenController {
     /**
      * Waiting for player screen. This shows when one player is in
      * the room and the other has not joined yet.
-     * @throws IOException 
+     * @throws IOException if fxml file is not found.
      */
     private void waitingForPlayer(Stage waitingWindow) throws IOException {
-        
-//        // Makes it so you can't click on the window behind until this one is closed.
-//        waitingWindow.initModality(Modality.APPLICATION_MODAL);
-//        waitingWindow.setResizable(false);
-//        waitingWindow.initStyle(StageStyle.UNDECORATED);
-//        
-//        //Adding Title
-//        Label text = new Label();
-//        text.setText("Waiting for other player...");
-//        text.setFont(Font.font("Century Gothic", 23));
-//        text.setPadding(new Insets(15,0,0,0));
-//
-//        //Progress wheel
-//        ProgressIndicator progress = new ProgressIndicator();
-//        
-//        Button close = new Button();
-//        close.setText("Stop attempting connection");
-//        close.setOnAction(e -> stopWaitingForPlayers(waitingWindow));
-//        close.setStyle("-fx-background-color: #c4c4c4");
-//        close.setFont(Font.font("Century Gothic", 10));
-//        
-//        //Add hover property to button
-//        close.hoverProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean hovering) -> {
-//            if(hovering) {
-//                close.setStyle("-fx-background-color: #a6a6a6");
-//            } else {
-//                close.setStyle("-fx-background-color: #c4c4c4");
-//            }
-//        });
-//        
-//        VBox root = new VBox(25);
-//        root.getChildren().addAll(text, progress, close);
-//        root.setAlignment(Pos.CENTER);
-//        root.setStyle("-fx-background-color: white; -fx-border-color: black");
-//
-//        
-//        // Display the scene
-//        Scene scene = new Scene(root, 350, 200);
-//        waitingWindow.setScene(scene);
-//        waitingWindow.show();
-        
-        //Stage confirmationWindow = new Stage();
         waitingWindow.initStyle(StageStyle.UNDECORATED);
         
         waitingWindow.initModality(Modality.APPLICATION_MODAL);
@@ -221,15 +179,6 @@ public class HostGamecodeScreenController {
     
     public static void setIsReady(boolean ready) {
     	isReady = ready;
-    }
-    
-    /**
-     * Called when the user presses the button to stop attempting
-     * connection on the waiting for players screen. Closes the screen and
-     * stops trying to connect.
-     */
-    private void stopWaitingForPlayers(Stage waitingWindow) {
-        waitingWindow.close();
     }
     
     /**

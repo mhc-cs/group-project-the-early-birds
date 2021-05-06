@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
@@ -47,35 +48,20 @@ public class PlayerGamecodeScreenController {
     /**
      * Waiting for player screen. This shows when one player is in
      * the room and the other has not joined yet.
+     * @throws IOexception if fxml file is not found.
      */
-    private void waitingForPlayer(Stage waitingWindow) {
-        
-        // Makes it so you can't click on the window behind until this one is closed.
-        waitingWindow.initModality(Modality.APPLICATION_MODAL);
-        waitingWindow.setResizable(false);
+    private void waitingForPlayer(Stage waitingWindow) throws IOException {
         waitingWindow.initStyle(StageStyle.UNDECORATED);
         
-        //Adding Title
-        Label text = new Label();
-        text.setText("Waiting for other player...");
-        text.setFont(Font.font("Century Gothic", 23));
-        text.setPadding(new Insets(15,0,0,0));
+        waitingWindow.initModality(Modality.APPLICATION_MODAL);
+        waitingWindow.getIcons().add(new Image("application/icon.png"));
+        waitingWindow.setResizable(false);
 
-        //Progress wheel
-        ProgressIndicator progress = new ProgressIndicator();
-        
-        VBox root = new VBox(25);
-        root.getChildren().addAll(text, progress);
-        root.setAlignment(Pos.CENTER);
+        Parent root = FXMLLoader.load(getClass().getResource("WaitingForPlayers.fxml"));
         root.setStyle("-fx-background-color: white; -fx-border-color: black");
-
-        
-        // Display the scene
-        Scene scene = new Scene(root, 350, 200);
+        Scene scene = new Scene(root);
         waitingWindow.setScene(scene);
-        waitingWindow.show();
-        
-        
+        waitingWindow.showAndWait(); 
     }
     
     /**
@@ -91,8 +77,9 @@ public class PlayerGamecodeScreenController {
      * 
      * @param event The action of pressing the button. Allows us to know where the
      * button press came from, and therefore which scene the program came from.
+     * @throws IOException if fxml file is not found.
      */
-    public void continueButton(ActionEvent event){
+    public void continueButton(ActionEvent event) throws IOException{
         
         if(gamecode.getText().isEmpty()) {
             warning.setText("Please enter a gamecode.");
