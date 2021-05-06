@@ -633,7 +633,7 @@ public class GameplayScreenController extends Controller {
 
     
     public static void add_hist(String msg) {
-    	controller.chatArea.appendText(player.getName() + msg + "\n");
+    	controller.chatArea.appendText(player.getName() + " " + msg + "\n");
     	Controller.network.send(new Data("DATA",new Chat("chat",msg)));
 
     }

@@ -1,0 +1,16 @@
+#waiting{
+	-fx-font-family: "Century Gothic";
+	-fx-font-size: 23px;
+	-fx-padding: 15px 0px 0px 0px;
+}
+
+#close{
+	-fx-background-color: "#c4c4c4";
+	-fx-font-family: "Century Gothic";
+	-fx-font-size: 10px;
+}
+
+#close:hover{
+	-fx-background-color: "#a6a6a6";
+}
+
