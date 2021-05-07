@@ -143,6 +143,7 @@ public class GameplayScreenController extends Controller {
         System.out.println(cardPath);
         Image image = new Image(cardPath);
         yourCard.setImage(image);
+        enableButtons();
         
         //set player's card name
         yourCardName.setText(player.getCard().getName());
@@ -310,15 +311,20 @@ public class GameplayScreenController extends Controller {
         	//This case should never be reached
             //if not their turn
             turn.setText("It is your turn \nto ask a question.");
+            System.out.println("^^^^^^^^^^^^^^^^^^^^ 1 " + endTurn.isDisabled());
             enableButtons();
+            System.out.println("^^^^^^^^^^^^^^^^^^^^ 2 " + endTurn.isDisabled());
             System.out.println("TURN BUTTON 1 ################# "+player.getTurn());
+            
             //turnCorrect=false;
 
         } else { //if it IS their turn, make it not their turn
         	//TODO
         	// this case should be when receiving a message from the server
             turn.setText("It is the other \nplayer's turn to \nask a question.");
+            System.out.println("^^^^^^^^^^^^^^^^^^^^ 1 " + endTurn.isDisabled());
             disableButtons();
+            System.out.println("^^^^^^^^^^^^^^^^^^^^ 2 " + endTurn.isDisabled());
             game.endTurn();
             System.out.println("TURN BUTTON 2 ################# "+player.getTurn());
             //set players turn to true? this might go in a different file
@@ -339,7 +345,9 @@ public class GameplayScreenController extends Controller {
     public void turnEnd() {
     	turn.setText("It is the other \nplayer's turn to \nask a question.");
     	//THIS IS BEING CALLED BUT NOT WORKING!!!
+    	System.out.println("turnend^^^^^^^^^^^^^^^^^^^^ 1 " + endTurn.isDisabled());
         disableButtons();
+        System.out.println("turnend^^^^^^^^^^^^^^^^^^^^ 2 " + endTurn.isDisabled());
         System.out.println("TURN THREAD ################# "+player.getTurn());
         turnCorrect=true;
     }
@@ -592,6 +600,7 @@ public class GameplayScreenController extends Controller {
      * player's turn.
      */
     protected void disableButtons() {
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^DISABLED");
         guessButton.setDisable(true);
         endTurn.setDisable(true);
     }
