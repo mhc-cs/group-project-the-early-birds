@@ -7,6 +7,7 @@ import java.util.ListIterator;
 import Messages.Chat;
 import Messages.Data;
 import Messages.Guess;
+import Messages.TurnUpdate;
 import guesswho.Controller;
 import guesswho.Network;
 import javafx.application.Platform;
@@ -340,6 +341,7 @@ public class GameplayScreenController extends Controller {
         enableButtons();
         System.out.println("TURN START ################# "+player.getTurn());
         turnCorrect=true;
+        Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate",false)));
 
     }
     
