@@ -92,6 +92,7 @@ public class GameplayScreenController extends Controller {
      * Initializes the grid with the cards that the players guess from.
      */
     public void initialize() {
+    	System.out.println("!!!!!!!!!!!!!!!! INITIALIZING GAMEPLAYSCREEN !!!!!!!!!!!!");
         int column = 0; //goes up to 7
         int row = 0; //3 rows of faces
         
@@ -196,10 +197,7 @@ public class GameplayScreenController extends Controller {
                     		if(player.getTurn()) {
                 	        	startTurn();
                 	        } else {
-                	        	turn.setText("It is the other \nplayer's turn to \nask a question.");
-                	            disableButtons();
-                	            System.out.println("TURN ################# "+player.getTurn());
-                	            turnCorrect=true;
+                	        	turnEnd();
                 	        }
                     	}
                     	                     }
@@ -309,10 +307,12 @@ public class GameplayScreenController extends Controller {
      */
     public void endTurn() {
         if(!player.getTurn()) {
+        	//This case should never be reached
             //if not their turn
             turn.setText("It is your turn \nto ask a question.");
             enableButtons();
-            System.out.println("TURN ################# "+player.getTurn());
+            System.out.println("TURN BUTTON 1 ################# "+player.getTurn());
+            //turnCorrect=false;
 
         } else { //if it IS their turn, make it not their turn
         	//TODO
@@ -320,7 +320,7 @@ public class GameplayScreenController extends Controller {
             turn.setText("It is the other \nplayer's turn to \nask a question.");
             disableButtons();
             game.endTurn();
-            System.out.println("TURN ################# "+player.getTurn());
+            System.out.println("TURN BUTTON 2 ################# "+player.getTurn());
             //set players turn to true? this might go in a different file
             turnCorrect=false;
         }
@@ -331,9 +331,17 @@ public class GameplayScreenController extends Controller {
     	//TODO
         turn.setText("It is your turn \nto ask a question.");
         enableButtons();
-        System.out.println("TURN ################# "+player.getTurn());
+        System.out.println("TURN START ################# "+player.getTurn());
         turnCorrect=true;
 
+    }
+    
+    public void turnEnd() {
+    	turn.setText("It is the other \nplayer's turn to \nask a question.");
+    	//THIS IS BEING CALLED BUT NOT WORKING!!!
+        disableButtons();
+        System.out.println("TURN THREAD ################# "+player.getTurn());
+        turnCorrect=true;
     }
     
     /**
