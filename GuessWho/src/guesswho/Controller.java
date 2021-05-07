@@ -30,6 +30,8 @@ public class Controller extends Application {
     
     public static Stage gameStage;
     
+    public static Stage prevStage;
+    
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -55,6 +57,14 @@ public class Controller extends Application {
     
     public static Game getGame() {
     	return game;
+    }
+    
+    public static void setPrevStage (Stage stage) {
+        prevStage = stage;
+    }
+    
+    public static Stage getPrevStage() {
+        return prevStage;
     }
     
     /**

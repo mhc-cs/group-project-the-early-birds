@@ -5,6 +5,7 @@ import java.io.IOException;
 import guesswho.Controller;
 import guesswho.Network;
 import javafx.animation.PauseTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -38,14 +39,35 @@ public class WaitingForPlayersController {
     /**
      * Allows the user to close the dialog and stop attempting connection to the
      * other player.
+     * @param event The event that the button is pressed.
      */
-    public void closeDialog() {
+    public void closeDialog(ActionEvent event) {
         Stage stage = (Stage) close.getScene().getWindow();
         stage.close();
         //TODO stop connecting. leave message?
+        
         HostGamecodeScreenController.setRunThread(false);
         PlayerGamecodeScreenController.setRunThread(false);
         Network.close();
         //go back to invite players screen
+        try {
+            //Loads the new screen
+            Parent startGameParent = FXMLLoader.load(getClass().getResource("InvitePlayers.fxml"));
+            Scene startGameScene = new Scene(startGameParent);
+            
+            //Finds the previous screen and switches off of it
+            Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            appStage.setScene(startGameScene);
+            
+            //Allows it to be dragged
+            Controller.dragScreen(startGameScene, appStage);
+            
+            //Shows the new screen
+            appStage.show();
+            Controller.getPrevStage().close();
+            
+        } catch (IOException e) {
+            e.printStackTrace();  
+        }
     }
 }
