@@ -45,6 +45,8 @@ public class PlayerGamecodeScreenController {
     
     private Stage window = new Stage();
     
+    private static boolean runThread;
+    
     /**
      * Waiting for player screen. This shows when one player is in
      * the room and the other has not joined yet.
@@ -93,7 +95,7 @@ public class PlayerGamecodeScreenController {
             Thread waitingThread = new Thread("Waiting Thread") {
                 public void run(){
                     try {
-                      boolean runThread = true;
+                      runThread = true;
                       while (runThread) {
                           if(isReady) {
                           Platform.runLater(() -> {
@@ -198,6 +200,10 @@ public class PlayerGamecodeScreenController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public static void setRunThread(boolean run) {
+    	runThread = run;
     }
     
 }

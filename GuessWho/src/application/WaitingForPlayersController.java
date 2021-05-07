@@ -1,7 +1,15 @@
 package application;
 
+import java.io.IOException;
+
+import guesswho.Controller;
+import guesswho.Network;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -35,5 +43,9 @@ public class WaitingForPlayersController {
         Stage stage = (Stage) close.getScene().getWindow();
         stage.close();
         //TODO stop connecting. leave message?
+        HostGamecodeScreenController.setRunThread(false);
+        PlayerGamecodeScreenController.setRunThread(false);
+        Network.close();
+        //go back to invite players screen
     }
 }
