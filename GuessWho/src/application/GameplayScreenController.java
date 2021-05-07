@@ -331,6 +331,8 @@ public class GameplayScreenController extends Controller {
             System.out.println("TURN BUTTON 2 ################# "+player.getTurn());
             //set players turn to true? this might go in a different file
             turnCorrect=false;
+            Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate",true)));
+
         }
         
     }
