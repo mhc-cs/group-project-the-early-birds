@@ -143,7 +143,7 @@ public class GameplayScreenController extends Controller {
         System.out.println(cardPath);
         Image image = new Image(cardPath);
         yourCard.setImage(image);
-        enableButtons();
+        
         
         //set player's card name
         yourCardName.setText(player.getCard().getName());
@@ -275,6 +275,7 @@ public class GameplayScreenController extends Controller {
         // don't let thread prevent JVM shutdown
         guessThread.setDaemon(true);
         guessThread.start();
+        enableButtons();
         
     }
     
