@@ -6,6 +6,7 @@ import Messages.*;
 import Messages.Error;
 import application.GameplayScreenController;
 import application.HostGamecodeScreenController;
+import application.NewRoundScreenController;
 import application.PlayerGamecodeScreenController;
 
 /**
@@ -278,11 +279,17 @@ public class Game {
 				player2Card = ((Cards)msg).getMyCard();
 				player1.setCard(((Cards)msg).getYourCard());
 				PlayerGamecodeScreenController.setIsReady(true);
+				NewRoundScreenController.setIsReady(true);
 			}
 			//Handles message from player2 requesting redraw
 			else if (msg.getType().equals("redraw")) {
 				System.out.println("Processed Redraw Message");
 				drawCards();
+			}
+			//Handles continue message
+			else if (msg.getType().equals("continue")) {
+				System.out.println("Processed Continue Message");
+				NewRoundScreenController.setIsReady(true);
 			}
 			//Handles turn updates
 			else if (msg.getType().equals("turnUpdate")) {

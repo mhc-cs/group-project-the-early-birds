@@ -193,7 +193,11 @@ public class Network {
 			    					msgs.add(gson.fromJson(msg2, Cards.class));
 		    					}
 		    					else if (type.equals("\"redraw\"")) {
-		    						System.out.println("DATA: redraw:" + gson.fromJson(msg2, Data.class));
+		    						System.out.println("DATA: redraw:" + gson.fromJson(msg2, Message.class));
+			    					msgs.add(gson.fromJson(msg2, Message.class));
+		    					}
+		    					else if (type.equals("\"continue\"")) {
+		    						System.out.println("DATA: continue:" + gson.fromJson(msg2, Message.class));
 			    					msgs.add(gson.fromJson(msg2, Message.class));
 		    					}
 		    					else if (type.equals("\"turnUpdate\"")) {
