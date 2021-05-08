@@ -139,6 +139,8 @@ public class NewRoundScreenController extends Controller {
      * @throws IOException if fxml file is not found.
      */
     private void waitingForPlayer(Stage waitingWindow) throws IOException {
+        Stage thisStage = (Stage) ((Node) winner).getScene().getWindow();
+        Controller.setPrevStage(thisStage);
         waitingWindow.initStyle(StageStyle.UNDECORATED);
         
         waitingWindow.initModality(Modality.APPLICATION_MODAL);

@@ -66,6 +66,9 @@ public class WaitingForPlayersController {
             //Shows the new screen
             appStage.show();
             Controller.getPrevStage().close();
+            if(Controller.gameStage != null) {
+                Controller.gameStage.close();
+            }
             
         } catch (IOException e) {
             e.printStackTrace();  

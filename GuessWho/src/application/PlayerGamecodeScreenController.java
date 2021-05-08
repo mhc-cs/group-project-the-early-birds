@@ -141,7 +141,7 @@ public class PlayerGamecodeScreenController {
                   closeWaitingWindow(window);
                   try {
                       //Loads the new screen
-                      Parent startGameParent = FXMLLoader.load(getClass().getResource("RedrawScreen.fxml"));
+                      Parent startGameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
                       Scene startGameScene = new Scene(startGameParent);
                       
                       //Finds the previous screen and switches off of it
