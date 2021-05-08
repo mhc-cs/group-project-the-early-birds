@@ -8,6 +8,7 @@ import Messages.Chat;
 import Messages.Data;
 import Messages.Guess;
 import Messages.TurnUpdate;
+import guesswho.Card;
 import guesswho.Controller;
 import guesswho.Network;
 import javafx.application.Platform;
@@ -144,14 +145,7 @@ public class GameplayScreenController extends Controller {
         
         //set player's card
         game.drawCards();
-        String cardPath = "application/" + player.getCard().getImagePath();
-        System.out.println(cardPath);
-        Image image = new Image(cardPath);
-        yourCard.setImage(image);
-        
-        
-        //set player's card name
-        yourCardName.setText(player.getCard().getName());
+        setCard(player.getCard());
         
         //Initial chat messages
         chatArea.clear();
@@ -707,6 +701,17 @@ public class GameplayScreenController extends Controller {
     	controller.chatArea.appendText(player.getName() + " " + msg + "\n");
     	Controller.network.send(new Data("DATA",new Chat("chat",msg)));
 
+    }
+    
+    /**
+     * Sets the players card
+     * @param card The player's new card
+     */
+    public void setCard(Card card) {
+        String cardPath = "application/" + card.getImagePath();
+        Image image = new Image(cardPath);
+        yourCard.setImage(image);
+        yourCardName.setText(card.getName());
     }
    
 }

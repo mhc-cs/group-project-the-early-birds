@@ -114,7 +114,6 @@ public class NewRoundScreenController extends Controller {
         quitButtonPressed = true;
         gameStage.hide();
         Network.close();
-        //Resetting player data and hashmap
         player.reset();
         GameplayScreenController.resetHashmap();
         

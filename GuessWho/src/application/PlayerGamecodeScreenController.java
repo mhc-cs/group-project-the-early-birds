@@ -126,6 +126,8 @@ public class PlayerGamecodeScreenController extends Controller {
                           } else {
                               GameplayScreenController gController = GameplayScreenController.getController();
                               gController.initialize();
+                              //player.getCard();
+                              //gController.setCard(player.getCard());
                               gController.stopGuessingHelper();
                               gController.resetGrey();
                               gameStage.show();
@@ -172,6 +174,8 @@ public class PlayerGamecodeScreenController extends Controller {
                   } else {
                       GameplayScreenController gController = GameplayScreenController.getController();
                       gController.initialize();
+                      player.getCard();
+                      //gController.setCard(player.getCard());
                       gController.stopGuessingHelper();
                       gController.resetGrey();
                       gameStage.show();
