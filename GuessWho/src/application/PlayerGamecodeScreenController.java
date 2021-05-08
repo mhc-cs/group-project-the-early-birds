@@ -31,7 +31,7 @@ import javafx.stage.StageStyle;
  * @author Dani, Hannah, Anna
  *
  */
-public class PlayerGamecodeScreenController {
+public class PlayerGamecodeScreenController extends Controller {
     
     @FXML
     private TextField gamecode;
@@ -102,6 +102,53 @@ public class PlayerGamecodeScreenController {
                           if(isReady) {
                           Platform.runLater(() -> {
                           closeWaitingWindow(window);  
+                          if(!NewRoundScreenController.quitButtonPressed) {
+                              try {
+                                  //Loads the new screen
+                                  Parent startGameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
+                                  Scene startGameScene = new Scene(startGameParent);
+                                  
+                                  //Finds the previous screen and switches off of it
+                                  Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                                  appStage.setScene(startGameScene);
+                                  appStage.centerOnScreen();
+                                  
+                                  //Allows it to be dragged
+                                  Controller.dragScreen(startGameScene, appStage);
+                                  
+                                  //Shows the new screen
+                                  appStage.show();
+                                  
+                              } catch (IOException e) {
+                                  e.printStackTrace();
+                              
+                              } 
+                          } else {
+                              GameplayScreenController gController = GameplayScreenController.getController();
+                              gController.initialize();
+                              gController.stopGuessingHelper();
+                              gController.resetGrey();
+                              gameStage.show();
+                          }
+
+                              });
+                          runThread = false;
+                          }
+                          Thread.sleep(500);
+                      }
+                  } catch (InterruptedException e) {
+                      Thread.currentThread().interrupt();
+                      System.out.println("Thread was interrupted, Failed to complete operation");
+                  }
+                }
+                
+             };
+             
+             waitingThread.start();
+              
+              if(isReady) {
+                  closeWaitingWindow(window);
+                  if(!NewRoundScreenController.quitButtonPressed) {
                       try {
                           //Loads the new screen
                           Parent startGameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
@@ -120,44 +167,14 @@ public class PlayerGamecodeScreenController {
                           
                       } catch (IOException e) {
                           e.printStackTrace();
-                      
+    
                       }
-                              });
-                          runThread = false;
-                          }
-                          Thread.sleep(500);
-                      }
-                  } catch (InterruptedException e) {
-                      Thread.currentThread().interrupt();
-                      System.out.println("Thread was interrupted, Failed to complete operation");
-                  }
-                }
-                
-             };
-             
-             waitingThread.start();
-              
-              if(isReady) {
-                  closeWaitingWindow(window);
-                  try {
-                      //Loads the new screen
-                      Parent startGameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
-                      Scene startGameScene = new Scene(startGameParent);
-                      
-                      //Finds the previous screen and switches off of it
-                      Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                      appStage.setScene(startGameScene);
-                      appStage.centerOnScreen();
-                      
-                      //Allows it to be dragged
-                      Controller.dragScreen(startGameScene, appStage);
-                      
-                      //Shows the new screen
-                      appStage.show();
-                      
-                  } catch (IOException e) {
-                      e.printStackTrace();
-
+                  } else {
+                      GameplayScreenController gController = GameplayScreenController.getController();
+                      gController.initialize();
+                      gController.stopGuessingHelper();
+                      gController.resetGrey();
+                      gameStage.show();
                   }
               }else {
                   waitingForPlayer(window);

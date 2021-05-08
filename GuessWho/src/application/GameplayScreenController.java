@@ -483,9 +483,11 @@ public class GameplayScreenController extends Controller {
      */
     private void openConfirmationWindow() throws IOException {
         Stage thisStage = (Stage) ((Node) scoresBox).getScene().getWindow();
+        Scene thisScene = ((Node) scoresBox).getScene();
         Stage confirmationWindow = new Stage();
         confirmationWindow.initStyle(StageStyle.UNDECORATED);
         gameStage = thisStage;
+        gameScene = thisScene;
         
         confirmationWindow.initModality(Modality.APPLICATION_MODAL);
         confirmationWindow.getIcons().add(new Image("application/icon.png"));

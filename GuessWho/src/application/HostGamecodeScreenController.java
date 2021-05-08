@@ -34,7 +34,7 @@ import javafx.stage.StageStyle;
  * @author Dani, Hannah, Anna
  *
  */
-public class HostGamecodeScreenController {
+public class HostGamecodeScreenController extends Controller {
 
     @FXML
     private TextField gamecode;
@@ -105,27 +105,36 @@ public class HostGamecodeScreenController {
                       while (runThread) {
                           if(isReady) {
                           Platform.runLater(() -> {
-                          closeWaitingWindow(window);  
-                      try {
-                          //Loads the new screen
-                          Parent startGameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
-                          Scene startGameScene = new Scene(startGameParent);
-                          
-                          //Finds the previous screen and switches off of it
-                          Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                          appStage.setScene(startGameScene);
-                          appStage.centerOnScreen();
-                          
-                          //Allows it to be dragged
-                          Controller.dragScreen(startGameScene, appStage);
-                          
-                          //Shows the new screen
-                          appStage.show();
-                          
-                      } catch (IOException e) {
-                          e.printStackTrace();
+                          closeWaitingWindow(window);
+                          if(!NewRoundScreenController.quitButtonPressed) {
+                              try {
+                                  //Loads the new screen
+                                  Parent startGameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
+                                  Scene startGameScene = new Scene(startGameParent);
+                                  
+                                  //Finds the previous screen and switches off of it
+                                  Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                                  appStage.setScene(startGameScene);
+                                  appStage.centerOnScreen();
+                                  
+                                  //Allows it to be dragged
+                                  Controller.dragScreen(startGameScene, appStage);
+                                  
+                                  //Shows the new screen
+                                  appStage.show();
+                                  
+                              } catch (IOException e) {
+                                  e.printStackTrace();
+                              
+                              }
+                          } else {
+                              GameplayScreenController gController = GameplayScreenController.getController();
+                              gController.stopGuessingHelper();
+                              gController.resetGrey();
+                              gController.initialize();
+                              gameStage.show();
+                          }
                       
-                      }
                               });
                           runThread = false;
                           }
@@ -143,28 +152,37 @@ public class HostGamecodeScreenController {
           
               if(isReady) {
                   closeWaitingWindow(window);
-                  try {
-                      //Loads the new screen
-                      FXMLLoader loader = new FXMLLoader(getClass().getResource("GameplayScreen.fxml"));
-                      Parent startGameParent = loader.load();
-                      controller = loader.getController();
-                      //Parent startGameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
-                      Scene startGameScene = new Scene(startGameParent);
+                  if(!NewRoundScreenController.quitButtonPressed) {
+                      try {
+                          //Loads the new screen
+                          FXMLLoader loader = new FXMLLoader(getClass().getResource("GameplayScreen.fxml"));
+                          Parent startGameParent = loader.load();
+                          controller = loader.getController();
+                          //Parent startGameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
+                          Scene startGameScene = new Scene(startGameParent);
+                          
+                          //Finds the previous screen and switches off of it
+                          Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                          appStage.setScene(startGameScene);
+                          appStage.centerOnScreen();
+                          
+                          //Allows it to be dragged
+                          Controller.dragScreen(startGameScene, appStage);
+                          
+                          //Shows the new screen
+                          appStage.show();
+                          
+                      } catch (IOException e) {
+                          e.printStackTrace();
                       
-                      //Finds the previous screen and switches off of it
-                      Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                      appStage.setScene(startGameScene);
-                      appStage.centerOnScreen();
-                      
-                      //Allows it to be dragged
-                      Controller.dragScreen(startGameScene, appStage);
-                      
-                      //Shows the new screen
-                      appStage.show();
-                      
-                  } catch (IOException e) {
-                      e.printStackTrace();
-                  
+                      }
+                  }
+                  else {
+                      GameplayScreenController gController = GameplayScreenController.getController();
+                      gController.stopGuessingHelper();
+                      gController.resetGrey();
+                      gController.initialize();
+                      gameStage.show();
                   }
               }else {
                   waitingForPlayer(window);

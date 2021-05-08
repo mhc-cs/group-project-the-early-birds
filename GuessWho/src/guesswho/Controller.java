@@ -30,6 +30,8 @@ public class Controller extends Application {
     
     public static Stage gameStage;
     
+    public static Scene gameScene;
+    
     public static Stage prevStage;
     
     public static boolean cardsAdded = false;
