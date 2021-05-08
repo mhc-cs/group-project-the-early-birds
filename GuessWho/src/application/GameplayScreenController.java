@@ -662,6 +662,23 @@ public class GameplayScreenController extends Controller {
         }    
     }
     
+    /**
+     * Resets the cards to all be back to their original image when a new round starts,
+     * so that none of them are greyed out.
+     */
+    public void resetGrey() {
+        int imageId = 0;
+        ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
+        while(iterator.hasNext()) {
+            Node next = iterator.next();
+            if(next instanceof ImageView) {
+                ((ImageView) next).setImage(new Image("application/"+deck.getCard(imageId).getImagePath()));
+                imageId++;
+            }
+        }
+        
+    }
+    
     public static void receiveMsg(String msg) {
     	message = msg;
     }

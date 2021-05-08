@@ -58,6 +58,7 @@ public class NewRoundScreenController extends Controller {
         GameplayScreenController.resetHashmap();
         GameplayScreenController controller = GameplayScreenController.getController();
         controller.stopGuessingHelper();
+        controller.resetGrey();
         //gameStage.close();      
         
         Thread waitingThread = new Thread("Waiting Thread") {
