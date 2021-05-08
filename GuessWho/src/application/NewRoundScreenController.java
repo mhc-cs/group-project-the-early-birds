@@ -116,6 +116,7 @@ public class NewRoundScreenController extends Controller {
         Network.close();
         player.reset();
         GameplayScreenController.resetHashmap();
+        PlayerGamecodeScreenController.setIsReady(false);
         
         //Going to invite players screen
         try {

@@ -137,6 +137,7 @@ public class HostGamecodeScreenController extends Controller {
                       
                               });
                           runThread = false;
+                          isReady = false;
                           }
                           Thread.sleep(500);
                       }
@@ -184,6 +185,7 @@ public class HostGamecodeScreenController extends Controller {
                       gController.initialize();
                       gameStage.show();
                   }
+                  isReady = false;
               }else {
                   waitingForPlayer(window);
               }

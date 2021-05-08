@@ -135,6 +135,7 @@ public class PlayerGamecodeScreenController extends Controller {
 
                               });
                           runThread = false;
+                          isReady = false;
                           }
                           Thread.sleep(500);
                       }
@@ -180,6 +181,7 @@ public class PlayerGamecodeScreenController extends Controller {
                       gController.resetGrey();
                       gameStage.show();
                   }
+                  isReady = false;
               }else {
                   waitingForPlayer(window);
               }

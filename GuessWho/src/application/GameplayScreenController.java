@@ -374,7 +374,6 @@ public class GameplayScreenController extends Controller {
                 //calls guess on every image
                 Node next = iterator.next();
                 if(next instanceof ImageView) {
-                    System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ID" + id);
                     guess(next, id);
                     id++;
                 }
@@ -408,8 +407,7 @@ public class GameplayScreenController extends Controller {
      * @param imageId the index, or ID, of one of the images in the card grid
      */
     private void guess(Node image, int imageId) {
-        //Opens confirmation menu if the card is cicked on and isn't greyed out
-        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$imageID" + imageId);
+        //Opens confirmation menu if the card is clicked on and isn't greyed out
         if(greyedOutCards.containsKey(imageId) && !greyedOutCards.get(imageId)) {
             image.setOnMouseClicked(e -> {
                 try {
@@ -477,11 +475,9 @@ public class GameplayScreenController extends Controller {
      */
     private void openConfirmationWindow() throws IOException {
         Stage thisStage = (Stage) ((Node) scoresBox).getScene().getWindow();
-        Scene thisScene = ((Node) scoresBox).getScene();
         Stage confirmationWindow = new Stage();
         confirmationWindow.initStyle(StageStyle.UNDECORATED);
         gameStage = thisStage;
-        gameScene = thisScene;
         
         confirmationWindow.initModality(Modality.APPLICATION_MODAL);
         confirmationWindow.getIcons().add(new Image("application/icon.png"));
