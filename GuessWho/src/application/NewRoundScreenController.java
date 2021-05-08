@@ -97,36 +97,8 @@ public class NewRoundScreenController extends Controller {
 			e.printStackTrace();
 		}
         
-
     }
     
-    /**
-     * Goes back to gameplay screen, but resets scores to 0
-     */
-    public void newGame(ActionEvent event) {
-        gameStage.close(); 
-        GameplayScreenController.resetHashmap();
-        player.reset();
-        try {
-            //Loads the new screen
-            Parent gameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
-            Scene gameScene = new Scene(gameParent);
-            
-            //Finds the previous screen and switches off of it
-            Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            appStage.setScene(gameScene);
-            appStage.centerOnScreen();
-            
-            //Allows it to be dragged
-            dragScreen(gameScene, appStage);
-            
-            //Shows the new screen
-            appStage.show();
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     
     /**
      * Clears everything and takes player back to the invite screen.

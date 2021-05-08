@@ -25,14 +25,6 @@ VBox{
 	-fx-background-color: "#0ff0bb";
 }
 
-#newGame{
-	-fx-background-color: "#86BEFF";
-}
-
-#newGame:hover{
-	-fx-background-color: "#66adff";
-}
-
 #quit{
 	-fx-background-color: "#F34A72";
 }
