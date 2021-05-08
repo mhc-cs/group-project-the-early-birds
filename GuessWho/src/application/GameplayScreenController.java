@@ -7,6 +7,7 @@ import java.util.ListIterator;
 import Messages.Chat;
 import Messages.Data;
 import Messages.Guess;
+import Messages.TurnUpdate;
 import guesswho.Controller;
 import guesswho.Network;
 import javafx.application.Platform;
@@ -92,40 +93,45 @@ public class GameplayScreenController extends Controller {
      * Initializes the grid with the cards that the players guess from.
      */
     public void initialize() {
-        int column = 0; //goes up to 7
-        int row = 0; //3 rows of faces
-        
-        for(int i = 0; i < deck.getSize(); i++) {
-            // Wrapping in ImageView
-            ImageView imageView = new ImageView(getClass().getResource(deck.getCard(i).getImagePath()).toExternalForm());
-            imageView.setFitWidth(95.0);
-            imageView.setFitHeight(150.0);
+    	System.out.println("!!!!!!!!!!!!!!!! INITIALIZING GAMEPLAYSCREEN !!!!!!!!!!!!");
+    	if(!cardsAdded) {
+            int column = 0; //goes up to 7
+            int row = 0; //3 rows of faces
             
-            //Displaying names
-            Label name = new Label();
-            name.getStyleClass().remove(name);
-            name.setText(deck.getCard(i).getName());
-            name.setFont(Font.font("Century Gothic", 13));
-            GridPane.setHalignment(name, HPos.CENTER);
-            
-            // When clicked on, can be greyed out (and un-greyed out)
-            final int imageId = i;
-            greyedOutCards.put(imageId, deck.getCard(i).getGrey());
-            imageView.setOnMouseClicked(e -> greyOut(imageView, imageId));    
-            
-            // Adding to grid
-            cardGrid.add(imageView, column, row);
-            cardGrid.add(name, column, row + 1);
-            if(column == 7) {
-                row += 2;
-                column = 0;
-            } else {
-                column++;
+            for(int i = 0; i < deck.getSize(); i++) {
+                // Wrapping in ImageView
+                ImageView imageView = new ImageView(getClass().getResource(deck.getCard(i).getImagePath()).toExternalForm());
+                imageView.setFitWidth(95.0);
+                imageView.setFitHeight(150.0);
+                
+                //Displaying names
+                Label name = new Label();
+                name.getStyleClass().remove(name);
+                name.setText(deck.getCard(i).getName());
+                name.setFont(Font.font("Century Gothic", 13));
+                GridPane.setHalignment(name, HPos.CENTER);
+                
+                // When clicked on, can be greyed out (and un-greyed out)
+                final int imageId = i;
+                greyedOutCards.put(imageId, deck.getCard(i).getGrey());
+                //System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + greyedOutCards.get(imageId));
+                imageView.setOnMouseClicked(e -> greyOut(imageView, imageId));    
+                
+                // Adding to grid
+                cardGrid.add(imageView, column, row);
+                cardGrid.add(name, column, row + 1);
+                if(column == 7) {
+                    row += 2;
+                    column = 0;
+                } else {
+                    column++;
+                }
+                
             }
-            
-        }
-        cardGrid.setVgap(2);
-        cardGrid.setHgap(7);
+            cardGrid.setVgap(2);
+            cardGrid.setHgap(7);
+    	}
+
         
         //Passes every image in the grid to guess button when guess button is pressed
         guessButton.setText("Guess "+game.getPlayer2Name()+"'s card");
@@ -142,6 +148,7 @@ public class GameplayScreenController extends Controller {
         System.out.println(cardPath);
         Image image = new Image(cardPath);
         yourCard.setImage(image);
+        
         
         //set player's card name
         yourCardName.setText(player.getCard().getName());
@@ -196,10 +203,7 @@ public class GameplayScreenController extends Controller {
                     		if(player.getTurn()) {
                 	        	startTurn();
                 	        } else {
-                	        	turn.setText("It is the other \nplayer's turn to \nask a question.");
-                	            disableButtons();
-                	            System.out.println("TURN ################# "+player.getTurn());
-                	            turnCorrect=true;
+                	        	turnEnd();
                 	        }
                     	}
                     	                     }
@@ -276,6 +280,8 @@ public class GameplayScreenController extends Controller {
         // don't let thread prevent JVM shutdown
         guessThread.setDaemon(true);
         guessThread.start();
+        enableButtons();
+        guessing = false;
         
     }
     
@@ -309,20 +315,29 @@ public class GameplayScreenController extends Controller {
      */
     public void endTurn() {
         if(!player.getTurn()) {
+        	//This case should never be reached
             //if not their turn
             turn.setText("It is your turn \nto ask a question.");
+            System.out.println("^^^^^^^^^^^^^^^^^^^^ 1 " + endTurn.isDisabled());
             enableButtons();
-            System.out.println("TURN ################# "+player.getTurn());
+            System.out.println("^^^^^^^^^^^^^^^^^^^^ 2 " + endTurn.isDisabled());
+            System.out.println("TURN BUTTON 1 ################# "+player.getTurn());
+            
+            //turnCorrect=false;
 
         } else { //if it IS their turn, make it not their turn
         	//TODO
         	// this case should be when receiving a message from the server
             turn.setText("It is the other \nplayer's turn to \nask a question.");
+            System.out.println("^^^^^^^^^^^^^^^^^^^^ 1 " + endTurn.isDisabled());
             disableButtons();
+            System.out.println("^^^^^^^^^^^^^^^^^^^^ 2 " + endTurn.isDisabled());
             game.endTurn();
-            System.out.println("TURN ################# "+player.getTurn());
+            System.out.println("TURN BUTTON 2 ################# "+player.getTurn());
             //set players turn to true? this might go in a different file
             turnCorrect=false;
+            Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate",true)));
+
         }
         
     }
@@ -331,9 +346,20 @@ public class GameplayScreenController extends Controller {
     	//TODO
         turn.setText("It is your turn \nto ask a question.");
         enableButtons();
-        System.out.println("TURN ################# "+player.getTurn());
+        System.out.println("TURN START ################# "+player.getTurn());
         turnCorrect=true;
+        Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate",false)));
 
+    }
+    
+    public void turnEnd() {
+    	turn.setText("It is the other \nplayer's turn to \nask a question.");
+    	//THIS IS BEING CALLED BUT NOT WORKING!!!
+    	System.out.println("turnend^^^^^^^^^^^^^^^^^^^^ 1 " + endTurn.isDisabled());
+        disableButtons();
+        System.out.println("turnend^^^^^^^^^^^^^^^^^^^^ 2 " + endTurn.isDisabled());
+        System.out.println("TURN THREAD ################# "+player.getTurn());
+        turnCorrect=true;
     }
     
     /**
@@ -343,6 +369,7 @@ public class GameplayScreenController extends Controller {
       //Action that the guess button takes if guessing is not in action
         if(guessing == false) {
             int id = 0;
+
             guessing = true;
             guessButton.setText("Stop guessing");
             
@@ -352,6 +379,7 @@ public class GameplayScreenController extends Controller {
                 //calls guess on every image
                 Node next = iterator.next();
                 if(next instanceof ImageView) {
+                    System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ID" + id);
                     guess(next, id);
                     id++;
                 }
@@ -386,7 +414,8 @@ public class GameplayScreenController extends Controller {
      */
     private void guess(Node image, int imageId) {
         //Opens confirmation menu if the card is cicked on and isn't greyed out
-        if(!greyedOutCards.get(imageId)) {
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$imageID" + imageId);
+        if(greyedOutCards.containsKey(imageId) && !greyedOutCards.get(imageId)) {
             image.setOnMouseClicked(e -> {
                 try {
                     guessedId = imageId;
@@ -399,7 +428,7 @@ public class GameplayScreenController extends Controller {
         //Adds hover property to card if it isn't greyed out
         image.hoverProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean hovering) -> {
             //checking that the mouse is hovering over and that the card isn't greyed out
-            if(hovering && !greyedOutCards.get(imageId)) {
+            if(greyedOutCards.containsKey(imageId) && hovering && !greyedOutCards.get(imageId)) {
                 image.setEffect(new DropShadow());
             } else {
                 image.setEffect(null);
@@ -421,6 +450,27 @@ public class GameplayScreenController extends Controller {
         image.hoverProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean hovering) -> {
             image.setEffect(null);
         });
+    }
+    
+    /**
+     * Helper method for stopGuessing. Allows it to be called outside this class.
+     */
+    public void stopGuessingHelper() {
+        int id = 0;
+        guessing = false;
+        guessButton.setText("Guess "+game.getPlayer2Name()+"'s card");
+        
+        //iterates through each image
+        ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
+        while(iterator.hasNext()) {
+            //calls stopGuessing on every image
+            Node next = iterator.next();
+            if(next instanceof ImageView) {
+                stopGuessing((ImageView) next, id);
+                id++; 
+            }
+        }
+        
     }
     
     /**
@@ -584,6 +634,7 @@ public class GameplayScreenController extends Controller {
      * player's turn.
      */
     protected void disableButtons() {
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^DISABLED");
         guessButton.setDisable(true);
         endTurn.setDisable(true);
     }

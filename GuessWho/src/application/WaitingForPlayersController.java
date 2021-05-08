@@ -48,6 +48,7 @@ public class WaitingForPlayersController {
         
         HostGamecodeScreenController.setRunThread(false);
         PlayerGamecodeScreenController.setRunThread(false);
+        NewRoundScreenController.setRunThread(false);
         Network.close();
         //go back to invite players screen
         try {

@@ -32,6 +32,8 @@ public class Controller extends Application {
     
     public static Stage prevStage;
     
+    public static boolean cardsAdded = false;
+    
     @Override
     public void start(Stage primaryStage) {
         try {

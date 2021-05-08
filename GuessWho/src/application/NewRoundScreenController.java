@@ -2,8 +2,11 @@ package application;
 
 import java.io.IOException;
 
+import Messages.Data;
+import Messages.Message;
 import guesswho.Controller;
 import guesswho.Network;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,11 +36,16 @@ public class NewRoundScreenController extends Controller {
     
     private Stage window = new Stage();
     
+    private static boolean runThread;
+    
+    private static boolean isReady;
+    
     /**
      * Initializes the screen.
      */
     public void initialize() {
         winner.setText(game.getWinner() + " wins!"); //set text to winner's name wins
+        isReady = false;
     }
     
     /**
@@ -46,30 +54,49 @@ public class NewRoundScreenController extends Controller {
      * @param event the event that the button is pressed
      */
     public void nextRound(ActionEvent event) {
+        cardsAdded = true;
         GameplayScreenController.resetHashmap();
-        gameStage.close();      
+        GameplayScreenController controller = GameplayScreenController.getController();
+        controller.stopGuessingHelper();
+        //gameStage.close();      
         
-        //waitingForPlayers(window);
+        Thread waitingThread = new Thread("Waiting Thread") {
+            public void run(){
+                try {
+                  runThread = true;
+                  while (runThread) {
+                      if(isReady) {
+                      Platform.runLater(() -> {
+                          controller.initialize();
+                          closeWaitingWindow(window);  
+                          Stage stage = (Stage) winner.getScene().getWindow();
+                          stage.close();
+                          });
+                      runThread = false;
+                      }
+                      Thread.sleep(500);
+                  }
+              } catch (InterruptedException e) {
+                  Thread.currentThread().interrupt();
+                  System.out.println("Thread was interrupted, Failed to complete operation");
+              }
+            }
+            
+         };
+         
+         waitingThread.start();
+         if (!player.getHost()) {
+          	Controller.network.send(new Data("DATA", new Message("continue")));
+          }
+         try {
+			waitingForPlayer(window);
+			//TODO if abort connection doesn't close gameplayscreen from previous round
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
-        try {
-            //Loads the new screen
-            Parent gameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
-            Scene gameScene = new Scene(gameParent);
-            
-            //Finds the previous screen and switches off of it
-            Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            appStage.setScene(gameScene);
-            appStage.centerOnScreen();
-            
-            //Allows it to be dragged
-            dragScreen(gameScene, appStage);
-            
-            //Shows the new screen
-            appStage.show();
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
     
     /**
@@ -157,5 +184,13 @@ public class NewRoundScreenController extends Controller {
      */
     private void closeWaitingWindow(Stage waitingWindow) {
         waitingWindow.close();
+    }
+    
+    public static void setRunThread(boolean run) {
+    	runThread = run;
+    }
+    
+    public static void setIsReady(boolean ready) {
+    	isReady = ready;
     }
 }
