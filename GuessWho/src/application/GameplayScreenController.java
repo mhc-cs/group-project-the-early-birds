@@ -8,6 +8,7 @@ import Messages.Chat;
 import Messages.Data;
 import Messages.Guess;
 import Messages.TurnUpdate;
+import guesswho.Card;
 import guesswho.Controller;
 import guesswho.Network;
 import javafx.application.Platform;
@@ -144,14 +145,7 @@ public class GameplayScreenController extends Controller {
         
         //set player's card
         game.drawCards();
-        String cardPath = "application/" + player.getCard().getImagePath();
-        System.out.println(cardPath);
-        Image image = new Image(cardPath);
-        yourCard.setImage(image);
-        
-        
-        //set player's card name
-        yourCardName.setText(player.getCard().getName());
+        setCard(player.getCard());
         
         //Initial chat messages
         chatArea.clear();
@@ -380,7 +374,6 @@ public class GameplayScreenController extends Controller {
                 //calls guess on every image
                 Node next = iterator.next();
                 if(next instanceof ImageView) {
-                    System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ID" + id);
                     guess(next, id);
                     id++;
                 }
@@ -414,8 +407,7 @@ public class GameplayScreenController extends Controller {
      * @param imageId the index, or ID, of one of the images in the card grid
      */
     private void guess(Node image, int imageId) {
-        //Opens confirmation menu if the card is cicked on and isn't greyed out
-        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$imageID" + imageId);
+        //Opens confirmation menu if the card is clicked on and isn't greyed out
         if(greyedOutCards.containsKey(imageId) && !greyedOutCards.get(imageId)) {
             image.setOnMouseClicked(e -> {
                 try {
@@ -705,6 +697,17 @@ public class GameplayScreenController extends Controller {
     	controller.chatArea.appendText(player.getName() + " " + msg + "\n");
     	Controller.network.send(new Data("DATA",new Chat("chat",msg)));
 
+    }
+    
+    /**
+     * Sets the players card
+     * @param card The player's new card
+     */
+    public void setCard(Card card) {
+        String cardPath = "application/" + card.getImagePath();
+        Image image = new Image(cardPath);
+        yourCard.setImage(image);
+        yourCardName.setText(card.getName());
     }
    
 }

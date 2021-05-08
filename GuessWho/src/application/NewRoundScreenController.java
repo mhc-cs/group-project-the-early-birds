@@ -41,6 +41,11 @@ public class NewRoundScreenController extends Controller {
     private static boolean isReady;
     
     /**
+     * true if the quit button has been pressed at least once.
+     */
+    public static boolean quitButtonPressed = false;
+    
+    /**
      * Initializes the screen.
      */
     public void initialize() {
@@ -105,25 +110,27 @@ public class NewRoundScreenController extends Controller {
      * @param event
      */
     public void quit(ActionEvent event) {
-        gameStage.close();
+        cardsAdded = true;
+        quitButtonPressed = true;
+        gameStage.hide();
         Network.close();
-        //Resetting player data and hashmap
         player.reset();
         GameplayScreenController.resetHashmap();
+        PlayerGamecodeScreenController.setIsReady(false);
         
         //Going to invite players screen
         try {
             //Loads the new screen
             Parent gameParent = FXMLLoader.load(getClass().getResource("InvitePlayers.fxml"));
-            Scene gameScene = new Scene(gameParent);
+            Scene inviteScene = new Scene(gameParent);
             
             //Finds the previous screen and switches off of it
             Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            appStage.setScene(gameScene);
+            appStage.setScene(inviteScene);
             appStage.centerOnScreen();
             
             //Allows it to be dragged
-            dragScreen(gameScene, appStage);
+            dragScreen(inviteScene, appStage);
             
             //Shows the new screen
             appStage.show();
