@@ -94,40 +94,44 @@ public class GameplayScreenController extends Controller {
      */
     public void initialize() {
     	System.out.println("!!!!!!!!!!!!!!!! INITIALIZING GAMEPLAYSCREEN !!!!!!!!!!!!");
-        int column = 0; //goes up to 7
-        int row = 0; //3 rows of faces
-        
-        for(int i = 0; i < deck.getSize(); i++) {
-            // Wrapping in ImageView
-            ImageView imageView = new ImageView(getClass().getResource(deck.getCard(i).getImagePath()).toExternalForm());
-            imageView.setFitWidth(95.0);
-            imageView.setFitHeight(150.0);
+    	if(!cardsAdded) {
+            int column = 0; //goes up to 7
+            int row = 0; //3 rows of faces
             
-            //Displaying names
-            Label name = new Label();
-            name.getStyleClass().remove(name);
-            name.setText(deck.getCard(i).getName());
-            name.setFont(Font.font("Century Gothic", 13));
-            GridPane.setHalignment(name, HPos.CENTER);
-            
-            // When clicked on, can be greyed out (and un-greyed out)
-            final int imageId = i;
-            greyedOutCards.put(imageId, deck.getCard(i).getGrey());
-            imageView.setOnMouseClicked(e -> greyOut(imageView, imageId));    
-            
-            // Adding to grid
-            cardGrid.add(imageView, column, row);
-            cardGrid.add(name, column, row + 1);
-            if(column == 7) {
-                row += 2;
-                column = 0;
-            } else {
-                column++;
+            for(int i = 0; i < deck.getSize(); i++) {
+                // Wrapping in ImageView
+                ImageView imageView = new ImageView(getClass().getResource(deck.getCard(i).getImagePath()).toExternalForm());
+                imageView.setFitWidth(95.0);
+                imageView.setFitHeight(150.0);
+                
+                //Displaying names
+                Label name = new Label();
+                name.getStyleClass().remove(name);
+                name.setText(deck.getCard(i).getName());
+                name.setFont(Font.font("Century Gothic", 13));
+                GridPane.setHalignment(name, HPos.CENTER);
+                
+                // When clicked on, can be greyed out (and un-greyed out)
+                final int imageId = i;
+                greyedOutCards.put(imageId, deck.getCard(i).getGrey());
+                //System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + greyedOutCards.get(imageId));
+                imageView.setOnMouseClicked(e -> greyOut(imageView, imageId));    
+                
+                // Adding to grid
+                cardGrid.add(imageView, column, row);
+                cardGrid.add(name, column, row + 1);
+                if(column == 7) {
+                    row += 2;
+                    column = 0;
+                } else {
+                    column++;
+                }
+                
             }
-            
-        }
-        cardGrid.setVgap(2);
-        cardGrid.setHgap(7);
+            cardGrid.setVgap(2);
+            cardGrid.setHgap(7);
+    	}
+
         
         //Passes every image in the grid to guess button when guess button is pressed
         guessButton.setText("Guess "+game.getPlayer2Name()+"'s card");
@@ -277,6 +281,7 @@ public class GameplayScreenController extends Controller {
         guessThread.setDaemon(true);
         guessThread.start();
         enableButtons();
+        guessing = false;
         
     }
     
@@ -364,6 +369,7 @@ public class GameplayScreenController extends Controller {
       //Action that the guess button takes if guessing is not in action
         if(guessing == false) {
             int id = 0;
+
             guessing = true;
             guessButton.setText("Stop guessing");
             
@@ -373,6 +379,7 @@ public class GameplayScreenController extends Controller {
                 //calls guess on every image
                 Node next = iterator.next();
                 if(next instanceof ImageView) {
+                    System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ID" + id);
                     guess(next, id);
                     id++;
                 }
@@ -407,7 +414,8 @@ public class GameplayScreenController extends Controller {
      */
     private void guess(Node image, int imageId) {
         //Opens confirmation menu if the card is cicked on and isn't greyed out
-        if(!greyedOutCards.get(imageId)) {
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$imageID" + imageId);
+        if(greyedOutCards.containsKey(imageId) && !greyedOutCards.get(imageId)) {
             image.setOnMouseClicked(e -> {
                 try {
                     guessedId = imageId;
@@ -420,7 +428,7 @@ public class GameplayScreenController extends Controller {
         //Adds hover property to card if it isn't greyed out
         image.hoverProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean hovering) -> {
             //checking that the mouse is hovering over and that the card isn't greyed out
-            if(hovering && !greyedOutCards.get(imageId)) {
+            if(greyedOutCards.containsKey(imageId) && hovering && !greyedOutCards.get(imageId)) {
                 image.setEffect(new DropShadow());
             } else {
                 image.setEffect(null);
@@ -442,6 +450,27 @@ public class GameplayScreenController extends Controller {
         image.hoverProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean hovering) -> {
             image.setEffect(null);
         });
+    }
+    
+    /**
+     * Helper method for stopGuessing. Allows it to be called outside this class.
+     */
+    public void stopGuessingHelper() {
+        int id = 0;
+        guessing = false;
+        guessButton.setText("Guess "+game.getPlayer2Name()+"'s card");
+        
+        //iterates through each image
+        ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
+        while(iterator.hasNext()) {
+            //calls stopGuessing on every image
+            Node next = iterator.next();
+            if(next instanceof ImageView) {
+                stopGuessing((ImageView) next, id);
+                id++; 
+            }
+        }
+        
     }
     
     /**

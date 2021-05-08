@@ -54,8 +54,11 @@ public class NewRoundScreenController extends Controller {
      * @param event the event that the button is pressed
      */
     public void nextRound(ActionEvent event) {
+        cardsAdded = true;
         GameplayScreenController.resetHashmap();
-        gameStage.close();      
+        GameplayScreenController controller = GameplayScreenController.getController();
+        controller.stopGuessingHelper();
+        //gameStage.close();      
         
         Thread waitingThread = new Thread("Waiting Thread") {
             public void run(){
@@ -64,26 +67,10 @@ public class NewRoundScreenController extends Controller {
                   while (runThread) {
                       if(isReady) {
                       Platform.runLater(() -> {
-                      closeWaitingWindow(window);  
-                      try {
-                          //Loads the new screen
-                          Parent gameParent = FXMLLoader.load(getClass().getResource("GameplayScreen.fxml"));
-                          Scene gameScene = new Scene(gameParent);
-                          
-                          //Finds the previous screen and switches off of it
-                          Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                          appStage.setScene(gameScene);
-                          appStage.centerOnScreen();
-                          
-                          //Allows it to be dragged
-                          dragScreen(gameScene, appStage);
-                          
-                          //Shows the new screen
-                          appStage.show();
-                          
-                      } catch (IOException e) {
-                          e.printStackTrace();
-                      }
+                          controller.initialize();
+                          closeWaitingWindow(window);  
+                          Stage stage = (Stage) winner.getScene().getWindow();
+                          stage.close();
                           });
                       runThread = false;
                       }
