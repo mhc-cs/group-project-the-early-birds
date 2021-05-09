@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 
 /**
  * Shows the player their card and allows them to redraw.
+ * Currently not implemented.
+ * 
  * @author Dani, Hannah, Anna
  *
  */

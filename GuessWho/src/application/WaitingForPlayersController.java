@@ -16,8 +16,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- * Contains methods for the waiting for players screen. Initializes
- * the screen and defines the action for the button.
+ * Contains methods for the waiting for players screen. Initializes the screen
+ * and defines the action for the button.
  * 
  * @author Dani, Hannah, Anna
  *
@@ -25,7 +25,7 @@ import javafx.util.Duration;
 public class WaitingForPlayersController {
     @FXML
     private Button close;
-    
+
     /**
      * Initializes the scene. The close button will appear after 3 seconds.
      */
@@ -35,43 +35,43 @@ public class WaitingForPlayersController {
         delayButton.setOnFinished(e -> close.setVisible(true));
         delayButton.play();
     }
-    
+
     /**
      * Allows the user to close the dialog and stop attempting connection to the
      * other player.
+     * 
      * @param event The event that the button is pressed.
      */
     public void closeDialog(ActionEvent event) {
         Stage stage = (Stage) close.getScene().getWindow();
         stage.close();
-        //TODO stop connecting. leave message?
-        
+
         HostGamecodeScreenController.setRunThread(false);
         PlayerGamecodeScreenController.setRunThread(false);
         NewRoundScreenController.setRunThread(false);
         Network.close();
-        //go back to invite players screen
+        // go back to invite players screen
         try {
-            //Loads the new screen
+            // Loads the new screen
             Parent startGameParent = FXMLLoader.load(getClass().getResource("InvitePlayers.fxml"));
             Scene startGameScene = new Scene(startGameParent);
-            
-            //Finds the previous screen and switches off of it
+
+            // Finds the previous screen and switches off of it
             Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             appStage.setScene(startGameScene);
-            
-            //Allows it to be dragged
+
+            // Allows it to be dragged
             Controller.dragScreen(startGameScene, appStage);
-            
-            //Shows the new screen
+
+            // Shows the new screen
             appStage.show();
             Controller.getPrevStage().close();
-            if(Controller.gameStage != null) {
+            if (Controller.gameStage != null) {
                 Controller.gameStage.close();
             }
-            
+
         } catch (IOException e) {
-            e.printStackTrace();  
+            e.printStackTrace();
         }
     }
 }
