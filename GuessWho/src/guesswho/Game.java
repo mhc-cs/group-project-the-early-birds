@@ -168,23 +168,6 @@ public class Game {
 		this.badname = badname;
 	}
 
-	/**
-	 * Setter for gamecode
-	 * @param gamecode String representation of gamecode
-	 */
-	public void setGameCode(String gamecode) {
-		this.gamecode = gamecode;
-	}
-	
-	/**
-	 * Setter for status. Status will either be J (join) or S (start new game/host)
-	 * @param status String representation of whether gamecode is used to start a 
-	 * new room or join an existing one
-	 */
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
   /**
 	 * get player2 name
 	 * @return name
