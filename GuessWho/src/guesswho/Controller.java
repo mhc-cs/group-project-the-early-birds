@@ -8,32 +8,32 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.application.Application;
 
-
 public class Controller extends Application {
     
-    /**
-     * The deck of Guess Who that the players will use.
-     */
+    //The deck of Guess Who that the players will use.
     protected static Deck deck = new Deck();
 
-    /**
-     * The player using this computer.
-     */
+    //The player using this computer.
     protected static Player player = new Player("Name", true);
     
-    /**
-     * The game of Guess Who.
-     */
+    //The game of Guess Who.
     protected static Game game = new Game(deck, player);
     
+    //The network instance
     public static Network network;
     
+    //The gamestage
     public static Stage gameStage;
     
+    //The previous stage
     public static Stage prevStage;
     
+    //If cards have been added
     public static boolean cardsAdded = false;
     
+    /**
+     * Start: open the invite players stage to start the application. 
+     */
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -57,14 +57,26 @@ public class Controller extends Application {
         
     }
     
+    /**
+     * get the game object
+     * @return game
+     */
     public static Game getGame() {
     	return game;
     }
     
+    /**
+     * set the previous stage
+     * @param stage
+     */
     public static void setPrevStage (Stage stage) {
         prevStage = stage;
     }
     
+    /**
+     * get the previous stage
+     * @return prevStage
+     */
     public static Stage getPrevStage() {
         return prevStage;
     }
@@ -88,28 +100,26 @@ public class Controller extends Application {
         });  
     }
     
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings("deprecation") //TODO
 	public static void main(String[] args) {
     	Thread networkThread = new Thread("Network Thread") {
     	      public void run(){
     	    	  network = new Network();
     	          try {
     	  			while (true) {
+    	  				//receive and process messages from the server
     	  				game.process(network.do_communication());
     	  				Thread.sleep(500);
     	  			}
     	  		} catch (InterruptedException e) {
     	  			Thread.currentThread().interrupt();
-          		System.out.println("Thread was interrupted, Failed to complete operation");
+          		System.out.println("Network thread was interrupted, Failed to complete operation");
     	  		}
     	      }
-    	      
     	   };
-    	   
     	networkThread.start();
-    	
-        launch(args);
-       
+        launch(args); //blocking
+        //when application closes, stop network thread
         networkThread.stop();
     }
 }

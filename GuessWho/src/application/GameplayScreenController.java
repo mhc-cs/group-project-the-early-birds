@@ -584,7 +584,12 @@ public class GameplayScreenController extends Controller {
      * the button was on and therefore what screen to close.
      */
     public void quitGame(ActionEvent event) {
+        Stage thisStage = (Stage) ((Node) scoresBox).getScene().getWindow();
+        gameStage = thisStage;
         System.out.println("Quitting...");
+        NewRoundScreenController.quitButtonPressed = true;
+        PlayerGamecodeScreenController.setIsReady(false);
+        cardsAdded = true;
         
         //Resetting player data and hashmap
         player.reset();
@@ -598,15 +603,19 @@ public class GameplayScreenController extends Controller {
             Scene gameScene = new Scene(gameParent);
             
             //Finds the previous screen and switches off of it
-            Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage appStage = new Stage();
             appStage.setScene(gameScene);
             appStage.centerOnScreen();
+            appStage.setTitle("Guess Who");
+            appStage.getIcons().add(new Image("application/icon.png"));
+            appStage.initStyle(StageStyle.UNDECORATED);
             
             //Allows it to be dragged
             dragScreen(gameScene, appStage);
             
             //Shows the new screen
             appStage.show();
+            gameStage.close();
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -627,7 +636,6 @@ public class GameplayScreenController extends Controller {
      * player's turn.
      */
     protected void disableButtons() {
-        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^DISABLED");
         guessButton.setDisable(true);
         endTurn.setDisable(true);
     }
@@ -694,9 +702,13 @@ public class GameplayScreenController extends Controller {
 
     
     public static void add_hist(String msg) {
-    	controller.chatArea.appendText(player.getName() + " " + msg + "\n");
+    	controller.chatArea.appendText(player.getName() + ": " + msg + "\n");
     	Controller.network.send(new Data("DATA",new Chat("chat",msg)));
 
+    }
+    
+    public static void serverMsg(String msg) {
+    	controller.chatArea.appendText("SERVER: "+msg+"\n");
     }
     
     /**

@@ -25,19 +25,14 @@ public class Game {
 	
 	//store other players card
 	private Card player2Card = null;
-	
-	//stores whether or not player is hosting or joining a game
-	private String status;
-	
-	//stores gamecode
-	private String gamecode;
-	
+
 	//store other player's name
 	private String player2Name = "[NAME]";
 	
 	//stores other player's score
 	private int player2Score = 0;
 	
+	//if welcome received
 	boolean receivedWelcome = false;
 	boolean badname = false;
 	
@@ -72,6 +67,7 @@ public class Game {
 		}
 	}
 	
+	//TODO REDRAW
 	/**
 	 * redraw cards for both players
 	 * called by either player
@@ -119,7 +115,7 @@ public class Game {
 	 * Change which player's turn it is
 	 */
 	public void endTurn() {
-		player1.toggleTurn();
+		player1.setTurn(false);
 		//tell other player to set turn true
     	Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate", true)));
 	}
@@ -146,7 +142,6 @@ public class Game {
 				//send message that player guessed incorrectly
 				Controller.network.send(new Data("DATA",new Guess("guess",c,false,player1.getScore())));
 				GameplayScreenController.add_hist("guessed " + c.getName() + " but it was incorrect!");
-				//endTurn();
 				return false;
 			}
 		}
@@ -173,7 +168,6 @@ public class Game {
 		this.badname = badname;
 	}
 
-	
 	/**
 	 * Setter for gamecode
 	 * @param gamecode String representation of gamecode
@@ -208,6 +202,10 @@ public class Game {
 
 	}
 	
+	/**
+	 * get name of winner
+	 * @return winner
+	 */
 	public String getWinner() {
 		return winner;
 	}
@@ -215,6 +213,7 @@ public class Game {
 	/**
 	 * This will process and handle incoming messages from the server
 	 * @param msgs ArrayList of incoming messages
+	 * @param msgs ArrayList of incoming message
 	 */
 	public void process(ArrayList<Message> msgs) {
 		if (msgs.isEmpty()) {
@@ -260,11 +259,15 @@ public class Game {
 			}
 			//Handles message sent when someone leaves the room
 			else if (msg.getType().equals("LEAVE")) {
+				System.out.println("Processed Leave");
 				Leave LeaveMsg = (Leave) msg;
+				GameplayScreenController.serverMsg(LeaveMsg.getUser()+" has left the game.");
 			}
 			//Handles message sent when someone joins the room
 			else if (msg.getType().equals("JOIN")) {
-				Join joinMsg = (Join) msg;
+				System.out.println("Processed Join");
+				//Join joinMsg = (Join) msg;
+				//No functionality needed when receive join message
 			}
 			//Handles room status update
 			else if (msg.getType().equals("ROOM_STATUS")) {
@@ -285,6 +288,7 @@ public class Game {
 				PlayerGamecodeScreenController.setIsReady(true);
 				NewRoundScreenController.setIsReady(true);
 			}
+			//TODO REDRAW
 			//Handles message from player2 requesting redraw
 			else if (msg.getType().equals("redraw")) {
 				System.out.println("Processed Redraw Message");
@@ -309,14 +313,10 @@ public class Game {
 					player2Score = ((Guess)msg).getScore();
 					GameplayScreenController.setGuess((Guess)msg);
 				}
-				
-				//TODO 
-				//End round when guess correct
-				//Put card guessed in chat?
 			}
+			//Handles chat messages
 			else if (msg.getType().equals("chat")) {
 				System.out.println("Processed Chat Message");
-				//TODO Handle chat
 				GameplayScreenController.receiveMsg(((Chat)msg).getEntrytext());
 			}
 			//Handles any messages not provided with special handling
