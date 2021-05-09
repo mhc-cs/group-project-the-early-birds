@@ -83,10 +83,8 @@ public class ConfirmationMenuController extends Controller {
         } else {
             GameplayScreenController controller = GameplayScreenController.getController();
             
-            //ends turn, mimics pressing the guess button and sets guessing to false
+            //ends turn, which mimics pressing the guess button and sets guessing to false
             controller.endTurn();
-            controller.guessButtonPressed();
-            controller.guessing = false;
             
             incorrectGuessWindow();
             Stage stage = (Stage) cancel.getScene().getWindow();
