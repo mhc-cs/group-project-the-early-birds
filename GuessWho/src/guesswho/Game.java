@@ -141,7 +141,6 @@ public class Game {
 				//send message that player guessed incorrectly
 				Controller.network.send(new Data("DATA",new Guess("guess",c,false,player1.getScore())));
 				GameplayScreenController.add_hist("guessed " + c.getName() + " but it was incorrect!");
-				//endTurn();
 				return false;
 			}
 		}
@@ -217,11 +216,15 @@ public class Game {
 			}
 			//Handles message sent when someone leaves the room
 			else if (msg.getType().equals("LEAVE")) {
+				System.out.println("Processed Leave");
 				Leave LeaveMsg = (Leave) msg;
+				GameplayScreenController.serverMsg(LeaveMsg.getUser()+" has left the game.");
 			}
 			//Handles message sent when someone joins the room
 			else if (msg.getType().equals("JOIN")) {
-				Join joinMsg = (Join) msg;
+				System.out.println("Processed Join");
+				//Join joinMsg = (Join) msg;
+				//No functionality needed when receive join message
 			}
 			//Handles room status update
 			else if (msg.getType().equals("ROOM_STATUS")) {
@@ -257,7 +260,6 @@ public class Game {
 			else if (msg.getType().equals("turnUpdate")) {
 				System.out.println("Processed TurnUpdate Message");
 				player1.setTurn(((TurnUpdate)msg).getYourTurn());
-				//TODO handle turn non-statically?
 				GameplayScreenController.setTurnCorrect(false);
 			}
 			//Handles guesses
@@ -266,14 +268,12 @@ public class Game {
 				if (((Guess)msg).getCorrect()) {
 					winner = player2Name;
 					player2Score = ((Guess)msg).getScore();
-					//TODO handle guess non-statically?
 					GameplayScreenController.setGuess((Guess)msg);
 				}
 			}
 			//Handles chat messages
 			else if (msg.getType().equals("chat")) {
 				System.out.println("Processed Chat Message");
-				//TODO Handle chat non-statically?
 				GameplayScreenController.receiveMsg(((Chat)msg).getEntrytext());
 			}
 			//Handles any messages not provided with special handling
