@@ -97,6 +97,9 @@ public class Card {
 		grey = false;
 	}
 	
+	/**
+	 * Card to String
+	 */
 	public String toString() {
 		return "{Card: Name: "+ cardName + ", ImagePath: " + imagePath + ", Grey: " + grey + "}";
 	}

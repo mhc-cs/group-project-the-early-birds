@@ -1,6 +1,14 @@
 package Messages;
 
+/**
+ * Message super class
+ * 
+ * @author Hannah, Dani, Anna
+ *
+ */
 public class Message {
+	
+	//message type
 	String TYPE;
 	
 	/**
@@ -15,26 +23,25 @@ public class Message {
 	
 	/**
 	 * Getter for TYPE
-	 * @return
+	 * @return TYPE
 	 */
 	public String getType() {
 		return TYPE;
 	}
 	
+	/**
+	 * set TYPE
+	 * @param TYPE
+	 */
 	public void setType(String TYPE) {
 		this.TYPE = TYPE;
 	}
 	
+	/**
+	 * Message to String
+	 */
 	public String toString() {
 		return "Mine: {TYPE: " + TYPE + "}";
 	}
 	
 }
-
-//TODO create child classes for types JOIN_GAME, DATA (seen in make_move method) 
-//and DATA which contains message data, WELCOME, ERROR, GUESS, CORRECT GUESS, INCORRECT GUESS
-//Each class needs: (the type for each will be the name of the class in all caps)
-//constuctor
-//getter
-//setter
-//toString
