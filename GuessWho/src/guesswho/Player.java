@@ -87,14 +87,6 @@ public class Player {
 	}
 	
 	/**
-	 * toggle turn
-	 * if true becomes flase and vice versa
-	 */
-	public void toggleTurn() {
-		isTurn ^= true;
-	}
-	
-	/**
 	 * get host
 	 * @return boolean if is host
 	 */

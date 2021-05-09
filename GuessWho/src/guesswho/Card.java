@@ -7,8 +7,8 @@ package guesswho;
  * @author Hannah, Dani, Anna
  *
  */
-
 public class Card {
+	
 	//Name of card
 	private String cardName;
 	
@@ -18,6 +18,7 @@ public class Card {
 	//status of card, if greyed out.
 	private boolean grey;
 	
+	//TODO customize
 	/**
 	 * Card constructor
 	 * Makes a card with the default image.
@@ -97,7 +98,7 @@ public class Card {
 	}
 	
 	public String toString() {
-		return "CardName: "+ cardName;
+		return "{Card: Name: "+ cardName + ", ImagePath: " + imagePath + ", Grey: " + grey + "}";
 	}
 	
 }

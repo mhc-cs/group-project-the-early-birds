@@ -25,19 +25,14 @@ public class Game {
 	
 	//store other players card
 	private Card player2Card = null;
-	
-	//stores whether or not player is hosting or joining a game
-	private String status;
-	
-	//stores gamecode
-	private String gamecode;
-	
+
 	//store other player's name
 	private String player2Name = "[NAME]";
 	
 	//stores other player's score
 	private int player2Score = 0;
 	
+	//if welcome received
 	boolean receivedWelcome = false;
 	
 	String winner = "";
@@ -71,6 +66,7 @@ public class Game {
 		}
 	}
 	
+	//TODO REDRAW
 	/**
 	 * redraw cards for both players
 	 * called by either player
@@ -118,7 +114,7 @@ public class Game {
 	 * Change which player's turn it is
 	 */
 	public void endTurn() {
-		player1.toggleTurn();
+		player1.setTurn(false);
 		//tell other player to set turn true
     	Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate", true)));
 	}
@@ -152,24 +148,7 @@ public class Game {
 		return false;
 	}
 	
-	/**
-	 * Setter for gamecode
-	 * @param gamecode String representation of gamecode
-	 */
-	public void setGameCode(String gamecode) {
-		this.gamecode = gamecode;
-	}
-	
-	/**
-	 * Setter for status. Status will either be J (join) or S (start new game/host)
-	 * @param status String representation of whether gamecode is used to start a 
-	 * new room or join an existing one
-	 */
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-  /**
+    /**
 	 * get player2 name
 	 * @return name
 	 */
@@ -186,28 +165,12 @@ public class Game {
 
 	}
 	
+	/**
+	 * get name of winner
+	 * @return winner
+	 */
 	public String getWinner() {
 		return winner;
-	}
-	
-	/**
-	 * Still under contruction
-	 * This method handles incoming messages from the other player
-	 * such as messages that should go in the chat
-	 * @param privateMsg true if message only to one person, not to group
-	 * @param sender Name of sender
-	 * @param spectactor True if sender is spectator, false otherwise
-	 * @param kind Type of message
-	 * @param msg Content of the message
-	 */
-	public void handle_msg (boolean privateMsg, String sender, boolean spectactor, String kind, Chat chat) {
-		if (kind == "CHAT") {
-			//TODO
-			//needs to add message to chat
-			//GameplayScreenController.chat(sender + ": " + msg.get("msg"));
-		}
-		
-		//will need to write handlers for all kinds of messages we send between games
 	}
 	
 	/**
@@ -230,8 +193,6 @@ public class Game {
 			else if (msg.getType().equals("WELCOME" )) {
 				System.out.println("Processed welcome message");
 				receivedWelcome = true;
-				//TODO ??
-//				Controller.network.send(new Join_Game("JOIN_GAME", 2, false, status, gamecode));
 			}
 			//Handles error message sent at various stages of connection process
 			else if (msg.getType().equals("ERROR")) {
@@ -281,6 +242,7 @@ public class Game {
 				PlayerGamecodeScreenController.setIsReady(true);
 				NewRoundScreenController.setIsReady(true);
 			}
+			//TODO REDRAW
 			//Handles message from player2 requesting redraw
 			else if (msg.getType().equals("redraw")) {
 				System.out.println("Processed Redraw Message");
@@ -295,6 +257,7 @@ public class Game {
 			else if (msg.getType().equals("turnUpdate")) {
 				System.out.println("Processed TurnUpdate Message");
 				player1.setTurn(((TurnUpdate)msg).getYourTurn());
+				//TODO handle turn non-statically?
 				GameplayScreenController.setTurnCorrect(false);
 			}
 			//Handles guesses
@@ -303,16 +266,14 @@ public class Game {
 				if (((Guess)msg).getCorrect()) {
 					winner = player2Name;
 					player2Score = ((Guess)msg).getScore();
+					//TODO handle guess non-statically?
 					GameplayScreenController.setGuess((Guess)msg);
 				}
-				
-				//TODO 
-				//End round when guess correct
-				//Put card guessed in chat?
 			}
+			//Handles chat messages
 			else if (msg.getType().equals("chat")) {
 				System.out.println("Processed Chat Message");
-				//TODO Handle chat
+				//TODO Handle chat non-statically?
 				GameplayScreenController.receiveMsg(((Chat)msg).getEntrytext());
 			}
 			//Handles any messages not provided with special handling

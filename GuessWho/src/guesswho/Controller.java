@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.application.Application;
 
-
 public class Controller extends Application {
     
     /**
@@ -88,7 +87,7 @@ public class Controller extends Application {
         });  
     }
     
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings("deprecation") //TODO
 	public static void main(String[] args) {
     	Thread networkThread = new Thread("Network Thread") {
     	      public void run(){
@@ -100,16 +99,13 @@ public class Controller extends Application {
     	  			}
     	  		} catch (InterruptedException e) {
     	  			Thread.currentThread().interrupt();
-          		System.out.println("Thread was interrupted, Failed to complete operation");
+          		System.out.println("Network thread was interrupted, Failed to complete operation");
     	  		}
     	      }
-    	      
     	   };
-    	   
     	networkThread.start();
-    	
-        launch(args);
-       
+        launch(args); //blocking
+        //when application closes, stop network thread
         networkThread.stop();
     }
 }
