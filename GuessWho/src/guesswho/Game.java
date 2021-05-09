@@ -186,6 +186,14 @@ public class Game {
 	}
 	
 	/**
+	 * set player 2 score
+	 * @param score the score to set it to
+	 */
+	public void setPlayer2Score(int score) {
+	    player2Score = score;
+	}
+	
+	/**
 	 * get name of winner
 	 * @return winner
 	 */

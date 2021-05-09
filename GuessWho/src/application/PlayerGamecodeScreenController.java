@@ -84,6 +84,8 @@ public class PlayerGamecodeScreenController extends Controller {
      * @throws IOException if fxml file is not found.
      */
     public void continueButton(ActionEvent event) throws IOException{
+        Stage thisStage = (Stage) ((Node) warning).getScene().getWindow();
+        Controller.setPrevStage(thisStage);
         
         if(gamecode.getText().isEmpty()) {
             warning.setText("Please enter a gamecode.");

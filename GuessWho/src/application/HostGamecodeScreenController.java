@@ -88,7 +88,9 @@ public class HostGamecodeScreenController extends Controller {
      */
     public void continueButton(ActionEvent event) throws IOException {
         //should only be able to continue when join has been received, need to do error handling otherwise
-
+        Stage thisStage = (Stage) ((Node) warning).getScene().getWindow();
+        Controller.setPrevStage(thisStage);
+        
         if(gamecode.getText().isEmpty()) {
             warning.setText("Please enter a gamecode.");
         } else {

@@ -94,6 +94,12 @@ public class GameplayScreenController extends Controller {
      * Initializes the grid with the cards that the players guess from.
      */
     public void initialize() {
+        //closing previous stage, if it exists
+        if(prevStage != null) {
+            prevStage.close();
+        }
+        
+        //setting up this stage
     	System.out.println("!!!!!!!!!!!!!!!! INITIALIZING GAMEPLAYSCREEN !!!!!!!!!!!!");
     	if(!cardsAdded) {
             int column = 0; //goes up to 7
@@ -584,14 +590,14 @@ public class GameplayScreenController extends Controller {
      * the button was on and therefore what screen to close.
      */
     public void quitGame(ActionEvent event) {
+        
+        //resetting all necessary data
         Stage thisStage = (Stage) ((Node) scoresBox).getScene().getWindow();
         gameStage = thisStage;
-        System.out.println("Quitting...");
         NewRoundScreenController.quitButtonPressed = true;
         PlayerGamecodeScreenController.setIsReady(false);
         cardsAdded = true;
-        
-        //Resetting player data and hashmap
+        game.setPlayer2Score(0);
         player.reset();
         resetHashmap();      
         
