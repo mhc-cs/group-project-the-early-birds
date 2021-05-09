@@ -91,8 +91,7 @@ public class PlayerGamecodeScreenController extends Controller {
             code = gamecode.getText();
             System.out.println("Entered gamecode: "+code);
             
-            Controller.getGame().setGameCode(code);
-            Controller.getGame().setStatus("S");
+
             Controller.network.send(new Join_Game("JOIN_GAME", 2, false, "J", code));
             Thread waitingThread = new Thread("Waiting Thread") {
                 public void run(){
