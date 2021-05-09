@@ -34,6 +34,7 @@ public class Game {
 	
 	//if welcome received
 	boolean receivedWelcome = false;
+	boolean badname = false;
 	
 	String winner = "";
 	
@@ -147,7 +148,44 @@ public class Game {
 		return false;
 	}
 	
-    /**
+	/**
+	 * Getter for recievedWelcome
+	 * @return true if recieved WELCOME message from server, false otherwise
+	 */
+	public Boolean welcomed() {
+		return receivedWelcome;
+	}
+	
+	/**
+	 * Getter for badname
+	 * @return true if badname error recieved, false otherwise
+	 */
+	public Boolean badname() {
+		return badname;
+	}
+	
+	public void setBadName(Boolean badname) {
+		this.badname = badname;
+	}
+
+	/**
+	 * Setter for gamecode
+	 * @param gamecode String representation of gamecode
+	 */
+	public void setGameCode(String gamecode) {
+		this.gamecode = gamecode;
+	}
+	
+	/**
+	 * Setter for status. Status will either be J (join) or S (start new game/host)
+	 * @param status String representation of whether gamecode is used to start a 
+	 * new room or join an existing one
+	 */
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+  /**
 	 * get player2 name
 	 * @return name
 	 */
@@ -173,8 +211,8 @@ public class Game {
 	}
 	
 	/**
-	 * Under construction
-	 * This will process incoming messages from the server that handle parts of the connection process
+	 * This will process and handle incoming messages from the server
+	 * @param msgs ArrayList of incoming messages
 	 * @param msgs ArrayList of incoming message
 	 */
 	public void process(ArrayList<Message> msgs) {
@@ -186,18 +224,23 @@ public class Game {
 			//Handles message sent from server when game connects to server
 			if (msg.getType().equals("HELLO")) {
 				System.out.println("Processed hello message");
-				Controller.network.send(new Hello("HELLO", player1.getName(), "guesswho"));
+//				Controller.network.send(new Hello("HELLO", player1.getName(), "guesswho"));
 			}
 			//Handles message sent from server when server receives hello message
 			else if (msg.getType().equals("WELCOME" )) {
 				System.out.println("Processed welcome message");
-				receivedWelcome = true;
+				this.receivedWelcome = true;
+				badname = false;
+				//TODO ??
+//				Controller.network.send(new Join_Game("JOIN_GAME", 2, false, status, gamecode));
 			}
 			//Handles error message sent at various stages of connection process
 			else if (msg.getType().equals("ERROR")) {
 				Error errorMsg = (Error) msg;
+				System.out.println("Recieved ERROR message" + errorMsg);
 				// sent from server if name is nonexistent or if it's a duplicate
 				if (errorMsg.getErr().equals("BADNAME")) {
+					badname = true;
 					System.out.println("Processed badname error");
 				}
 				// sent from server when someone tries to create a new game with
