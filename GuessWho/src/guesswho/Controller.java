@@ -6,11 +6,13 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import application.HostGamecodeScreenController;
 import javafx.application.Application;
 
 public class Controller extends Application {
     
     //The deck of Guess Who that the players will use.
+    //protected static Deck deck = HostGamecodeScreenController.chosenDeck;
     protected static Deck deck = new Deck();
 
     //The player using this computer.

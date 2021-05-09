@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import Messages.Join_Game;
 import guesswho.Controller;
+import guesswho.Deck;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -32,6 +34,9 @@ public class HostGamecodeScreenController extends Controller {
 
     @FXML
     private Label warning;
+    
+    @FXML
+    private ChoiceBox<Deck> deckOptions;
 
     private static String code;
 
@@ -45,7 +50,27 @@ public class HostGamecodeScreenController extends Controller {
     protected static GameplayScreenController controller;
 
     private static boolean runThread;
+    
+    /**
+     * The deck that was chosen in the drop down menu
+     */
+    public static Deck chosenDeck;
+    
+    
+    /**
+     * Initializes the deck drop down menu.
+     */
+    public void initialize() {
+        //Putting options in the list
+        Deck defaultDeck = new Deck();
+        deckOptions.getItems().addAll(defaultDeck, new Deck("Mount Holyoke", Deck.mountHolyokeNames)); 
+//                new Deck("Marvel"), 
+//                new Deck("Video Games"));
 
+        //Setting default deck as the default deck value
+        deckOptions.setValue(defaultDeck);
+    }
+    
     /**
      * Waiting for player screen. This shows when one player is in the room and
      * the other has not joined yet.
@@ -87,6 +112,9 @@ public class HostGamecodeScreenController extends Controller {
     public void continueButton(ActionEvent event) throws IOException {
         // TODO should only be able to continue when join has been received, need to
         // do error handling otherwise
+        chosenDeck = deckOptions.getValue();
+        
+        //Setting the previous stage to this stage so can be closed later
         Stage thisStage = (Stage) ((Node) warning).getScene().getWindow();
         Controller.setPrevStage(thisStage);
 

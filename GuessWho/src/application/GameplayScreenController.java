@@ -10,6 +10,7 @@ import Messages.Guess;
 import Messages.TurnUpdate;
 import guesswho.Card;
 import guesswho.Controller;
+import guesswho.Deck;
 import guesswho.Network;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
@@ -90,10 +91,13 @@ public class GameplayScreenController extends Controller {
     
     public static GameplayScreenController controller;
     
+    //private static Deck gameDeck = HostGamecodeScreenController.chosenDeck;
+    
     /**
      * Initializes the grid with the cards that the players guess from.
      */
     public void initialize() {
+
         //closing previous stage, if it exists
         if(prevStage != null) {
             prevStage.close();

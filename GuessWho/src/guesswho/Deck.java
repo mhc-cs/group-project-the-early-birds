@@ -20,8 +20,12 @@ public class Deck {
     //the list of cards in the deck
     private ArrayList<Card> deck;
     
+    private String name;
+    
     //List of names for default cards
     private String[] defaultNames = {"Jessica", "Ruby", "Thomas", "Fleur", "Sara", "Amir", "Lucy", "Hugo", "Alexandre", "Ayesha", "Lucas", "Adele", "Simon", "Antonio", "Edward", "Mateo", "Daniel", "Cameron", "Gabriel", "Amelia", "Diego", "Roberto", "Sofia", "Zoe"};
+    public static String[] mountHolyokeNames = {"a", "b", "c", "d", "e", "f", "g", "h", "l", "o", "m", "b", "t", "y", "r", "o", "y", "y", "u", "t", "r", "E", "w", "t"};
+    
     
     /**
      * Default Deck constructor
@@ -30,6 +34,8 @@ public class Deck {
     public Deck() {
         size = 24;
         deck = new ArrayList<Card>(size);
+        name = "Default";
+        
         for(int i = 0; i < size; i++) { //fill the deck until 24 cards
             deck.add(new Card((String)Array.get(defaultNames, i), "defaultImages/default" + i + ".png"));
         }
@@ -40,12 +46,17 @@ public class Deck {
      * Chosen Deck constructor
      * The size of the deck is the default 24.
      * @param name of deck
+     * @param cardNames list of cardNames
      */
-    public Deck(String name) {
+    public Deck(String name, String[] cardNames) {
         size = 24;
         deck = new ArrayList<Card>(size);
+        String nameNoSpaces = name.replaceAll("\\s", "");
+        this.name = name;
+        
         for(int i = 0; i < size; i++) { //fill the deck until 24 cards
-            deck.add(new Card((String)Array.get(name+"Names", i), "defaultImages/"+ name + i + ".png"));
+            deck.add(new Card((String)Array.get(cardNames, i), nameNoSpaces + "Images/" + nameNoSpaces + i + ".png"));
+            System.out.println((String)Array.get(cardNames, i) + nameNoSpaces + "Images/" + nameNoSpaces + i + ".png");
         }
     }
     
@@ -108,6 +119,10 @@ public class Deck {
      */
     public int getSize() {
         return size;
+    }
+    
+    public String toString() {
+        return name;
     }
 
 }
