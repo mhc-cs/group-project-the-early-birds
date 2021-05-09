@@ -15,7 +15,7 @@ import com.google.gson.JsonParser;
 import Messages.*;
 import Messages.Error;
 
-/*
+/**
  * Provides support methods to connect and communicate with the 
  * game server
  */
@@ -31,7 +31,7 @@ public class Network {
 	static BufferedReader in;
 	
 	
-	/*
+	/**
 	 * Network Constructor
 	 */
 	public Network() {
@@ -41,7 +41,7 @@ public class Network {
 	}
 	
 	
-	/*
+	/**
 	 * Connects to the game server
 	 */
 	public static boolean connect() {
@@ -79,7 +79,7 @@ public class Network {
 		outbuf.add( gson.toJson(data) + "\n");
 	}
 	
-	/*
+	/**
 	 * Closes the connection with the server
 	 */
 	public static void close() {
@@ -217,10 +217,6 @@ public class Network {
 		    					System.out.println("Ignored message from self of type "+ type);
 		    				}
 		    				
-	    				}
-	    				else if (TYPE.equals("\"GUESS\"")) {
-	    					System.out.println("GUESS: " + gson.fromJson(msgArray[j].trim(), Guess.class));
-	    					msgs.add(gson.fromJson(msgArray[j].trim(), Guess.class));
 	    				}
 	    				else {
 	    					System.out.println("OTHER: " + gson.fromJson(msgArray[j].trim(), Message.class));

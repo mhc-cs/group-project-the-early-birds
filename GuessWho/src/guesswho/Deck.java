@@ -13,12 +13,14 @@ import java.util.Random;
  *
  */
 public class Deck {
+	
     //number of cards in the deck
     private int size;
     
     //the list of cards in the deck
     private ArrayList<Card> deck;
     
+    //List of names for default cards
     private String[] defaultNames = {"Jessica", "Ruby", "Thomas", "Fleur", "Sara", "Amir", "Lucy", "Hugo", "Alexandre", "Ayesha", "Lucas", "Adele", "Simon", "Antonio", "Edward", "Mateo", "Daniel", "Cameron", "Gabriel", "Amelia", "Diego", "Roberto", "Sofia", "Zoe"};
     
     /**
@@ -33,6 +35,21 @@ public class Deck {
         }
     }
     
+    //TODO add decks?
+    /**
+     * Chosen Deck constructor
+     * The size of the deck is the default 24.
+     * @param name of deck
+     */
+    public Deck(String name) {
+        size = 24;
+        deck = new ArrayList<Card>(size);
+        for(int i = 0; i < size; i++) { //fill the deck until 24 cards
+            deck.add(new Card((String)Array.get(name+"Names", i), "defaultImages/"+ name + i + ".png"));
+        }
+    }
+    
+    //TODO Customize
     /**
      * Custom Deck constructor
      * @param deckSize number of cards in deck
@@ -45,10 +62,9 @@ public class Deck {
         }
     }
     
-    
+    //TODO customize
     /**
      * Adds a card to the deck
-     * 
      * @param card the card to add to the deck
      */
     public void addCard() {
@@ -56,6 +72,7 @@ public class Deck {
         deck.add(new Card("Card #"+size,"defaultImages/defaultNoImage.png"));
     }
     
+    //TODO customize
     /**
      * Removes a card from the deck
      * 
