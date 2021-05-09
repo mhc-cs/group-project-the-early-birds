@@ -16,8 +16,8 @@ import Messages.*;
 import Messages.Error;
 
 /*
- * Provides support methods to connect and communicate with the 
- * game server
+ * Manages the connection to the server including handling for
+ * messages received and sent and JSON parsing for messages
  */
 public class Network {
 	static Socket sock;
@@ -50,7 +50,8 @@ public class Network {
 		//add ability to connect to a different game server?
 		   System.out.println("Attempting to connect...");
 		try {
-			sock = new Socket("Sockette.net", 9878);
+			sock = new Socket("0.0.0.0", 9876);
+//			sock = new Socket("Sockette.net", 9878);
 			// get the output stream from the socket.
 	        OutputStream outputStream = sock.getOutputStream();
 	        // create a data output stream from the output stream so we can send data through it
@@ -161,7 +162,7 @@ public class Network {
     			JsonParser parser = new JsonParser();			
     			for (int j = 0; j  < msgArray.length;j++) {
     				if (!msgArray[j].trim().equals("")) {
-    					//System.out.println(msgArray[j].trim().toString());
+    					System.out.println(msgArray[j].trim().toString());
 	    				JsonElement jsonTree = parser.parse(msgArray[j].trim());
 	    				String TYPE = jsonTree.getAsJsonObject().get("TYPE").toString();
 	    				if (TYPE.equals("\"JOIN\"")) {

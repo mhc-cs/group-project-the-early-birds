@@ -1,22 +1,22 @@
 package Messages;
 
 public class Error extends Message{
-	private String err;
+	private String ERR;
 	
-	public Error(String TYPE, String err) {
+	public Error(String TYPE, String ERR) {
 		super(TYPE);
-		this.err = err;
+		this.ERR = ERR;
 	}
 	
 	public String getErr() {
-		return err;
+		return ERR;
 	}
 	
 	public void setErr(String err) {
-		this.err = err;
+		this.ERR = err;
 	}
 	
 	public String toString() {
-		return "Mine: {TYPE: " + TYPE + ", ERR: " + err + "}";
+		return "Mine: {TYPE: " + TYPE + ", ERR: " + this.ERR + "}";
 	}
 }
