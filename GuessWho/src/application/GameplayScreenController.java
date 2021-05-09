@@ -338,6 +338,7 @@ public class GameplayScreenController extends Controller {
             //set players turn to true? this might go in a different file
             turnCorrect=false;
             Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate",true)));
+            stopGuessingHelper();
 
         }
         
