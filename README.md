@@ -61,7 +61,7 @@ First, set up JavaFX:
 
 Then, set up GSON (from Dev)
 
-    Download gson-2.6.2.jar
+    Download gson-2.6.2.jar (https://repo1.maven.org/maven2/com/google/code/gson/gson/2.6.2/gson-2.6.2.jar)
 
     Add Gson to the buildpath: Build Path > Add External Archives, then select your jar file.
 
