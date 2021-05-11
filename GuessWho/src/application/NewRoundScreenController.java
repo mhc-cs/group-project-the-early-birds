@@ -83,7 +83,6 @@ public class NewRoundScreenController extends Controller {
                     }
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
-                    System.out.println("Thread was interrupted, Failed to complete operation");
                 }
             }
 
@@ -95,8 +94,6 @@ public class NewRoundScreenController extends Controller {
         }
         try {
             waitingForPlayer(window);
-            // TODO if abort connection doesn't close gameplayscreen from
-            // previous round
         } catch (IOException e) {
             e.printStackTrace();
         }
