@@ -57,10 +57,8 @@ public class HostGamecodeScreenController extends Controller {
      * Initializes the deck drop down menu.
      */
     public void initialize() {
-        //Putting options in the list
-        deckOptions.getItems().addAll("Default", "Avengers"); 
-//                new Deck("Marvel"), 
-//                new Deck("Video Games"));
+    	//Add more deck options to the list here
+        deckOptions.getItems().addAll("Default", "Avengers","Sonic"); 
 
         //Setting default deck as the default deck value
         deckOptions.setValue("Default");

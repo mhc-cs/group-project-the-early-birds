@@ -24,8 +24,14 @@ public class Deck {
     
     //List of names for default cards
     private String[] defaultNames = {"Jessica", "Ruby", "Thomas", "Fleur", "Sara", "Amir", "Lucy", "Hugo", "Alexandre", "Ayesha", "Lucas", "Adele", "Simon", "Antonio", "Edward", "Mateo", "Daniel", "Cameron", "Gabriel", "Amelia", "Diego", "Roberto", "Sofia", "Zoe"};
-    public static String[] mountHolyokeNames = {"a", "b", "c", "d", "e", "f", "g", "h", "l", "o", "m", "b", "t", "y", "r", "o", "y", "y", "u", "t", "r", "E", "w", "t"};
+    
+    //List of names for avengers deck
     private String[] avengersNames = {"Cap. America","Iron Man","Black Widow","Hulk","Thor","Hawkeye","Wanda","Vision","Fury","Falcon","Bucky","Loki","Rhodey","Dr. Strange","Wong","T'Challa","Shuri","Spiderman","Ned","Antman","Star-Lord","Groot","Gamora","Rocket"};
+    
+    //List of names for sonic deck
+    private String[] sonicNames = {"Sonic","Amy","Kuckles","Tails","Silver","Blaze","Charmy","Espio","Shadow","Cream","Cheese","Sally Acorn","Chip","Marine","Scourge","Fiona","Bean","Eggman","Mephiles","Rogue","Big","Gamma","Omega","Metal Sonic"};
+    
+    //Add more name lists for decks here
     
     /**
      * Default Deck constructor
@@ -41,7 +47,6 @@ public class Deck {
         }
     }
     
-    //TODO add decks?
     /**
      * Chosen Deck constructor
      * The size of the deck is the default 24.
@@ -59,7 +64,10 @@ public class Deck {
         else if(name.equals("avengers")) {
         	useNames = avengersNames;
         }
-        
+        else if(name.equals("sonic")) {
+        	useNames = sonicNames;
+        }
+        //add more else if cases for decks here
         for(int i = 0; i < size; i++) { //fill the deck until 24 cards
             deck.add(new Card((String)Array.get(useNames, i), "defaultImages/"+ name + i + ".png"));
         }
