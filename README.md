@@ -70,7 +70,7 @@ Then, set up GSON (from Dev)
     You may need to go into security settings to allow your computer to open this file
 
 ## Directory structure: 
-Our game has four main files: 
+Our Guesswho game has four main files: 
 
 Application: Contains files related to the UI including the fxml and css that draw the screens and screen controller files that regulate transitions between screens and button actions.
 
@@ -79,6 +79,14 @@ application.defaultImages: Contains the png files used in the game such as the c
 guesswho: Contains the java class files that control the game logic, including the Controller which contains the main method.
 
 Messages: Contains Message and its child classes which are used to properly store the information either translated from JSON messages or information that will be translated to a JSON message. 
+
+In addition, outside of our GuessWho game folder, we have:
+
+    A jar file that users can download to easily set up the game on their computer
+
+    Our server code which is currently running on Murphy's game server at "sockette.net", port number 9878
+
+    A basic tic-tac-toe game used to test the server functions if there's an issue
 ## Implemented functions:
 Host and player computers connect over the Internet.
 
