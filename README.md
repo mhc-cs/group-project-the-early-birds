@@ -82,11 +82,11 @@ Messages: Contains Message and its child classes which are used to properly stor
 
 In addition, outside of our GuessWho game folder, we have:
 
-    A jar file that users can download to easily set up the game on their computer
+- A jar file that users can download to easily set up the game on their computer
 
-    Our server code which is currently running on Murphy's game server at "sockette.net", port number 9878
+- Our server code which is currently running on Murphy's game server at "sockette.net", port number 9878
 
-    A basic tic-tac-toe game used to test the server functions if there's an issue
+- A basic tic-tac-toe game used to test the server functions if there's an issue
 ## Implemented functions:
 Host and player computers connect over the Internet.
 
