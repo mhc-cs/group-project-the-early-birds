@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import Messages.Join_Game;
 import guesswho.Controller;
-import guesswho.Deck;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

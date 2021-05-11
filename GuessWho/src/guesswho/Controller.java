@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import application.HostGamecodeScreenController;
 import javafx.application.Application;
 
 /**
@@ -19,7 +18,6 @@ import javafx.application.Application;
 public class Controller extends Application {
     
     //The deck of Guess Who that the players will use.
-    //protected static Deck deck = HostGamecodeScreenController.chosenDeck;
     protected static Deck deck = new Deck();
 
     //The player using this computer.
@@ -117,7 +115,6 @@ public class Controller extends Application {
         });  
     }
     
-    @SuppressWarnings("deprecation") //TODO
 	public static void main(String[] args) {
     	Thread networkThread = new Thread("Network Thread") {
     	      public void run(){
@@ -138,6 +135,6 @@ public class Controller extends Application {
         launch(args); //blocking
         //when application closes, stop network thread
         System.out.println("Closing Guess Who...");
-        networkThread.stop();
+        networkThread = null;
     }
 }
