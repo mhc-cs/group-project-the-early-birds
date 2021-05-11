@@ -25,7 +25,7 @@ public class Deck {
     //List of names for default cards
     private String[] defaultNames = {"Jessica", "Ruby", "Thomas", "Fleur", "Sara", "Amir", "Lucy", "Hugo", "Alexandre", "Ayesha", "Lucas", "Adele", "Simon", "Antonio", "Edward", "Mateo", "Daniel", "Cameron", "Gabriel", "Amelia", "Diego", "Roberto", "Sofia", "Zoe"};
     public static String[] mountHolyokeNames = {"a", "b", "c", "d", "e", "f", "g", "h", "l", "o", "m", "b", "t", "y", "r", "o", "y", "y", "u", "t", "r", "E", "w", "t"};
-    private String[] avengersNames = {"Cap. America","Iron Man","Black Widow","Hulk","Thor","Hawkeye","Wanda","Vision","Fury","Falcon","Bucky","Loki","Rhodey","Dr. Strange","Wong","T'Challa","Shuri","Spiderman","Ned","Scott","Antman","Star-Lord","Groot","Gamora","Rocket"};
+    private String[] avengersNames = {"Cap. America","Iron Man","Black Widow","Hulk","Thor","Hawkeye","Wanda","Vision","Fury","Falcon","Bucky","Loki","Rhodey","Dr. Strange","Wong","T'Challa","Shuri","Spiderman","Ned","Antman","Star-Lord","Groot","Gamora","Rocket"};
     
     /**
      * Default Deck constructor
