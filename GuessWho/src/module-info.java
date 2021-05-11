@@ -1,4 +1,4 @@
-module guesswho {
+module GuessWho {
     exports guesswho;
     exports Messages;
     exports application;
