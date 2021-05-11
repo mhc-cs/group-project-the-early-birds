@@ -45,7 +45,8 @@ public class WaitingForPlayersController {
     public void closeDialog(ActionEvent event) {
         Stage stage = (Stage) close.getScene().getWindow();
         stage.close();
-
+        
+        Controller.cardsAdded = false;
         HostGamecodeScreenController.setRunThread(false);
         PlayerGamecodeScreenController.setRunThread(false);
         NewRoundScreenController.setRunThread(false);
