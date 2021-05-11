@@ -285,6 +285,10 @@ public class GameplayScreenController extends Controller {
         enableButtons();
         guessing = false;
         
+        if(cardsAdded) {
+            setNames();
+        }
+        
     }
     
     /**
@@ -597,7 +601,7 @@ public class GameplayScreenController extends Controller {
         cardsAdded = true;
         game.setPlayer2Score(0);
         player.reset();
-        resetHashmap();      
+        resetHashmap();
         
         Network.close();
         //Going to invite players screen
@@ -750,6 +754,22 @@ public class GameplayScreenController extends Controller {
         Image image = new Image(cardPath);
         yourCard.setImage(image);
         yourCardName.setText(card.getName());
+    }
+    
+    /**
+     * Resets the name of every image, in case customization was used.
+     */
+    private void setNames() {
+        int i = 0;
+        ListIterator<javafx.scene.Node> iterator = cardGrid.getChildren().listIterator(0);
+        while(iterator.hasNext()) {
+            //sets the name of every image
+            Node next = iterator.next();
+            if(next instanceof Label) {
+                ((Label)next).setText(deck.getCard(i).getName());
+                i++;
+            }
+        }
     }
    
 }

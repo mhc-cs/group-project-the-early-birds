@@ -29,7 +29,7 @@ public class Deck {
     private String[] avengersNames = {"Cap. America","Iron Man","Black Widow","Hulk","Thor","Hawkeye","Wanda","Vision","Fury","Falcon","Bucky","Loki","Rhodey","Dr. Strange","Wong","T'Challa","Shuri","Spiderman","Ned","Antman","Star-Lord","Groot","Gamora","Rocket"};
     
     //List of names for sonic deck
-    private String[] sonicNames = {"Sonic","Amy","Kuckles","Tails","Silver","Blaze","Charmy","Espio","Shadow","Cream","Cheese","Sally Acorn","Chip","Marine","Scourge","Fiona","Bean","Eggman","Mephiles","Rogue","Big","Gamma","Omega","Metal Sonic"};
+    private String[] sonicNames = {"Sonic","Amy","Knuckles","Tails","Silver","Blaze","Charmy","Espio","Shadow","Cream","Cheese","Sally Acorn","Chip","Marine","Scourge","Fiona","Bean","Eggman","Mephiles","Rogue","Big","Gamma","Omega","Metal Sonic"};
     
     //Add more name lists for decks here
     
