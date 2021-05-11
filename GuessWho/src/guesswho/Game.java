@@ -63,7 +63,7 @@ public class Game {
 			player1.setCard(c1);
 			player2Card = c2;
 			//send to other player
-			Controller.network.send(new Data("DATA",new Cards("cards", c1, c2)));
+			Controller.network.send(new Data("DATA",new Cards("cards", c1, c2,deck.getName())));
 		}
 	}
 	
@@ -202,6 +202,30 @@ public class Game {
 	}
 	
 	/**
+	 * get name of deck
+	 * @return deck name
+	 */
+	public String getDeckName() {
+		return deck.getName();
+	}
+	
+	/**
+	 * set deck
+	 * @param name of deck
+	 */
+	public void setDeck(String name) {
+		this.deck = new Deck(name);
+	}
+	
+	/**
+	 * get deck
+	 * @return deck
+	 */
+	public Deck getDeck() {
+		return this.deck;
+	}
+	
+	/**
 	 * This will process and handle incoming messages from the server
 	 * @param msgs ArrayList of incoming messages
 	 * @param msgs ArrayList of incoming message
@@ -274,6 +298,10 @@ public class Game {
 			//Handles message from host when drawing cards
 			else if (msg.getType().equals("cards")) {
 				System.out.println("Processed Cards message");
+				if(!deck.getName().equals(((Cards)msg).getDeck())) {
+					this.deck = new Deck(((Cards)msg).getDeck());
+					Controller.setDeck(deck);
+				}
 				player2Card = ((Cards)msg).getMyCard();
 				player1.setCard(((Cards)msg).getYourCard());
 				PlayerGamecodeScreenController.setIsReady(true);

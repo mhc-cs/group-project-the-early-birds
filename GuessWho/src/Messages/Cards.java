@@ -18,16 +18,21 @@ public class Cards extends Message{
 	//Card drawn for player receiving the message
 	private Card yourCard;
 	
+	//Name of the deck the cards are from
+	private String deck;
+	
 	/**
 	 * Cards Message Constructor
 	 * @param TYPE (should be 'cards')
 	 * @param myCard
 	 * @param yourCard
+	 * @param deck
 	 */
-	public Cards(String TYPE, Card myCard, Card yourCard) {
+	public Cards(String TYPE, Card myCard, Card yourCard, String deck) {
 		super(TYPE);
 		this.myCard = myCard;
 		this.yourCard = yourCard;
+		this.deck = deck;
 	}
 	
 	/**
@@ -60,6 +65,22 @@ public class Cards extends Message{
 	 */
 	public void setYourCard(Card yourCard) {
 		this.yourCard = yourCard;
+	}
+	
+	/**
+	 * get deck
+	 * @return deck
+	 */
+	public String getDeck() {
+		return deck;
+	}
+	
+	/**
+	 * set deck
+	 * @param deck
+	 */
+	public void setDeck(String deck) {
+		this.deck = deck;
 	}
 	
 	/**

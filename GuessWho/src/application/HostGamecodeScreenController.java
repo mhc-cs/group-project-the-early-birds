@@ -51,10 +51,6 @@ public class HostGamecodeScreenController extends Controller {
 
     private static boolean runThread;
     
-    /**
-     * The deck that was chosen in the drop down menu
-     */
-    public static Deck chosenDeck;
     
     
     /**
@@ -62,13 +58,12 @@ public class HostGamecodeScreenController extends Controller {
      */
     public void initialize() {
         //Putting options in the list
-        Deck defaultDeck = new Deck();
         deckOptions.getItems().addAll("Default", "Avengers"); 
 //                new Deck("Marvel"), 
 //                new Deck("Video Games"));
 
         //Setting default deck as the default deck value
-        deckOptions.setValue(defaultDeck);
+        deckOptions.setValue("Default");
     }
     
     /**
@@ -112,7 +107,11 @@ public class HostGamecodeScreenController extends Controller {
     public void continueButton(ActionEvent event) throws IOException {
         // TODO should only be able to continue when join has been received, need to
         // do error handling otherwise
-        chosenDeck = deckOptions.getValue();
+    	String myDeck = deckOptions.getValue().toLowerCase();
+    	if(!game.getDeckName().equals(myDeck)) {
+    		game.setDeck(myDeck);
+    		Controller.setDeck(game.getDeck());
+    	}
         
         //Setting the previous stage to this stage so can be closed later
         Stage thisStage = (Stage) ((Node) warning).getScene().getWindow();

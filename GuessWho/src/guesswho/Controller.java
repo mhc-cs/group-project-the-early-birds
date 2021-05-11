@@ -84,6 +84,14 @@ public class Controller extends Application {
     }
     
     /**
+     * set deck
+     * @param deck
+     */
+    public static void setDeck(Deck d) {
+    	deck = d;
+    }
+    
+    /**
      * Allows the screen to be dragged.
      * Subtracts where the mouse is when you click on the stage
      * from where it is after you start dragging the mouse and sets 

@@ -52,9 +52,16 @@ public class Deck {
         size = 24;
         deck = new ArrayList<Card>(size);
         this.name = name;
+        String[] useNames = null;
+        if(name.equals("default")) {
+        	useNames = defaultNames;
+        }
+        else if(name.equals("avengers")) {
+        	useNames = avengersNames;
+        }
         
         for(int i = 0; i < size; i++) { //fill the deck until 24 cards
-            deck.add(new Card((String)Array.get(name+"Names", i), "defaultImages/"+ name + i + ".png"));
+            deck.add(new Card((String)Array.get(useNames, i), "defaultImages/"+ name + i + ".png"));
         }
     }
     
@@ -117,6 +124,14 @@ public class Deck {
      */
     public int getSize() {
         return size;
+    }
+    
+    /**
+     * get deck name
+     * @return name
+     */
+    public String getName() {
+    	return name;
     }
     
     public String toString() {
