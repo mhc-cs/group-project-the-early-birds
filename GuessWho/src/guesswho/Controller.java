@@ -113,13 +113,14 @@ public class Controller extends Application {
     	  			}
     	  		} catch (InterruptedException e) {
     	  			Thread.currentThread().interrupt();
-          		System.out.println("Network thread was interrupted, Failed to complete operation");
     	  		}
     	      }
     	   };
+    	System.out.println("Starting Guess Who...");
     	networkThread.start();
         launch(args); //blocking
         //when application closes, stop network thread
+        System.out.println("Closing Guess Who...");
         networkThread.stop();
     }
 }
