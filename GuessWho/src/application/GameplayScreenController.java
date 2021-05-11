@@ -81,20 +81,33 @@ public class GameplayScreenController extends Controller {
     @FXML
     private TextArea chatArea;
     
+    /**
+     * The ID of the image that is guessed
+     */
     public static int guessedId;
     
     private static String message;
     
+    /**
+     * Whether the turn buttons' disabled/enabled attribute and the player's turn match up correctly
+     */
     public static boolean turnCorrect;
     
+    /**
+     * The guess that the player made
+     */
     public static Guess guess = null;
     
+    /**
+     * This instance of the gameplay screen controller
+     */
     public static GameplayScreenController controller;
     
     //private static Deck gameDeck = HostGamecodeScreenController.chosenDeck;
     
     /**
-     * Initializes the grid with the cards that the players guess from.
+     * Initializes the grid with the cards that the players guess from,
+     * the guess and turn buttons, the player's card, and the chat area.
      */
     public void initialize() {
 
@@ -104,7 +117,6 @@ public class GameplayScreenController extends Controller {
         }
         
         //setting up this stage
-    	System.out.println("!!!!!!!!!!!!!!!! INITIALIZING GAMEPLAYSCREEN !!!!!!!!!!!!");
     	if(!cardsAdded) {
             int column = 0; //goes up to 7
             int row = 0; //3 rows of faces
@@ -125,7 +137,6 @@ public class GameplayScreenController extends Controller {
                 // When clicked on, can be greyed out (and un-greyed out)
                 final int imageId = i;
                 greyedOutCards.put(imageId, deck.getCard(i).getGrey());
-                //System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + greyedOutCards.get(imageId));
                 imageView.setOnMouseClicked(e -> greyOut(imageView, imageId));    
                 
                 // Adding to grid
@@ -246,20 +257,6 @@ public class GameplayScreenController extends Controller {
             	        	if(guess.getCorrect()) {
             	        		//open newRound screen
             	        		try {
-//            	                    //Loads the new screen
-//            	                    Parent newRoundParent = FXMLLoader.load(getClass().getResource("NewRoundScreen.fxml"));
-//            	                    Scene newRoundScene = new Scene(newRoundParent);
-//            	                    
-//            	                    //Finds the previous screen and switches off of it
-//            	                    Stage appStage = (Stage) guessButton.getScene().getWindow();
-//            	                    appStage.setScene(newRoundScene);
-//            	                    appStage.centerOnScreen();
-//            	                    
-//            	                  //Allows it to be dragged
-//            	                    dragScreen(newRoundScene, appStage);
-//            	                    
-//            	                    //Shows the new screen
-//            	                    appStage.show();
             	                    openNewRoundWindow();
             	                } catch (IOException e) {
             	                    e.printStackTrace();
@@ -323,10 +320,7 @@ public class GameplayScreenController extends Controller {
         	//This case should never be reached
             //if not their turn
             turn.setText("It is your turn \nto ask a question.");
-            System.out.println("^^^^^^^^^^^^^^^^^^^^ 1 " + endTurn.isDisabled());
             enableButtons();
-            System.out.println("^^^^^^^^^^^^^^^^^^^^ 2 " + endTurn.isDisabled());
-            System.out.println("TURN BUTTON 1 ################# "+player.getTurn());
             
             //turnCorrect=false;
 
@@ -334,11 +328,8 @@ public class GameplayScreenController extends Controller {
         	//TODO
         	// this case should be when receiving a message from the server
             turn.setText("It is the other \nplayer's turn to \nask a question.");
-            System.out.println("^^^^^^^^^^^^^^^^^^^^ 1 " + endTurn.isDisabled());
             disableButtons();
-            System.out.println("^^^^^^^^^^^^^^^^^^^^ 2 " + endTurn.isDisabled());
             game.endTurn();
-            System.out.println("TURN BUTTON 2 ################# "+player.getTurn());
             //set players turn to true? this might go in a different file
             turnCorrect=false;
             Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate",true)));
@@ -348,23 +339,25 @@ public class GameplayScreenController extends Controller {
         
     }
     
+    /**
+     * Starts the player's turn.
+     */
     public void startTurn() {
     	//TODO
         turn.setText("It is your turn \nto ask a question.");
         enableButtons();
-        System.out.println("TURN START ################# "+player.getTurn());
         turnCorrect=true;
         Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate",false)));
 
     }
     
+    /**
+     * Ends the player's turn.
+     */
     public void turnEnd() {
     	turn.setText("It is the other \nplayer's turn to \nask a question.");
     	//THIS IS BEING CALLED BUT NOT WORKING!!!
-    	System.out.println("turnend^^^^^^^^^^^^^^^^^^^^ 1 " + endTurn.isDisabled());
         disableButtons();
-        System.out.println("turnend^^^^^^^^^^^^^^^^^^^^ 2 " + endTurn.isDisabled());
-        System.out.println("TURN THREAD ################# "+player.getTurn());
         turnCorrect=true;
     }
     
@@ -652,11 +645,10 @@ public class GameplayScreenController extends Controller {
     }
     
     /**
-     * 
+     * Called when user presses enter inside the chatbox. Puts what they
+     * typed into the chat
      */
-    public void chat() { 
-        //Called when user presses enter inside the chatbox. Puts what they
-        //typed into the chat
+    public void chat() {
         String msg = chatInput.getText();
         Controller.network.send(new Data("DATA",new Chat("chat",msg)));
         chatArea.appendText(player.getName() + ": " + msg + "\n");
@@ -691,33 +683,60 @@ public class GameplayScreenController extends Controller {
         
     }
     
+    /**
+     * Receives a message.
+     * @param msg the message to be received.
+     */
     public static void receiveMsg(String msg) {
     	message = msg;
     }
-        
+    
+    /**
+     * Sets the turnCorrect value.
+     * @param turn The value to set it to
+     */
     public static void setTurnCorrect(boolean turn) {
     	turnCorrect = turn;
     }
     
+    /**
+     * Sets the controller instance.
+     * @param cont the instance to set it to.
+     */
     public void setController(GameplayScreenController cont) {
         controller = cont;
     }
     
+    /**
+     * Gets the current controller instance.
+     * @return The current controller instance.
+     */
     public static GameplayScreenController getController() {
         return controller;
     }
     
+    /**
+     * Sets the guess value.
+     * @param g The guess to set it to
+     */
     public static void setGuess(Guess g) {
     	guess = g;
     }
 
-    
+    /**
+     * Adds messages to the chat.
+     * @param msg The message to add to the chat.
+     */
     public static void add_hist(String msg) {
     	controller.chatArea.appendText(player.getName() + ": " + msg + "\n");
     	Controller.network.send(new Data("DATA",new Chat("chat",msg)));
 
     }
     
+    /**
+     * Sends a message from "SERVER"
+     * @param msg the message to send
+     */
     public static void serverMsg(String msg) {
     	controller.chatArea.appendText("SERVER: "+msg+"\n");
     }

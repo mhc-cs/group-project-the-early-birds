@@ -119,7 +119,6 @@ public class HostGamecodeScreenController extends Controller {
             warning.setText("Please enter a gamecode.");
         } else {
             code = gamecode.getText();
-            System.out.println("Entered gamecode: " + code);
 
             Controller.network.send(new Join_Game("JOIN_GAME", 2, false, "S", code));
             Thread waitingThread = new Thread("Waiting Thread") {
@@ -166,7 +165,6 @@ public class HostGamecodeScreenController extends Controller {
                         }
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
-                        System.out.println("Thread was interrupted, Failed to complete operation");
                     }
                 }
             };

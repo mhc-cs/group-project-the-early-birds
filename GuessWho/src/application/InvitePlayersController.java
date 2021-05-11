@@ -56,11 +56,6 @@ public class InvitePlayersController extends Controller {
                     .send(new Hello("HELLO", player.getName(), "guesswho"));
             game.setBadName(false);
             if (game.welcomed() == false) {
-                System.out.println("Starting loop");
-                System.out.println("Not welcomed yet");
-                if (game.welcomed() == false) {
-                    System.out.println("Starting loop");
-                    warning.setText("Waiting for server confirmation.");
                     try {
                         Thread.sleep(2000);
                         if (game.badname()) {
@@ -70,9 +65,6 @@ public class InvitePlayersController extends Controller {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
-                    System.out.println("out of loop");
-                }
             }
         }
         if (game.welcomed() == true) {
@@ -124,7 +116,6 @@ public class InvitePlayersController extends Controller {
                     .send(new Hello("HELLO", player.getName(), "guesswho"));
             game.setBadName(false);
             if (game.welcomed() == false) {
-                System.out.println("Starting loop");
                 warning.setText("Waiting for server confirmation.");
                 try {
                     Thread.sleep(2000);
@@ -134,8 +125,6 @@ public class InvitePlayersController extends Controller {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-                System.out.println("out of loop");
             }
             if (game.welcomed() == true) {
 //                player.setName(playerName.getText());

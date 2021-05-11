@@ -16,6 +16,7 @@ import Messages.*;
 import Messages.Error;
 
 /*
+ * Network
  * Manages the connection to the server including handling for
  * messages received and sent and JSON parsing for messages
  */
@@ -75,7 +76,6 @@ public class Network {
 	 * Adds data to be sent to the out buffer
 	 */
 	public void send(Message data) {
-		System.out.println("Sending: " + data);
 		Gson gson = new Gson();
 		outbuf.add( gson.toJson(data) + "\n");
 	}
@@ -103,7 +103,6 @@ public class Network {
 	 */
 	public ArrayList<Message> do_communication() {		
 		msgs = new ArrayList<Message>();
-		System.out.println("Do Communication is running");
 		if (sock == null) {
 			return msgs;
 		}
@@ -121,8 +120,6 @@ public class Network {
 				} catch (UnsupportedEncodingException e1) {
 					e1.printStackTrace();
 				}
-			
-				System.out.println("Trying to send to server");
 				try {
 					sock.setSoTimeout(1);
 					 //remember how much is sent, then make the outbuffer the remainder
@@ -138,12 +135,10 @@ public class Network {
 			}
 			
 			 outbuf = new ArrayList<String>();
-		     System.out.println("Sent to server");
 		}
 		//receive message from server
 		try {
 			sock.setSoTimeout(2);
-			System.out.println("Trying to receive from server");
 	        // create a DataInputStream so we can read data from it.
 	        DataInputStream dataInputStream = new DataInputStream(inputStream);
 	        byte[] bytes = new byte[1000];
@@ -155,30 +150,24 @@ public class Network {
 	        String temp = new String(bytes);
         	inbuf = temp;
         	if (inbuf.trim().length() > 0) {
-        		System.out.println("*******************MESSAGE RECEIVED*********************");
         		String[] msgArray;
         		msgArray = inbuf.split("\n");
     			Gson gson = new Gson();
     			JsonParser parser = new JsonParser();			
     			for (int j = 0; j  < msgArray.length;j++) {
     				if (!msgArray[j].trim().equals("")) {
-    					System.out.println(msgArray[j].trim().toString());
 	    				JsonElement jsonTree = parser.parse(msgArray[j].trim());
 	    				String TYPE = jsonTree.getAsJsonObject().get("TYPE").toString();
 	    				if (TYPE.equals("\"JOIN\"")) {
-	    					System.out.println("JOIN: " + gson.fromJson(msgArray[j].trim(), Join.class));
 	    					msgs.add(gson.fromJson(msgArray[j].trim(), Join.class));
 	    				}
 	    				else if (TYPE.equals("\"LEAVE\"")) {
-	    					System.out.println("LEAVE: " + gson.fromJson(msgArray[j].trim(), Leave.class));
 	    					msgs.add(gson.fromJson(msgArray[j].trim(), Leave.class));
 	    				}
 	    				else if (TYPE.equals("\"ROOM_STATUS\"")) {
-	    					System.out.println("ROOM_STATUS:" + gson.fromJson(msgArray[j].trim(), Room_Status.class));
 	    					msgs.add(gson.fromJson(msgArray[j].trim(), Room_Status.class));
 	    				}
 	    				else if (TYPE.equals("\"ERROR\"")) {
-	    					System.out.println("ERROR:" + gson.fromJson(msgArray[j].trim(), Error.class));
 	    					msgs.add(gson.fromJson(msgArray[j].trim(), Error.class));
 	    				}
 	    				else if (TYPE.equals("\"DATA\"")) {
@@ -188,48 +177,35 @@ public class Network {
 		    				JsonElement msg2 = jsonTree.getAsJsonObject().get("msg");
 	    					String type = msg2.getAsJsonObject().get("TYPE").toString();
 		    				if (!Sender.equals(name)) {
-		    					System.out.println("#################################### Recieved message from other player of type "+ type);
 		    					if (type.equals("\"cards\"")) {
-		    						System.out.println("DATA: cards:" + gson.fromJson(msg2, Cards.class));
 			    					msgs.add(gson.fromJson(msg2, Cards.class));
 		    					}
 		    					else if (type.equals("\"redraw\"")) {
-		    						System.out.println("DATA: redraw:" + gson.fromJson(msg2, Message.class));
 			    					msgs.add(gson.fromJson(msg2, Message.class));
 		    					}
 		    					else if (type.equals("\"continue\"")) {
-		    						System.out.println("DATA: continue:" + gson.fromJson(msg2, Message.class));
 			    					msgs.add(gson.fromJson(msg2, Message.class));
 		    					}
 		    					else if (type.equals("\"turnUpdate\"")) {
-		    						System.out.println("DATA: turnUpdate:" + gson.fromJson(msg2, TurnUpdate.class));
 			    					msgs.add(gson.fromJson(msg2, TurnUpdate.class));
 		    					}
 		    					else if (type.equals("\"guess\"")) {
-		    						System.out.println("DATA: guess:" + gson.fromJson(msg2, Guess.class));
 			    					msgs.add(gson.fromJson(msg2, Guess.class));
 		    					}
 		    					else if (type.equals("\"chat\"")) {
-		    						System.out.println("DATA: chat:" + gson.fromJson(msg2, Chat.class));
 			    					msgs.add(gson.fromJson(msg2, Chat.class));
 		    					}
-		    				}
-		    				else {
-		    					System.out.println("Ignored message from self of type "+ type);
 		    				}
 		    				
 	    				}
 	    				else {
-	    					System.out.println("OTHER: " + gson.fromJson(msgArray[j].trim(), Message.class));
 	    					msgs.add(gson.fromJson(msgArray[j].trim(), Message.class));
 	    				}
     				}
     			}
-    			System.out.println("Received from server");
         	}
 		}
 		catch (Exception e) {
-			System.out.println("Tried to receive from server");
 			e.printStackTrace();
 		}
 		inbuf = "";

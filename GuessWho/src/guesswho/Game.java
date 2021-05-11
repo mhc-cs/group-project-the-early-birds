@@ -10,8 +10,7 @@ import application.NewRoundScreenController;
 import application.PlayerGamecodeScreenController;
 
 /**
- * Game
- * has a deck and player with functions for game actions
+ * Manages game logic, player information and actions, and the card desk
  * @author Hannah, Dani, Anna
  *
  */
@@ -91,12 +90,10 @@ public class Game {
 		    	player1.setTurn(true);
 		    	//tell other player to set turn false
 		    	Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate", false)));
-		    	System.out.println("%%%%%%%%%%%%%%%% Player 1 goes first %%%%%%%%%%%%%%%");
 		    } else {
 		    	//tell other player to set turn true
 		    	Controller.network.send(new Data("DATA", new TurnUpdate("turnUpdate", true)));
 		    	player1.setTurn(false);
-		    	System.out.println("%%%%%%%%%%%%%%%% Player 2 goes first %%%%%%%%%%%%%%%");
 
 		    }
 		}
@@ -130,7 +127,6 @@ public class Game {
 	 */
 	public boolean guess(Card c) {
 		if (player1.getTurn()){
-			System.out.println("***********GUESS********** guess: "+ c +" correct: "+player2Card);
 			if(c.getName().equals(player2Card.getName())) {
 				player1.incScore();
 				//send message that score updated and player wins
@@ -238,12 +234,10 @@ public class Game {
 			Message msg = msgs.get(i);
 			//Handles message sent from server when game connects to server
 			if (msg.getType().equals("HELLO")) {
-				System.out.println("Processed hello message");
 //				Controller.network.send(new Hello("HELLO", player1.getName(), "guesswho"));
 			}
 			//Handles message sent from server when server receives hello message
 			else if (msg.getType().equals("WELCOME" )) {
-				System.out.println("Processed welcome message");
 				this.receivedWelcome = true;
 				badname = false;
 				//TODO ??
@@ -252,41 +246,33 @@ public class Game {
 			//Handles error message sent at various stages of connection process
 			else if (msg.getType().equals("ERROR")) {
 				Error errorMsg = (Error) msg;
-				System.out.println("Recieved ERROR message" + errorMsg);
 				// sent from server if name is nonexistent or if it's a duplicate
 				if (errorMsg.getErr().equals("BADNAME")) {
 					badname = true;
-					System.out.println("Processed badname error");
 				}
 				// sent from server when someone tries to create a new game with
 				//a code that already is in use for a game in wait_rooms
 				if (errorMsg.getErr().equals("REPEATCODE")) {
-					System.out.println("Processed Repeat Code error");
 				}
 				//sent from server when user joins with invalid code
 				if (errorMsg.getErr().equals("BADCODE")) {
-					System.out.println("Processed badcode error");
 				}
 				// sent from server if status sent is not J or S
 				if (errorMsg.getErr().equals("BADSTATUS")) {
-					System.out.println("Processed badstatus error");
 				}	
 			}
 			//Handles message sent when someone leaves the room
 			else if (msg.getType().equals("LEAVE")) {
-				System.out.println("Processed Leave");
 				Leave LeaveMsg = (Leave) msg;
 				GameplayScreenController.serverMsg(LeaveMsg.getUser()+" has left the game.");
 			}
 			//Handles message sent when someone joins the room
 			else if (msg.getType().equals("JOIN")) {
-				System.out.println("Processed Join");
 				//Join joinMsg = (Join) msg;
 				//No functionality needed when receive join message
 			}
 			//Handles room status update
 			else if (msg.getType().equals("ROOM_STATUS")) {
-				System.out.println("Processed Room_Status");
 				Room_Status roomMsg = (Room_Status) msg;
 				for (String name:roomMsg.getUsers()) {
 					if (!name.equals(player1.getName())) {
@@ -297,7 +283,6 @@ public class Game {
 			}
 			//Handles message from host when drawing cards
 			else if (msg.getType().equals("cards")) {
-				System.out.println("Processed Cards message");
 				if(!deck.getName().equals(((Cards)msg).getDeck())) {
 					this.deck = new Deck(((Cards)msg).getDeck());
 					Controller.setDeck(deck);
@@ -310,23 +295,19 @@ public class Game {
 			//TODO REDRAW
 			//Handles message from player2 requesting redraw
 			else if (msg.getType().equals("redraw")) {
-				System.out.println("Processed Redraw Message");
 				drawCards();
 			}
 			//Handles continue message
 			else if (msg.getType().equals("continue")) {
-				System.out.println("Processed Continue Message");
 				NewRoundScreenController.setIsReady(true);
 			}
 			//Handles turn updates
 			else if (msg.getType().equals("turnUpdate")) {
-				System.out.println("Processed TurnUpdate Message");
 				player1.setTurn(((TurnUpdate)msg).getYourTurn());
 				GameplayScreenController.setTurnCorrect(false);
 			}
 			//Handles guesses
 			else if (msg.getType().equals("guess")) {
-				System.out.println("Processed Guess Message");
 				if (((Guess)msg).getCorrect()) {
 					winner = player2Name;
 					player2Score = ((Guess)msg).getScore();
@@ -335,12 +316,7 @@ public class Game {
 			}
 			//Handles chat messages
 			else if (msg.getType().equals("chat")) {
-				System.out.println("Processed Chat Message");
 				GameplayScreenController.receiveMsg(((Chat)msg).getEntrytext());
-			}
-			//Handles any messages not provided with special handling
-			else {
-				System.out.println("Unprocessed message: " + msg);
 			}
 		}
 	}
