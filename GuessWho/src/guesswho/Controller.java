@@ -8,14 +8,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.application.Application;
 
-/**
- * Controller
- * Contains the main method to run the game and the thread to
- * communicate with the server. 
- * @author Hannah, Dani, Anna
- *
- */
-
 public class Controller extends Application {
     
     //The deck of Guess Who that the players will use.
