@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import Messages.Join_Game;
 import guesswho.Controller;
+import guesswho.Deck;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -32,6 +34,9 @@ public class HostGamecodeScreenController extends Controller {
 
     @FXML
     private Label warning;
+    
+    @FXML
+    private ChoiceBox<String> deckOptions;
 
     private static String code;
 
@@ -45,7 +50,20 @@ public class HostGamecodeScreenController extends Controller {
     protected static GameplayScreenController controller;
 
     private static boolean runThread;
+    
+    
+    
+    /**
+     * Initializes the deck drop down menu.
+     */
+    public void initialize() {
+    	//Add more deck options to the list here
+        deckOptions.getItems().addAll("Default", "Avengers","Sonic"); 
 
+        //Setting default deck as the default deck value
+        deckOptions.setValue("Default");
+    }
+    
     /**
      * Waiting for player screen. This shows when one player is in the room and
      * the other has not joined yet.
@@ -87,6 +105,13 @@ public class HostGamecodeScreenController extends Controller {
     public void continueButton(ActionEvent event) throws IOException {
         // TODO should only be able to continue when join has been received, need to
         // do error handling otherwise
+    	String myDeck = deckOptions.getValue().toLowerCase();
+    	if(!game.getDeckName().equals(myDeck)) {
+    		game.setDeck(myDeck);
+    		Controller.setDeck(game.getDeck());
+    	}
+        
+        //Setting the previous stage to this stage so can be closed later
         Stage thisStage = (Stage) ((Node) warning).getScene().getWindow();
         Controller.setPrevStage(thisStage);
 

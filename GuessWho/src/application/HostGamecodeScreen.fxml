@@ -12,6 +12,8 @@
 		textAlignment="CENTER"/>
 	<TextField fx:id="gamecode"></TextField>
 	<Label fx:id="warning" id="warning"/>
+	<Label id="title" text="Choose your deck"/>
+	<ChoiceBox fx:id="deckOptions"/>
 	<Button id="continue" text="Continue" onAction="#continueButton"/>
 	<Button id="back" text="Go back" onAction="#goBack"/>
 </VBox>
