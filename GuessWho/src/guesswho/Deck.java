@@ -40,7 +40,7 @@ public class Deck {
     public Deck() {
         size = 24;
         deck = new ArrayList<Card>(size);
-        name = "Default";
+        name = "default";
         
         for(int i = 0; i < size; i++) { //fill the deck until 24 cards
             deck.add(new Card((String)Array.get(defaultNames, i), "defaultImages/default" + i + ".png"));
