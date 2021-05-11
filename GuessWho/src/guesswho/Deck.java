@@ -32,6 +32,9 @@ public class Deck {
     //List of names for sonic deck
     private String[] sonicNames = {"Sonic","Amy","Knuckles","Tails","Silver","Blaze","Charmy","Espio","Shadow","Cream","Cheese","Sally Acorn","Chip","Marine","Scourge","Fiona","Bean","Eggman","Mephiles","Rogue","Big","Gamma","Omega","Metal Sonic"};
     
+    //List of names for Super Smash Bros deck
+    private String[] SSBNames = {"Luigi", "Peach", "Ike", "Yoshi", "Ness", "Meta Knight", "Wii Fit Trainer", "Pac Man", "Toon Link", "R.O.B", "Snake", "Donkey Kong", "Game&Watch", "Pikachu", "Mario", "Marth", "Lucario", "Link", "Villager", "Kirby", "Pit", "Lucina", "Duck Hunt", "Isabelle"};
+    
     //Add more name lists for decks here
     
     /**
@@ -66,6 +69,9 @@ public class Deck {
         }
         else if(name.equals("sonic")) {
         	useNames = sonicNames;
+        }
+        else if(name.equals("super smash bros")) {
+            useNames = SSBNames;
         }
         //add more else if cases for decks here
         for(int i = 0; i < size; i++) { //fill the deck until 24 cards
