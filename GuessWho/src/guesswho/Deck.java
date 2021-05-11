@@ -35,6 +35,9 @@ public class Deck {
     //List of names for Super Smash Bros deck
     private String[] SSBNames = {"Luigi", "Peach", "Ike", "Yoshi", "Ness", "Meta Knight", "Wii Fit Trainer", "Pac Man", "Toon Link", "R.O.B", "Snake", "Donkey Kong", "Game&Watch", "Pikachu", "Mario", "Marth", "Lucario", "Link", "Villager", "Kirby", "Pit", "Lucina", "Duck Hunt", "Isabelle"};
     
+    //List of names for Avatar deck
+    private String[] avatarNames = {"Aang","Katara","Sokka","Zuko","Toph","Iroh","Azula","Mai","Suki","Ty Lee","Princess Yue","Fire Lord Ozai","Admiral Zhao","Roku","Kyoshi","Earth King","Long Feng","Joo Dee","Jet","The Boulder","King Bumi","Cabbage Man","Appa","Momo"};
+    
     //Add more name lists for decks here
     
     /**
@@ -72,6 +75,9 @@ public class Deck {
         }
         else if(name.equals("super smash bros")) {
             useNames = SSBNames;
+        }
+        else if(name.equals("avatar")) {
+        	useNames = avatarNames;
         }
         //add more else if cases for decks here
         for(int i = 0; i < size; i++) { //fill the deck until 24 cards
