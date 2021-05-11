@@ -3,63 +3,69 @@
 ## Authors: Dani Levy, Hannah Brown, Anna Pickett
 ## Customer: Rachel Marks
 ### How to run jar file:
-The server code is continuously running on Murphy’s game server on "Sockette.net" and with port number 9878 so you should be able to connect to it without doing anything additonal
+The server code is continuously running on Murphy’s game server on "Sockette.net" and with port number 9878 so you should be able to connect to it without doing anything additional
 
 Make sure you have at least Java 11 JDK
 
-How to determine version in terminal: Java -version
+    How to determine version in terminal: Java -version
 
-If you need to install a Java JDK, install the JDK from https://www.oracle.com/java/technologies/javase-downloads.html and set up the class path by typing these lines into the command line: 
+    If you need to install a Java JDK, install the JDK from https://www.oracle.com/java/technologies/javase-downloads.html and set up the class path by typing these lines into the command line: 
 
-set JAVA_HOME="your jdk path"
+        set JAVA_HOME="your jdk path"
 
-set PATH=%JAVA_HOME%\bin;%PATH%.
+        set PATH=%JAVA_HOME%\bin;%PATH%.
 
-Install JavaFX SDK version 11.0.2 https://gluonhq.com/products/javafx/
+    Install JavaFX SDK version 11.0.2 https://gluonhq.com/products/javafx/
 
 In the command line, navigate to the folder with the .jar file that was included in the project (GuessWho.jar)
 
 Run this line:
 
-java --module-path [YOUR PATH TO javafx-sdk-11.0.2\lib] --add-modules=javafx.controls,javafx.fxml -cp GuessWho.jar GuessWho.Controller
+    java --module-path [YOUR PATH TO javafx-sdk-11.0.2\lib] --add-modules=javafx.controls,javafx.fxml -cp GuessWho.jar GuessWho.Controller
 
-How to run code from Eclipse:
+### How to run code from Eclipse:
 
 Our game uses two external libraries that will need to be added to the classpath, one for the GSON of JSON messages and one for JavaFX.
 
 First, set up JavaFX:
 
-Watch this (https://www.youtube.com/watch?v=bk28ytggz7E) video for a short tutorial, or follow these steps:
+    Watch this (https://www.youtube.com/watch?v=bk28ytggz7E) video for a short tutorial, or follow these steps:
 
-Go to Help -> Eclipse Marketplace and search for fx. Then install the e(fx)clipse plugin.
+    Go to Help -> Eclipse Marketplace and search for fx. Then install the e(fx)clipse plugin.
 
-Install JavaFX version 11.0.2 https://gluonhq.com/products/javafx/
+    Install JavaFX version 11.0.2 https://gluonhq.com/products/javafx/
 
-Extract the files to the directory of your choosing.
+    Extract the files to the directory of your choosing.
 
-Go to Window -> Preferences and search “user”, then click on User Libraries under Build Path.
+    Go to Window -> Preferences and search “user”, then click on User Libraries under Build Path.
 
-Click “New…” and name the library “JavaFX”
+    Click “New…” and name the library “JavaFX”
 
-Click on the library you just added (JavaFX) and click “Add External JARs...”
+    Click on the library you just added (JavaFX) and click “Add External JARs...”
 
-Navigate to the lib folder of your JavaFX installation and select all the items EXCEPT src and press open. Apply and close.
+    Navigate to the lib folder of your JavaFX installation and select all the items EXCEPT src and press open. Apply and close.
 
-Back in Eclipse, right click on the top item in the Guess Who directory, named GuessWho and choose Build Path -> Configure Build Path.
+    Back in Eclipse, right click on the top item in the Guess Who directory, named GuessWho and choose Build Path -> Configure Build Path.
 
-Go to Libraries, click on Classpath and Add Library
+    Go to Libraries, click on Classpath and Add Library
 
-Click on User Library, next, select JavaFX and press finish, then apply and close.
+    Click on User Library, next, select JavaFX and press finish, then apply and close.
 
-Set the run configurations by clicking on the arrow next to the play button at the top of the screen and clicking Run Configurations...
+    Set the run configurations by clicking on the arrow next to the play button at the top of the screen and clicking Run Configurations...
+    
+    Click the arguments tab and in VM arguments, type:
+    
+        --module-path [YOUR PATH TO javafx-sdk-11.0.2\lib] --add-modules=javafx.controls,javafx.fxml
+
+    Make sure the main class in the Main tab is set to guesswho.Controller.
 
 Then, set up GSON (from Dev)
 
-Download gson-2.6.2.jar
+    Download gson-2.6.2.jar
 
-Add Gson to the buildpath: Build Path > Add External Archives, then select your jar file.
+    Add Gson to the buildpath: Build Path > Add External Archives, then select your jar file.
 
-You may need to go into security settings to allow your computer to open this file
+    You may need to go into security settings to allow your computer to open this file
 
 ## Directory structure: 
 Our game has four main files: 
