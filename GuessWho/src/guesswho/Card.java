@@ -18,7 +18,6 @@ public class Card {
 	//status of card, if greyed out.
 	private boolean grey;
 	
-	//TODO customize
 	/**
 	 * Card constructor
 	 * Makes a card with the default image.

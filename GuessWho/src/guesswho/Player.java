@@ -8,8 +8,8 @@ package guesswho;
  * @author Hannah, Dani, Anna
  *
  */
-
 public class Player {
+	
 	//name of player
 	private String playerName;
 	

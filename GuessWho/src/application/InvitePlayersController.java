@@ -127,7 +127,6 @@ public class InvitePlayersController extends Controller {
                 }
             }
             if (game.welcomed() == true) {
-//                player.setName(playerName.getText());
                 try {
                     // Loads the new screen
                     Parent startGameParent = FXMLLoader.load(getClass()

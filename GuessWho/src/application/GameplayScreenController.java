@@ -10,7 +10,6 @@ import Messages.Guess;
 import Messages.TurnUpdate;
 import guesswho.Card;
 import guesswho.Controller;
-import guesswho.Deck;
 import guesswho.Network;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
@@ -102,14 +101,13 @@ public class GameplayScreenController extends Controller {
      * This instance of the gameplay screen controller
      */
     public static GameplayScreenController controller;
-    
-    //private static Deck gameDeck = HostGamecodeScreenController.chosenDeck;
-    
+        
     /**
      * Initializes the grid with the cards that the players guess from,
      * the guess and turn buttons, the player's card, and the chat area.
      */
-    public void initialize() {
+    @SuppressWarnings("unlikely-arg-type")
+	public void initialize() {
 
         //closing previous stage, if it exists
         if(prevStage != null) {
@@ -175,13 +173,11 @@ public class GameplayScreenController extends Controller {
         
         setController(this);
         
-     // longrunning operation runs on different thread
+        // longrunning operation - handles chat messages - runs on different thread
         Thread thread = new Thread(new Runnable() {
-
             @Override
             public void run() {
                 Runnable updater = new Runnable() {
-
                     @Override
                     public void run() {
                     	if(message!=null) {
@@ -189,30 +185,25 @@ public class GameplayScreenController extends Controller {
             	        	message=null;
             	        }                     }
                 };
-
                 while (true) {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                     }
-
                     // UI update is run on the Application thread
                     Platform.runLater(updater);
                 }
             }
-
         });
         // don't let thread prevent JVM shutdown
         thread.setDaemon(true);
         thread.start();
         
-     // longrunning operation runs on different thread
+        // longrunning operation - handles turn updates - runs on different thread
         Thread turnThread = new Thread(new Runnable() {
-
             @Override
             public void run() {
                 Runnable updater = new Runnable() {
-
                     @Override
                     public void run() {
                     	if(!turnCorrect) {
@@ -221,21 +212,17 @@ public class GameplayScreenController extends Controller {
                 	        } else {
                 	        	turnEnd();
                 	        }
-                    	}
-                    	                     }
+                    	}					}
                 };
-
                 while (true) {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                     }
-
                     // UI update is run on the Application thread
                     Platform.runLater(updater);
                 }
             }
-
         });
         // don't let thread prevent JVM shutdown
         turnThread.setDaemon(true);
@@ -244,13 +231,11 @@ public class GameplayScreenController extends Controller {
         game.assignFirstTurn();
         turnCorrect=false;
 
-     // longrunning operation runs on different thread
+        // longrunning operation - handles guesses - runs on different thread
         Thread guessThread = new Thread(new Runnable() {
-
             @Override
             public void run() {
                 Runnable updater = new Runnable() {
-
                     @Override
                     public void run() {
                     	if(guess!=null) {
@@ -260,28 +245,25 @@ public class GameplayScreenController extends Controller {
             	                    openNewRoundWindow();
             	                } catch (IOException e) {
             	                    e.printStackTrace();
-            	                
             	                }
             	        	}
             	        	guess=null;
             	        }                     }
                 };
-
                 while (true) {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                     }
-
                     // UI update is run on the Application thread
                     Platform.runLater(updater);
                 }
             }
-
         });
         // don't let thread prevent JVM shutdown
         guessThread.setDaemon(true);
         guessThread.start();
+        
         enableButtons();
         guessing = false;
         
@@ -322,37 +304,24 @@ public class GameplayScreenController extends Controller {
     public void endTurn() {
         if(!player.getTurn()) {
         	//This case should never be reached
-            //if not their turn
-            turn.setText("It is your turn \nto ask a question.");
-            enableButtons();
-            
-            //turnCorrect=false;
-
         } else { //if it IS their turn, make it not their turn
-        	//TODO
-        	// this case should be when receiving a message from the server
             turn.setText("It is the other \nplayer's turn to \nask a question.");
             disableButtons();
             game.endTurn();
-            //set players turn to true? this might go in a different file
             turnCorrect=false;
             Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate",true)));
             stopGuessingHelper();
-
         }
-        
     }
     
     /**
      * Starts the player's turn.
      */
     public void startTurn() {
-    	//TODO
         turn.setText("It is your turn \nto ask a question.");
         enableButtons();
         turnCorrect=true;
         Controller.network.send(new Data("DATA",new TurnUpdate("turnUpdate",false)));
-
     }
     
     /**
@@ -360,7 +329,6 @@ public class GameplayScreenController extends Controller {
      */
     public void turnEnd() {
     	turn.setText("It is the other \nplayer's turn to \nask a question.");
-    	//THIS IS BEING CALLED BUT NOT WORKING!!!
         disableButtons();
         turnCorrect=true;
     }
@@ -738,8 +706,8 @@ public class GameplayScreenController extends Controller {
     }
     
     /**
-     * Sends a message from "SERVER"
-     * @param msg the message to send
+     * Displays a message from "SERVER"
+     * @param msg the message to show
      */
     public static void serverMsg(String msg) {
     	controller.chatArea.appendText("SERVER: "+msg+"\n");

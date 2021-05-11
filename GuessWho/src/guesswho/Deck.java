@@ -20,6 +20,7 @@ public class Deck {
     //the list of cards in the deck
     private ArrayList<Card> deck;
     
+    //name of deck
     private String name;
     
     //List of names for default cards
@@ -51,7 +52,6 @@ public class Deck {
      * Chosen Deck constructor
      * The size of the deck is the default 24.
      * @param name of deck
-     * @param cardNames list of cardNames
      */
     public Deck(String name) {
         size = 24;
@@ -73,7 +73,6 @@ public class Deck {
         }
     }
     
-    //TODO Customize
     /**
      * Custom Deck constructor
      * @param deckSize number of cards in deck
@@ -86,7 +85,6 @@ public class Deck {
         }
     }
     
-    //TODO customize
     /**
      * Adds a card to the deck
      * @param card the card to add to the deck
@@ -96,7 +94,6 @@ public class Deck {
         deck.add(new Card("Card #"+size,"defaultImages/defaultNoImage.png"));
     }
     
-    //TODO customize
     /**
      * Removes a card from the deck
      * 
@@ -140,10 +137,6 @@ public class Deck {
      */
     public String getName() {
     	return name;
-    }
-    
-    public String toString() {
-        return name;
     }
 
 }

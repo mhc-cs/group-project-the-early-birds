@@ -15,22 +15,34 @@ import com.google.gson.JsonParser;
 import Messages.*;
 import Messages.Error;
 
-/*
+/**
  * Network
  * Manages the connection to the server including handling for
  * messages received and sent and JSON parsing for messages
+ * @author Anna, Dani, Hannah
+ * 
  */
 public class Network {
-	static Socket sock;
-	static ArrayList<String> outbuf;
-	static String inbuf;
-	static ArrayList<Message> msgs;
-	static byte[] buf;
-	static OutputStream outputStream;
-	static DataOutputStream dataOutputStream;
-	static InputStream inputStream;
-	static BufferedReader in;
 	
+	//socket that connects to network
+	static Socket sock;
+	
+	static ArrayList<String> outbuf;
+	
+	static String inbuf;
+	
+	//array list of messages received from server
+	static ArrayList<Message> msgs;
+	
+	static byte[] buf;
+	
+	static OutputStream outputStream;
+	
+	static DataOutputStream dataOutputStream;
+	
+	static InputStream inputStream;
+	
+	static BufferedReader in;
 	
 	/**
 	 * Network Constructor
@@ -41,17 +53,14 @@ public class Network {
 		msgs = new ArrayList<Message>();
 	}
 	
-	
 	/**
 	 * Connects to the game server
+	 * @return boolean if successful 
 	 */
 	public static boolean connect() {
 		close();
-
-		//add ability to connect to a different game server?
-		   System.out.println("Attempting to connect...");
+		System.out.println("Attempting to connect...");
 		try {
-//			sock = new Socket("0.0.0.0", 9876);
 			sock = new Socket("Sockette.net", 9878);
 			// get the output stream from the socket.
 	        OutputStream outputStream = sock.getOutputStream();
@@ -71,9 +80,9 @@ public class Network {
 		}
 	}
 	
-	
 	/**
 	 * Adds data to be sent to the out buffer
+	 * @param data
 	 */
 	public void send(Message data) {
 		Gson gson = new Gson();
@@ -100,6 +109,7 @@ public class Network {
 	 * Sends data from the outbuffer
 	 * and inputs data from the server to inbuf,
 	 * then decodes inbuf to messages
+	 * @return array list of messages received
 	 */
 	public ArrayList<Message> do_communication() {		
 		msgs = new ArrayList<Message>();
@@ -109,7 +119,6 @@ public class Network {
 		if (sock.isClosed()) {
 			return msgs;
 		}
-
 		byte[] encodedSend = new byte[300];
 		//send message to server
 		if (!outbuf.isEmpty()) {
@@ -133,7 +142,6 @@ public class Network {
 					System.out.print(e);
 				}
 			}
-			
 			 outbuf = new ArrayList<String>();
 		}
 		//receive message from server
@@ -171,7 +179,7 @@ public class Network {
 	    					msgs.add(gson.fromJson(msgArray[j].trim(), Error.class));
 	    				}
 	    				else if (TYPE.equals("\"DATA\"")) {
-	    					//get message from inside DATA and return if not from self
+	    					//get message from inside DATA and return only if not from self
 		    				String Sender = jsonTree.getAsJsonObject().get("SENDER").toString();
 		    				String name = "\""+Controller.player.getName()+"\"";
 		    				JsonElement msg2 = jsonTree.getAsJsonObject().get("msg");
@@ -196,7 +204,6 @@ public class Network {
 			    					msgs.add(gson.fromJson(msg2, Chat.class));
 		    					}
 		    				}
-		    				
 	    				}
 	    				else {
 	    					msgs.add(gson.fromJson(msgArray[j].trim(), Message.class));
@@ -212,5 +219,4 @@ public class Network {
 		return msgs;
 	}
 	
-
 }

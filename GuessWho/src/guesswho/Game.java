@@ -10,6 +10,7 @@ import application.NewRoundScreenController;
 import application.PlayerGamecodeScreenController;
 
 /**
+ * Game
  * Manages game logic, player information and actions, and the card desk
  * @author Hannah, Dani, Anna
  *
@@ -33,9 +34,12 @@ public class Game {
 	
 	//if welcome received
 	boolean receivedWelcome = false;
+	
+	//if badname error received
 	boolean badname = false;
 	
-	String winner = "";
+	//name of winner
+	public String winner = "";
 	
 	/**
 	 * Game constructor
@@ -66,7 +70,6 @@ public class Game {
 		}
 	}
 	
-	//TODO REDRAW
 	/**
 	 * redraw cards for both players
 	 * called by either player
@@ -94,7 +97,6 @@ public class Game {
 		    	//tell other player to set turn true
 		    	Controller.network.send(new Data("DATA", new TurnUpdate("turnUpdate", true)));
 		    	player1.setTurn(false);
-
 		    }
 		}
 	}
@@ -146,7 +148,7 @@ public class Game {
 	
 	/**
 	 * Getter for recievedWelcome
-	 * @return true if recieved WELCOME message from server, false otherwise
+	 * @return true if received WELCOME message from server, false otherwise
 	 */
 	public Boolean welcomed() {
 		return receivedWelcome;
@@ -154,17 +156,21 @@ public class Game {
 	
 	/**
 	 * Getter for badname
-	 * @return true if badname error recieved, false otherwise
+	 * @return true if badname error received, false otherwise
 	 */
 	public Boolean badname() {
 		return badname;
 	}
 	
+	/**
+	 * set badname
+	 * @param badname
+	 */
 	public void setBadName(Boolean badname) {
 		this.badname = badname;
 	}
 
-  /**
+	/**
 	 * get player2 name
 	 * @return name
 	 */
@@ -183,7 +189,7 @@ public class Game {
 	
 	/**
 	 * set player 2 score
-	 * @param score the score to set it to
+	 * @param the score to set it to
 	 */
 	public void setPlayer2Score(int score) {
 	    player2Score = score;
@@ -224,7 +230,6 @@ public class Game {
 	/**
 	 * This will process and handle incoming messages from the server
 	 * @param msgs ArrayList of incoming messages
-	 * @param msgs ArrayList of incoming message
 	 */
 	public void process(ArrayList<Message> msgs) {
 		if (msgs.isEmpty()) {
@@ -234,14 +239,12 @@ public class Game {
 			Message msg = msgs.get(i);
 			//Handles message sent from server when game connects to server
 			if (msg.getType().equals("HELLO")) {
-//				Controller.network.send(new Hello("HELLO", player1.getName(), "guesswho"));
+				//no functionality necessary
 			}
 			//Handles message sent from server when server receives hello message
 			else if (msg.getType().equals("WELCOME" )) {
 				this.receivedWelcome = true;
 				badname = false;
-				//TODO ??
-//				Controller.network.send(new Join_Game("JOIN_GAME", 2, false, status, gamecode));
 			}
 			//Handles error message sent at various stages of connection process
 			else if (msg.getType().equals("ERROR")) {
@@ -279,6 +282,7 @@ public class Game {
 						player2Name = name;
 					}
 				}
+				//set isReady to close waiting screen for host when room is full
 				HostGamecodeScreenController.setIsReady(roomMsg.getIs_ready());
 			}
 			//Handles message from host when drawing cards
@@ -289,16 +293,18 @@ public class Game {
 				}
 				player2Card = ((Cards)msg).getMyCard();
 				player1.setCard(((Cards)msg).getYourCard());
+				//set isReady to true (closes waiting screen)
 				PlayerGamecodeScreenController.setIsReady(true);
 				NewRoundScreenController.setIsReady(true);
 			}
-			//TODO REDRAW
 			//Handles message from player2 requesting redraw
+			//REDRAW not currently implemented
 			else if (msg.getType().equals("redraw")) {
 				drawCards();
 			}
 			//Handles continue message
 			else if (msg.getType().equals("continue")) {
+				//sets isReady to close waiting screen for host on new round
 				NewRoundScreenController.setIsReady(true);
 			}
 			//Handles turn updates
