@@ -25,7 +25,7 @@ public class Deck {
     //List of names for default cards
     private String[] defaultNames = {"Jessica", "Ruby", "Thomas", "Fleur", "Sara", "Amir", "Lucy", "Hugo", "Alexandre", "Ayesha", "Lucas", "Adele", "Simon", "Antonio", "Edward", "Mateo", "Daniel", "Cameron", "Gabriel", "Amelia", "Diego", "Roberto", "Sofia", "Zoe"};
     public static String[] mountHolyokeNames = {"a", "b", "c", "d", "e", "f", "g", "h", "l", "o", "m", "b", "t", "y", "r", "o", "y", "y", "u", "t", "r", "E", "w", "t"};
-    
+    private String[] avengersNames = {"Cap. America","Iron Man","Black Widow","Hulk","Thor","Hawkeye","Wanda","Vision","Fury","Falcon","Bucky","Loki","Rhodey","Dr. Strange","Wong","T'Challa","Shuri","Spiderman","Ned","Scott","Antman","Star-Lord","Groot","Gamora","Rocket"};
     
     /**
      * Default Deck constructor
@@ -48,15 +48,13 @@ public class Deck {
      * @param name of deck
      * @param cardNames list of cardNames
      */
-    public Deck(String name, String[] cardNames) {
+    public Deck(String name) {
         size = 24;
         deck = new ArrayList<Card>(size);
-        String nameNoSpaces = name.replaceAll("\\s", "");
         this.name = name;
         
         for(int i = 0; i < size; i++) { //fill the deck until 24 cards
-            deck.add(new Card((String)Array.get(cardNames, i), nameNoSpaces + "Images/" + nameNoSpaces + i + ".png"));
-            System.out.println((String)Array.get(cardNames, i) + nameNoSpaces + "Images/" + nameNoSpaces + i + ".png");
+            deck.add(new Card((String)Array.get(name+"Names", i), "defaultImages/"+ name + i + ".png"));
         }
     }
     

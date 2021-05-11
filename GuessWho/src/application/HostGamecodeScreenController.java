@@ -36,7 +36,7 @@ public class HostGamecodeScreenController extends Controller {
     private Label warning;
     
     @FXML
-    private ChoiceBox<Deck> deckOptions;
+    private ChoiceBox<String> deckOptions;
 
     private static String code;
 
@@ -63,7 +63,7 @@ public class HostGamecodeScreenController extends Controller {
     public void initialize() {
         //Putting options in the list
         Deck defaultDeck = new Deck();
-        deckOptions.getItems().addAll(defaultDeck, new Deck("Mount Holyoke", Deck.mountHolyokeNames)); 
+        deckOptions.getItems().addAll("Default", "Avengers"); 
 //                new Deck("Marvel"), 
 //                new Deck("Video Games"));
 
