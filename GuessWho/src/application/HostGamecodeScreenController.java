@@ -57,7 +57,7 @@ public class HostGamecodeScreenController extends Controller {
      */
     public void initialize() {
     	//Add more deck options to the list here
-        deckOptions.getItems().addAll("Default", "Avengers", "Sonic", "Super Smash Bros"); 
+        deckOptions.getItems().addAll("Default", "Avengers", "Sonic", "Super Smash Bros","Avatar"); 
 
         //Setting default deck as the default deck value
         deckOptions.setValue("Default");
