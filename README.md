@@ -21,7 +21,9 @@ In the command line, navigate to the folder with the .jar file that was included
 
 Run this line:
 
-    java --module-path [YOUR PATH TO javafx-sdk-11.0.2\lib] --add-modules=javafx.controls,javafx.fxml -cp GuessWho.jar GuessWho.Controller
+    java --module-path [YOUR PATH TO javafx-sdk-11.0.2\lib] --add-modules=javafx.controls,javafx.fxml -cp GuessWho.jar guesswho.Controller
+    
+To close the program, press ctrl-C on Windows or cmd-C on Mac inside the command line.
 
 ### How to run code from Eclipse:
 
